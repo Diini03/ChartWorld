@@ -1,225 +1,124 @@
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Wrench, Factory, Cog, Lightbulb, Users, Award, Clock } from "lucide-react";
 import Layout from "@/components/layout/Layout";
-
-const stats = [
-  { icon: Clock, value: "10+", label: "Years Experience" },
-  { icon: Factory, value: "500+", label: "Projects Completed" },
-  { icon: Users, value: "200+", label: "Trainees Graduated" },
-  { icon: Award, value: "100%", label: "Quality Commitment" },
-];
+import { Button } from "@/components/ui/button";
+import { ArrowRight, Wrench, Factory, Cog, GraduationCap } from "lucide-react";
+import servicesCollage from "@/assets/services-collage.png";
+import gateProduct from "@/assets/gate-product.png";
+import trailers from "@/assets/trailers.png";
+import steelTable from "@/assets/steel-table.png";
 
 const services = [
-  {
-    icon: Wrench,
-    title: "Steel Fabrication",
-    description: "Custom steel structures, gates, frames, and industrial components built to international standards.",
-  },
-  {
-    icon: Factory,
-    title: "Manufacturing",
-    description: "Production of domestic and commercial products including furniture, water tanks, and containers.",
-  },
-  {
-    icon: Cog,
-    title: "Machinery Installation",
-    description: "Industrial equipment installation and production line setup for factories and processing plants.",
-  },
-  {
-    icon: Lightbulb,
-    title: "Innovation Solutions",
-    description: "Technology integration and R&D for improved industrial processes and sustainable solutions.",
-  },
+  { icon: Wrench, title: "Steel Fabrication", description: "Custom gates, frames, and structural steel work built to your specifications." },
+  { icon: Factory, title: "Manufacturing", description: "Quality furniture, trailers, and metal products for homes and businesses." },
+  { icon: Cog, title: "Equipment Setup", description: "Installation and setup of industrial machinery and production lines." },
+  { icon: GraduationCap, title: "Technical Training", description: "Hands-on vocational training in welding, machining, and metalwork." },
 ];
 
-const clients = [
-  "UN Agencies",
-  "INGOs",
-  "Government Institutions",
-  "Local Businesses",
-  "Construction Companies",
-  "Agricultural Sector",
+const featuredProducts = [
+  { image: gateProduct, title: "Security Gates" },
+  { image: trailers, title: "Custom Trailers" },
+  { image: steelTable, title: "Steel Furniture" },
 ];
 
 const Index = () => {
   return (
     <Layout>
-      {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center bg-secondary overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-20" />
-        <div className="absolute inset-0 bg-gradient-to-r from-secondary via-secondary/95 to-secondary/80" />
-        
+      <section className="relative min-h-screen flex items-center pt-20">
+        <div className="absolute inset-0 bg-gradient-to-br from-muted via-background to-muted" />
         <div className="container-custom relative z-10">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full mb-6 animate-fade-in">
-              <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-              <span className="text-primary text-sm font-medium">Engineering Excellence Since 2015</span>
-            </div>
-            
-            <h1 className="font-display text-5xl md:text-7xl lg:text-8xl text-secondary-foreground mb-6 animate-fade-in" style={{ animationDelay: "0.1s" }}>
-              BUILDING SOMALIA'S{" "}
-              <span className="text-primary">INDUSTRIAL</span> FUTURE
-            </h1>
-            
-            <p className="text-lg md:text-xl text-secondary-foreground/70 mb-8 max-w-xl animate-fade-in" style={{ animationDelay: "0.2s" }}>
-              Leading steel fabrication, manufacturing, and industrial innovation company empowering local industries and developing skilled workforce.
-            </p>
-            
-            <div className="flex flex-wrap gap-4 animate-fade-in" style={{ animationDelay: "0.3s" }}>
-              <Button asChild size="lg" className="bg-primary hover:bg-copper-dark text-primary-foreground">
-                <Link to="/services">
-                  Explore Services
-                  <ArrowRight className="ml-2" size={18} />
-                </Link>
-              </Button>
-              <Button asChild size="lg" variant="outline" className="border-secondary-foreground/20 text-secondary-foreground hover:bg-secondary-foreground/10">
-                <Link to="/contact">Contact Us</Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-
-        {/* Decorative Elements */}
-        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent" />
-      </section>
-
-      {/* Stats Section */}
-      <section className="py-16 bg-background relative -mt-12 z-20">
-        <div className="container-custom">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {stats.map((stat, index) => (
-              <div
-                key={stat.label}
-                className="bg-card p-6 rounded-lg shadow-card text-center animate-fade-in"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <stat.icon className="w-8 h-8 text-primary mx-auto mb-3" />
-                <div className="font-display text-4xl text-foreground mb-1">{stat.value}</div>
-                <div className="text-muted-foreground text-sm">{stat.label}</div>
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="space-y-8">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full">
+                <span className="w-2 h-2 bg-primary rounded-full" />
+                <span className="text-sm font-medium text-primary">Since 2015</span>
               </div>
-            ))}
+              <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight">
+                Quality Steel Work & <span className="text-gradient block">Manufacturing</span>
+              </h1>
+              <p className="text-lg text-muted-foreground max-w-lg">We build custom steel products, manufacture quality goods, and train the next generation of skilled workers in Mogadishu.</p>
+              <div className="flex flex-wrap gap-4">
+                <Button asChild size="lg" className="rounded-full px-8"><Link to="/services">Our Services<ArrowRight className="ml-2" size={18} /></Link></Button>
+                <Button asChild variant="outline" size="lg" className="rounded-full px-8"><Link to="/contact">Contact Us</Link></Button>
+              </div>
+            </div>
+            <div className="relative animate-fade-in">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl"><img src={servicesCollage} alt="HIBER Industries Products" className="w-full h-auto" /></div>
+              <div className="absolute -bottom-6 -left-6 bg-primary text-primary-foreground p-6 rounded-2xl shadow-xl">
+                <div className="text-3xl font-display font-bold">9+</div>
+                <div className="text-sm opacity-90">Years Experience</div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Services Overview */}
       <section className="section-padding bg-background">
         <div className="container-custom">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="font-display text-4xl md:text-5xl text-foreground mb-4">
-              OUR <span className="text-primary">SERVICES</span>
-            </h2>
-            <p className="text-muted-foreground">
-              Comprehensive industrial solutions tailored to meet the growing demands of Somalia's economy.
-            </p>
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">What We <span className="text-primary">Do</span></h2>
+            <p className="text-muted-foreground">From steel fabrication to technical training, we offer comprehensive industrial solutions.</p>
           </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {services.map((service, index) => (
-              <div
-                key={service.title}
-                className="group bg-card p-6 rounded-lg shadow-card card-hover animate-fade-in"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary transition-colors">
-                  <service.icon className="w-7 h-7 text-primary group-hover:text-primary-foreground transition-colors" />
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {services.map((service) => (
+              <div key={service.title} className="group p-6 bg-card rounded-2xl border border-border hover:border-primary/50 hover:shadow-lg transition-all duration-300">
+                <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-primary transition-colors">
+                  <service.icon size={24} className="text-primary group-hover:text-primary-foreground" />
                 </div>
-                <h3 className="font-display text-xl text-foreground mb-2">{service.title}</h3>
-                <p className="text-muted-foreground text-sm mb-4">{service.description}</p>
-                <Link
-                  to="/services"
-                  className="inline-flex items-center text-primary text-sm font-medium hover:gap-2 transition-all"
-                >
-                  Learn More <ArrowRight size={16} className="ml-1" />
-                </Link>
+                <h3 className="font-display text-lg font-semibold text-foreground mb-2">{service.title}</h3>
+                <p className="text-muted-foreground text-sm">{service.description}</p>
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-12"><Button asChild variant="outline" className="rounded-full px-8"><Link to="/services">View All Services<ArrowRight className="ml-2" size={18} /></Link></Button></div>
+        </div>
+      </section>
+
+      <section className="section-padding bg-muted">
+        <div className="container-custom">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">Our <span className="text-primary">Products</span></h2>
+            <p className="text-muted-foreground">Quality craftsmanship in every project we deliver.</p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6">
+            {featuredProducts.map((product) => (
+              <div key={product.title} className="group relative rounded-2xl overflow-hidden bg-card shadow-lg card-hover">
+                <img src={product.image} alt={product.title} className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-6"><h3 className="font-display text-xl font-semibold text-background">{product.title}</h3></div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Why Choose Us */}
-      <section className="section-padding bg-secondary">
+      <section className="section-padding bg-background">
         <div className="container-custom">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="font-display text-4xl md:text-5xl text-secondary-foreground mb-6">
-                WHY CHOOSE <span className="text-primary">HIBER?</span>
-              </h2>
-              <div className="space-y-6">
-                {[
-                  { title: "Local Expertise", desc: "Deep understanding of Somalia's industrial needs and challenges." },
-                  { title: "Quality Standards", desc: "International quality materials and engineering practices." },
-                  { title: "Skilled Workforce", desc: "Trained professionals delivering excellence in every project." },
-                  { title: "Innovation Focus", desc: "Continuous improvement and technology integration." },
-                ].map((item, index) => (
-                  <div key={item.title} className="flex gap-4 animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
-                    <div className="w-1 bg-primary rounded-full" />
-                    <div>
-                      <h4 className="font-semibold text-secondary-foreground mb-1">{item.title}</h4>
-                      <p className="text-secondary-foreground/70 text-sm">{item.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+            <div className="space-y-6">
+              <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground">About <span className="text-primary">HIBER Industries</span></h2>
+              <p className="text-muted-foreground leading-relaxed">Founded in 2015 in Mogadishu, HIBER Industries has grown from a small workshop into a trusted name in steel fabrication and manufacturing.</p>
+              <p className="text-muted-foreground leading-relaxed">Beyond manufacturing, we're dedicated to empowering the next generation through our technical training programs.</p>
+              <Button asChild variant="outline" className="rounded-full px-8"><Link to="/about">Learn More About Us<ArrowRight className="ml-2" size={18} /></Link></Button>
             </div>
-            <div className="relative">
-              <img
-                src="https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?auto=format&fit=crop&q=80"
-                alt="Industrial welding"
-                className="rounded-lg shadow-elevated"
-              />
-              <div className="absolute -bottom-6 -left-6 bg-primary p-6 rounded-lg shadow-glow">
-                <div className="font-display text-4xl text-primary-foreground">10+</div>
-                <div className="text-primary-foreground/80 text-sm">Years of Excellence</div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-4">
+                <div className="bg-primary/10 rounded-2xl p-6 text-center"><div className="font-display text-4xl font-bold text-primary">2015</div><div className="text-muted-foreground text-sm">Established</div></div>
+                <div className="bg-muted rounded-2xl p-6 text-center"><div className="font-display text-4xl font-bold text-foreground">100+</div><div className="text-muted-foreground text-sm">Projects</div></div>
+              </div>
+              <div className="space-y-4 pt-8">
+                <div className="bg-muted rounded-2xl p-6 text-center"><div className="font-display text-4xl font-bold text-foreground">50+</div><div className="text-muted-foreground text-sm">Trainees</div></div>
+                <div className="bg-primary rounded-2xl p-6 text-center"><div className="font-display text-4xl font-bold text-primary-foreground">4</div><div className="text-primary-foreground/90 text-sm">Services</div></div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Clients */}
-      <section className="section-padding bg-background">
-        <div className="container-custom">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="font-display text-4xl md:text-5xl text-foreground mb-4">
-              TRUSTED <span className="text-primary">PARTNERS</span>
-            </h2>
-            <p className="text-muted-foreground">
-              Working with leading organizations to build a stronger industrial foundation.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {clients.map((client, index) => (
-              <div
-                key={client}
-                className="bg-card p-6 rounded-lg shadow-card text-center animate-fade-in"
-                style={{ animationDelay: `${index * 0.05}s` }}
-              >
-                <span className="text-muted-foreground text-sm font-medium">{client}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="section-padding bg-primary">
+      <section className="section-padding bg-foreground">
         <div className="container-custom text-center">
-          <h2 className="font-display text-4xl md:text-5xl text-primary-foreground mb-4">
-            READY TO START YOUR PROJECT?
-          </h2>
-          <p className="text-primary-foreground/80 mb-8 max-w-xl mx-auto">
-            Let's discuss how HIBER Industries can bring your industrial vision to life.
-          </p>
-          <Button asChild size="lg" variant="secondary" className="bg-secondary-foreground text-secondary hover:bg-secondary-foreground/90">
-            <Link to="/contact">
-              Get in Touch
-              <ArrowRight className="ml-2" size={18} />
-            </Link>
-          </Button>
+          <h2 className="font-display text-3xl md:text-4xl font-bold text-background mb-4">Ready to Start Your Project?</h2>
+          <p className="text-background/70 mb-8 max-w-lg mx-auto">Whether you need custom steel work, manufacturing solutions, or training programs, we're here to help.</p>
+          <Button asChild size="lg" className="rounded-full px-10"><Link to="/contact">Get in Touch<ArrowRight className="ml-2" size={18} /></Link></Button>
         </div>
       </section>
     </Layout>
