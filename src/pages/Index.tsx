@@ -1,124 +1,165 @@
 import { Link } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Wrench, Factory, Cog, GraduationCap } from "lucide-react";
+import { ArrowRight, Wrench, Factory, Cog, GraduationCap, Shield, Lightbulb, Users, Star, Heart, MessageCircle } from "lucide-react";
 import servicesCollage from "@/assets/services-collage.png";
 import gateProduct from "@/assets/gate-product.png";
 import trailers from "@/assets/trailers.png";
-import steelTable from "@/assets/steel-table.png";
 
 const services = [
-  { icon: Wrench, title: "Steel Fabrication", description: "Custom gates, frames, and structural steel work built to your specifications." },
-  { icon: Factory, title: "Manufacturing", description: "Quality furniture, trailers, and metal products for homes and businesses." },
-  { icon: Cog, title: "Equipment Setup", description: "Installation and setup of industrial machinery and production lines." },
-  { icon: GraduationCap, title: "Technical Training", description: "Hands-on vocational training in welding, machining, and metalwork." },
+  { icon: Wrench, title: "Steel Fabrication" },
+  { icon: Factory, title: "Manufacturing" },
+  { icon: Cog, title: "Equipment Installation" },
+  { icon: GraduationCap, title: "Technical Training" },
+  { icon: Shield, title: "Maintenance & Repair" },
+  { icon: Lightbulb, title: "Custom Design" },
 ];
 
-const featuredProducts = [
-  { image: gateProduct, title: "Security Gates" },
-  { image: trailers, title: "Custom Trailers" },
-  { image: steelTable, title: "Steel Furniture" },
+const values = [
+  { icon: Shield, title: "Safety", description: "Prioritizing safety in all operations" },
+  { icon: Star, title: "Quality", description: "Excellence in every product" },
+  { icon: Users, title: "Community", description: "Empowering local workforce" },
+  { icon: Heart, title: "Integrity", description: "Honest and transparent dealings" },
+  { icon: Lightbulb, title: "Innovation", description: "Continuous improvement" },
+  { icon: MessageCircle, title: "Service", description: "Customer-focused approach" },
 ];
 
 const Index = () => {
   return (
     <Layout>
-      <section className="relative min-h-screen flex items-center pt-20">
-        <div className="absolute inset-0 bg-gradient-to-br from-muted via-background to-muted" />
-        <div className="container-custom relative z-10">
+      {/* Hero Section */}
+      <section className="relative min-h-screen flex items-center">
+        <div className="absolute inset-0">
+          <img src={servicesCollage} alt="HIBER Industries" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-primary/85" />
+        </div>
+        <div className="container-custom relative z-10 text-center text-primary-foreground pt-20">
+          <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-normal italic mb-8 max-w-4xl mx-auto leading-tight">
+            Quality Steel Work,<br />Lasting Solutions.
+          </h1>
+          <Link to="/services" className="btn-gold inline-block">
+            EXPLORE
+          </Link>
+        </div>
+      </section>
+
+      {/* Our Story Section */}
+      <section className="section-padding bg-background">
+        <div className="container-custom">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full">
-                <span className="w-2 h-2 bg-primary rounded-full" />
-                <span className="text-sm font-medium text-primary">Since 2015</span>
-              </div>
-              <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight">
-                Quality Steel Work & <span className="text-gradient block">Manufacturing</span>
-              </h1>
-              <p className="text-lg text-muted-foreground max-w-lg">We build custom steel products, manufacture quality goods, and train the next generation of skilled workers in Mogadishu.</p>
-              <div className="flex flex-wrap gap-4">
-                <Button asChild size="lg" className="rounded-full px-8"><Link to="/services">Our Services<ArrowRight className="ml-2" size={18} /></Link></Button>
-                <Button asChild variant="outline" size="lg" className="rounded-full px-8"><Link to="/contact">Contact Us</Link></Button>
-              </div>
+            <div>
+              <p className="text-accent text-sm font-medium tracking-widest mb-4">OUR STORY</p>
+              <h2 className="font-display text-3xl md:text-4xl text-foreground mb-6">
+                Building Excellence Since 2015
+              </h2>
+              <p className="text-muted-foreground leading-relaxed mb-6">
+                Founded in Mogadishu, HIBER Industries has grown from a small workshop into a trusted name in steel fabrication and manufacturing. We combine traditional craftsmanship with modern techniques to deliver quality products.
+              </p>
+              <p className="text-muted-foreground leading-relaxed mb-8">
+                Beyond manufacturing, we're dedicated to empowering the next generation through our technical training programs, creating sustainable employment opportunities for young Somalis.
+              </p>
+              <Link to="/about" className="gold-link">
+                LEARN MORE <ArrowRight size={16} />
+              </Link>
             </div>
-            <div className="relative animate-fade-in">
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl"><img src={servicesCollage} alt="HIBER Industries Products" className="w-full h-auto" /></div>
-              <div className="absolute -bottom-6 -left-6 bg-primary text-primary-foreground p-6 rounded-2xl shadow-xl">
-                <div className="text-3xl font-display font-bold">9+</div>
-                <div className="text-sm opacity-90">Years Experience</div>
-              </div>
+            <div>
+              <img src={gateProduct} alt="Our Work" className="w-full h-96 object-cover" />
             </div>
           </div>
         </div>
       </section>
 
+      {/* Vision & Mission */}
+      <section className="bg-background">
+        <div className="container-custom">
+          <div className="grid md:grid-cols-2">
+            <div className="navy-box">
+              <h3 className="font-display text-2xl md:text-3xl mb-4">Our Vision</h3>
+              <p className="text-primary-foreground/80 leading-relaxed">
+                To be a leading industrial company in Somalia, known for quality products, innovative solutions, and our contribution to workforce development.
+              </p>
+            </div>
+            <div className="navy-box bg-primary/90">
+              <h3 className="font-display text-2xl md:text-3xl mb-4">Our Mission</h3>
+              <p className="text-primary-foreground/80 leading-relaxed">
+                To deliver quality steel fabrication and manufacturing services while empowering communities through technical education and sustainable employment.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Services */}
       <section className="section-padding bg-background">
         <div className="container-custom">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">What We <span className="text-primary">Do</span></h2>
-            <p className="text-muted-foreground">From steel fabrication to technical training, we offer comprehensive industrial solutions.</p>
+          <div className="text-center mb-16">
+            <p className="text-accent text-sm font-medium tracking-widest mb-4">WHAT WE DO</p>
+            <h2 className="font-display text-3xl md:text-4xl text-foreground">Our Services</h2>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-px bg-border">
             {services.map((service) => (
-              <div key={service.title} className="group p-6 bg-card rounded-2xl border border-border hover:border-primary/50 hover:shadow-lg transition-all duration-300">
-                <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-primary transition-colors">
-                  <service.icon size={24} className="text-primary group-hover:text-primary-foreground" />
-                </div>
-                <h3 className="font-display text-lg font-semibold text-foreground mb-2">{service.title}</h3>
-                <p className="text-muted-foreground text-sm">{service.description}</p>
+              <div key={service.title} className="service-card bg-background">
+                <service.icon size={40} className="text-accent mx-auto mb-4" strokeWidth={1} />
+                <h3 className="font-display text-lg text-foreground">{service.title}</h3>
               </div>
             ))}
           </div>
-          <div className="text-center mt-12"><Button asChild variant="outline" className="rounded-full px-8"><Link to="/services">View All Services<ArrowRight className="ml-2" size={18} /></Link></Button></div>
+          <div className="text-center mt-12">
+            <Link to="/services" className="btn-gold inline-block">
+              SEE MORE
+            </Link>
+          </div>
         </div>
       </section>
 
+      {/* Featured Project */}
+      <section className="relative py-24">
+        <div className="absolute inset-0">
+          <img src={trailers} alt="Featured Project" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-primary/80" />
+        </div>
+        <div className="container-custom relative z-10 text-primary-foreground">
+          <p className="text-accent text-sm font-medium tracking-widest mb-4">OUR PROJECTS</p>
+          <h2 className="font-display text-3xl md:text-4xl italic mb-8 max-w-2xl">
+            Custom Trailers & Transport Solutions
+          </h2>
+          <Link to="/projects" className="btn-white inline-block">
+            SEE ALL PROJECTS
+          </Link>
+        </div>
+      </section>
+
+      {/* Core Values */}
       <section className="section-padding bg-muted">
         <div className="container-custom">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">Our <span className="text-primary">Products</span></h2>
-            <p className="text-muted-foreground">Quality craftsmanship in every project we deliver.</p>
+          <div className="text-center mb-16">
+            <p className="text-accent text-sm font-medium tracking-widest mb-4">OUR PRINCIPLES</p>
+            <h2 className="font-display text-3xl md:text-4xl text-foreground">Core Values</h2>
           </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {featuredProducts.map((product) => (
-              <div key={product.title} className="group relative rounded-2xl overflow-hidden bg-card shadow-lg card-hover">
-                <img src={product.image} alt={product.title} className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-6"><h3 className="font-display text-xl font-semibold text-background">{product.title}</h3></div>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+            {values.map((value) => (
+              <div key={value.title} className="border border-primary p-6 text-center">
+                <value.icon size={32} className="text-accent mx-auto mb-3" strokeWidth={1} />
+                <h3 className="font-display text-lg text-foreground mb-2">{value.title}</h3>
+                <p className="text-muted-foreground text-sm">{value.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section-padding bg-background">
-        <div className="container-custom">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-              <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground">About <span className="text-primary">HIBER Industries</span></h2>
-              <p className="text-muted-foreground leading-relaxed">Founded in 2015 in Mogadishu, HIBER Industries has grown from a small workshop into a trusted name in steel fabrication and manufacturing.</p>
-              <p className="text-muted-foreground leading-relaxed">Beyond manufacturing, we're dedicated to empowering the next generation through our technical training programs.</p>
-              <Button asChild variant="outline" className="rounded-full px-8"><Link to="/about">Learn More About Us<ArrowRight className="ml-2" size={18} /></Link></Button>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-4">
-                <div className="bg-primary/10 rounded-2xl p-6 text-center"><div className="font-display text-4xl font-bold text-primary">2015</div><div className="text-muted-foreground text-sm">Established</div></div>
-                <div className="bg-muted rounded-2xl p-6 text-center"><div className="font-display text-4xl font-bold text-foreground">100+</div><div className="text-muted-foreground text-sm">Projects</div></div>
-              </div>
-              <div className="space-y-4 pt-8">
-                <div className="bg-muted rounded-2xl p-6 text-center"><div className="font-display text-4xl font-bold text-foreground">50+</div><div className="text-muted-foreground text-sm">Trainees</div></div>
-                <div className="bg-primary rounded-2xl p-6 text-center"><div className="font-display text-4xl font-bold text-primary-foreground">4</div><div className="text-primary-foreground/90 text-sm">Services</div></div>
-              </div>
-            </div>
-          </div>
+      {/* CTA Section */}
+      <section className="relative py-24">
+        <div className="absolute inset-0">
+          <img src={servicesCollage} alt="Contact CTA" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-primary/85" />
         </div>
-      </section>
-
-      <section className="section-padding bg-foreground">
-        <div className="container-custom text-center">
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-background mb-4">Ready to Start Your Project?</h2>
-          <p className="text-background/70 mb-8 max-w-lg mx-auto">Whether you need custom steel work, manufacturing solutions, or training programs, we're here to help.</p>
-          <Button asChild size="lg" className="rounded-full px-10"><Link to="/contact">Get in Touch<ArrowRight className="ml-2" size={18} /></Link></Button>
+        <div className="container-custom relative z-10 text-center text-primary-foreground">
+          <h2 className="font-display text-3xl md:text-4xl italic mb-8 max-w-3xl mx-auto">
+            Explore the limitless possibilities with HIBER Industries!
+          </h2>
+          <Link to="/contact" className="btn-gold inline-block">
+            CONTACT US
+          </Link>
         </div>
       </section>
     </Layout>
