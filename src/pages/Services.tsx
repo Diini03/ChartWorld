@@ -1,179 +1,87 @@
 import { Link } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, CheckCircle } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import gateProduct from "@/assets/gate-product.png";
 import trailers from "@/assets/trailers.png";
-import steelTable from "@/assets/steel-table.png";
 import industrialStructure from "@/assets/industrial-structure.png";
-import agriculturalEquipment from "@/assets/agricultural-equipment.png";
-import deskDesign from "@/assets/desk-design.png";
+import trainingWorkshop from "@/assets/training-workshop.png";
 
 const services = [
   {
     title: "Steel Fabrication",
-    description: "Custom steel structures and products built to your specifications using quality materials and skilled craftsmanship.",
-    features: [
-      "Security gates and doors",
-      "Structural steel frames",
-      "Window and door grilles",
-      "Fencing and barriers",
-      "Custom metalwork",
-      "Repair services",
-    ],
-    images: [gateProduct, industrialStructure],
+    description: "Custom gates, frames, structural steel, and metalwork built to your exact specifications using quality materials.",
+    image: gateProduct,
   },
   {
     title: "Manufacturing",
-    description: "Quality products for homes and businesses, designed and built in our Mogadishu workshop.",
-    features: [
-      "Steel furniture (tables, desks, chairs)",
-      "Trailers and carts",
-      "Storage containers",
-      "Metal shelving units",
-      "Custom product design",
-      "Bulk orders available",
-    ],
-    images: [trailers, steelTable, deskDesign],
+    description: "Quality furniture, trailers, storage solutions, and metal products for homes and businesses.",
+    image: trailers,
   },
   {
     title: "Equipment Installation",
-    description: "Professional setup of industrial machinery and production equipment for businesses and factories.",
-    features: [
-      "Factory equipment setup",
-      "Production line installation",
-      "Machinery maintenance",
-      "Technical consultation",
-      "Equipment repair",
-    ],
-    images: [agriculturalEquipment],
+    description: "Professional setup and installation of industrial machinery, production lines, and factory equipment.",
+    image: industrialStructure,
   },
-];
-
-const clients = [
-  "Construction Companies",
-  "Businesses",
-  "NGOs & Aid Organizations",
-  "Government Agencies",
-  "Hotels & Restaurants",
-  "Farms & Agriculture",
-  "Private Homes",
-  "Schools & Institutions",
+  {
+    title: "Technical Training",
+    description: "Hands-on vocational training programs in welding, machining, and metal fabrication for young Somalis.",
+    image: trainingWorkshop,
+  },
 ];
 
 const Services = () => {
   return (
     <Layout>
-      {/* Hero */}
-      <section className="pt-32 pb-16 bg-muted">
-        <div className="container-custom">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full mb-6">
-              <span className="text-sm font-medium text-primary">Our Services</span>
-            </div>
-            <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-6">
-              What We <span className="text-primary">Build</span>
-            </h1>
-            <p className="text-lg text-muted-foreground">
-              Quality steel fabrication and manufacturing services for businesses and individuals.
-            </p>
-          </div>
+      {/* Hero Section */}
+      <section className="relative h-[50vh] min-h-[400px] flex items-center">
+        <div className="absolute inset-0">
+          <img src={industrialStructure} alt="Services" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-primary/85" />
+        </div>
+        <div className="container-custom relative z-10 text-primary-foreground pt-20">
+          <p className="text-accent text-sm font-medium tracking-widest mb-4">SERVICES</p>
+          <h1 className="font-display text-4xl md:text-5xl italic">What We Do</h1>
         </div>
       </section>
 
-      {/* Services */}
+      {/* Services Grid */}
       <section className="section-padding bg-background">
         <div className="container-custom">
-          <div className="space-y-24">
-            {services.map((service, index) => (
-              <div
-                key={service.title}
-                className={`grid lg:grid-cols-2 gap-12 items-center ${
-                  index % 2 === 1 ? "lg:flex-row-reverse" : ""
-                }`}
-              >
-                <div className={index % 2 === 1 ? "lg:order-2" : ""}>
-                  <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
-                    {service.title}
-                  </h2>
-                  <p className="text-muted-foreground mb-6 leading-relaxed">
-                    {service.description}
-                  </p>
-                  <ul className="grid sm:grid-cols-2 gap-3 mb-8">
-                    {service.features.map((feature) => (
-                      <li key={feature} className="flex items-start gap-3">
-                        <CheckCircle className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                        <span className="text-muted-foreground text-sm">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <Button asChild className="rounded-full px-8">
-                    <Link to="/contact">
-                      Get a Quote
-                      <ArrowRight className="ml-2" size={18} />
-                    </Link>
-                  </Button>
+          <div className="grid md:grid-cols-2 gap-8">
+            {services.map((service) => (
+              <div key={service.title} className="group">
+                <div className="overflow-hidden mb-6">
+                  <img
+                    src={service.image}
+                    alt={service.title}
+                    className="w-full h-72 object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
                 </div>
-                <div className={index % 2 === 1 ? "lg:order-1" : ""}>
-                  <div className={`grid ${service.images.length > 1 ? "grid-cols-2" : "grid-cols-1"} gap-4`}>
-                    {service.images.map((image, imgIndex) => (
-                      <img
-                        key={imgIndex}
-                        src={image}
-                        alt={`${service.title} example ${imgIndex + 1}`}
-                        className={`rounded-2xl shadow-lg w-full object-cover ${
-                          service.images.length > 2 && imgIndex === 2 ? "col-span-2" : ""
-                        } ${service.images.length === 1 ? "h-80" : "h-48"}`}
-                      />
-                    ))}
-                  </div>
-                </div>
+                <h3 className="font-display text-2xl text-foreground mb-3">{service.title}</h3>
+                <p className="text-muted-foreground mb-4 leading-relaxed">{service.description}</p>
+                <Link to="/contact" className="gold-link">
+                  LEARN MORE <ArrowRight size={16} />
+                </Link>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Clients */}
-      <section className="section-padding bg-muted">
-        <div className="container-custom">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Who We <span className="text-primary">Serve</span>
-            </h2>
-            <p className="text-muted-foreground">
-              We work with a variety of clients across different sectors.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {clients.map((client) => (
-              <div
-                key={client}
-                className="bg-card p-5 rounded-xl border border-border text-center hover:border-primary/50 transition-colors"
-              >
-                <span className="text-foreground font-medium text-sm">{client}</span>
-              </div>
-            ))}
-          </div>
+      {/* CTA Section */}
+      <section className="relative py-24">
+        <div className="absolute inset-0">
+          <img src={gateProduct} alt="Contact CTA" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-primary/85" />
         </div>
-      </section>
-
-      {/* CTA */}
-      <section className="section-padding bg-foreground">
-        <div className="container-custom text-center">
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-background mb-4">
-            Need a Custom Solution?
-          </h2>
-          <p className="text-background/70 mb-8 max-w-lg mx-auto">
-            Tell us about your project and we'll provide a quote.
+        <div className="container-custom relative z-10 text-center text-primary-foreground">
+          <h2 className="font-display text-3xl md:text-4xl italic mb-4">Need a Custom Solution?</h2>
+          <p className="text-primary-foreground/80 mb-8 max-w-lg mx-auto">
+            Tell us about your project and we'll provide a detailed quote.
           </p>
-          <Button asChild size="lg" className="rounded-full px-10">
-            <Link to="/contact">
-              Contact Us
-              <ArrowRight className="ml-2" size={18} />
-            </Link>
-          </Button>
+          <Link to="/contact" className="btn-gold inline-block">
+            GET A QUOTE
+          </Link>
         </div>
       </section>
     </Layout>

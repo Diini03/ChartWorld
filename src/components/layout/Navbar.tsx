@@ -1,15 +1,14 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import logoTransparent from "@/assets/logo-transparent.png";
 
 const navLinks = [
-  { name: "Home", path: "/" },
-  { name: "About", path: "/about" },
-  { name: "Services", path: "/services" },
-  { name: "Training", path: "/training" },
-  { name: "Contact", path: "/contact" },
+  { name: "HOME", path: "/" },
+  { name: "SERVICES", path: "/services" },
+  { name: "PROJECTS", path: "/projects" },
+  { name: "TRAINING", path: "/training" },
+  { name: "CONTACT", path: "/contact" },
 ];
 
 const Navbar = () => {
@@ -24,31 +23,57 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-background/95 backdrop-blur-md shadow-sm" : "bg-transparent"}`}>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-background shadow-sm" : "bg-transparent"}`}>
       <div className="container-custom">
         <div className="flex items-center justify-between h-20">
           <Link to="/" className="flex items-center">
-            <img src={logoTransparent} alt="HIBER Industries" className="h-12 w-auto" />
+            <img src={logoTransparent} alt="HIBER Industries" className="h-14 w-auto" />
           </Link>
-          <div className="hidden md:flex items-center gap-1">
+          
+          <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
-              <Link key={link.path} to={link.path} className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${location.pathname === link.path ? "text-primary bg-primary/10" : "text-foreground/70 hover:text-foreground hover:bg-muted"}`}>
+              <Link
+                key={link.path}
+                to={link.path}
+                className={`text-xs font-medium tracking-widest transition-colors relative ${
+                  location.pathname === link.path
+                    ? "text-accent"
+                    : scrolled ? "text-foreground hover:text-accent" : "text-primary-foreground hover:text-accent"
+                }`}
+              >
                 {link.name}
+                {location.pathname === link.path && (
+                  <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-accent" />
+                )}
               </Link>
             ))}
           </div>
-          <div className="hidden md:block">
-            <Button asChild className="rounded-full px-6"><Link to="/contact">Get a Quote</Link></Button>
-          </div>
-          <button className="md:hidden p-2 text-foreground" onClick={() => setIsOpen(!isOpen)}>{isOpen ? <X size={24} /> : <Menu size={24} />}</button>
+          
+          <button
+            className={`md:hidden p-2 ${scrolled ? "text-foreground" : "text-primary-foreground"}`}
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
+        
         {isOpen && (
-          <div className="md:hidden absolute top-full left-0 right-0 bg-background border-t border-border shadow-lg animate-fade-in">
-            <div className="container-custom py-4 space-y-2">
+          <div className="md:hidden absolute top-full left-0 right-0 bg-background border-t border-border shadow-lg">
+            <div className="container-custom py-4 space-y-1">
               {navLinks.map((link) => (
-                <Link key={link.path} to={link.path} onClick={() => setIsOpen(false)} className={`block px-4 py-3 rounded-lg font-medium transition-colors ${location.pathname === link.path ? "text-primary bg-primary/10" : "text-foreground/70 hover:text-foreground hover:bg-muted"}`}>{link.name}</Link>
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  onClick={() => setIsOpen(false)}
+                  className={`block px-4 py-3 text-xs font-medium tracking-widest transition-colors ${
+                    location.pathname === link.path
+                      ? "text-accent"
+                      : "text-foreground hover:text-accent"
+                  }`}
+                >
+                  {link.name}
+                </Link>
               ))}
-              <div className="pt-2"><Button asChild className="w-full rounded-full"><Link to="/contact" onClick={() => setIsOpen(false)}>Get a Quote</Link></Button></div>
             </div>
           </div>
         )}

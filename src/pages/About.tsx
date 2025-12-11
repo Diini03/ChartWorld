@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
-import { Button } from "@/components/ui/button";
 import { ArrowRight, Target, Eye, Lightbulb, Shield, Star, Users } from "lucide-react";
 import trainingWorkshop from "@/assets/training-workshop.png";
+import servicesCollage from "@/assets/services-collage.png";
 
 const values = [
   { icon: Lightbulb, title: "Innovation", description: "Continuously improving our methods and exploring new solutions." },
@@ -21,61 +21,81 @@ const milestones = [
 const About = () => {
   return (
     <Layout>
-      <section className="pt-32 pb-16 bg-muted">
-        <div className="container-custom">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full mb-6"><span className="text-sm font-medium text-primary">About Us</span></div>
-            <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-6">Building Quality, <span className="text-primary">Empowering People</span></h1>
-            <p className="text-lg text-muted-foreground">Since 2015, we've been committed to quality manufacturing and developing skilled workers in Somalia.</p>
-          </div>
+      {/* Hero Section */}
+      <section className="relative h-[50vh] min-h-[400px] flex items-center">
+        <div className="absolute inset-0">
+          <img src={servicesCollage} alt="About HIBER" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-primary/85" />
+        </div>
+        <div className="container-custom relative z-10 text-primary-foreground pt-20">
+          <p className="text-accent text-sm font-medium tracking-widest mb-4">ABOUT US</p>
+          <h1 className="font-display text-4xl md:text-5xl italic">Our Story</h1>
         </div>
       </section>
 
+      {/* Our Story */}
       <section className="section-padding bg-background">
         <div className="container-custom">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-              <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground">Our <span className="text-primary">Story</span></h2>
-              <p className="text-muted-foreground leading-relaxed">HIBER Industries was founded in 2015 in Mogadishu, Somalia with a simple mission: to provide quality steel fabrication and manufacturing services while contributing to the development of our community.</p>
-              <p className="text-muted-foreground leading-relaxed">What started as a small workshop has grown into a trusted industrial partner, serving businesses, organizations, and individuals across Somalia.</p>
-              <p className="text-muted-foreground leading-relaxed">Today, we not only manufacture products but also invest in the future by training young Somalis in valuable technical skills.</p>
+            <div>
+              <p className="text-accent text-sm font-medium tracking-widest mb-4">WHO WE ARE</p>
+              <h2 className="font-display text-3xl md:text-4xl text-foreground mb-6">
+                Building Excellence Since 2015
+              </h2>
+              <p className="text-muted-foreground leading-relaxed mb-6">
+                HIBER Industries was founded in 2015 in Mogadishu, Somalia with a simple mission: to provide quality steel fabrication and manufacturing services while contributing to the development of our community.
+              </p>
+              <p className="text-muted-foreground leading-relaxed mb-6">
+                What started as a small workshop has grown into a trusted industrial partner, serving businesses, organizations, and individuals across Somalia.
+              </p>
+              <p className="text-muted-foreground leading-relaxed mb-8">
+                Today, we not only manufacture products but also invest in the future by training young Somalis in valuable technical skills.
+              </p>
+              <Link to="/services" className="gold-link">
+                VIEW OUR SERVICES <ArrowRight size={16} />
+              </Link>
             </div>
-            <div className="relative">
-              <img src={trainingWorkshop} alt="HIBER Workshop" className="rounded-2xl shadow-xl w-full" />
-              <div className="absolute -bottom-4 -right-4 w-full h-full border-2 border-primary/30 rounded-2xl -z-10" />
+            <div>
+              <img src={trainingWorkshop} alt="HIBER Workshop" className="w-full h-96 object-cover" />
             </div>
           </div>
         </div>
       </section>
 
+      {/* Vision & Mission */}
+      <section className="bg-background">
+        <div className="container-custom">
+          <div className="grid md:grid-cols-2">
+            <div className="navy-box flex flex-col">
+              <Eye size={40} className="text-accent mb-6" strokeWidth={1} />
+              <h3 className="font-display text-2xl md:text-3xl mb-4">Our Vision</h3>
+              <p className="text-primary-foreground/80 leading-relaxed">
+                To be a leading industrial company in Somalia, known for quality products, innovative solutions, and our contribution to workforce development.
+              </p>
+            </div>
+            <div className="navy-box bg-primary/90 flex flex-col">
+              <Target size={40} className="text-accent mb-6" strokeWidth={1} />
+              <h3 className="font-display text-2xl md:text-3xl mb-4">Our Mission</h3>
+              <p className="text-primary-foreground/80 leading-relaxed">
+                To deliver quality steel fabrication and manufacturing services while empowering communities through technical education and sustainable employment.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Core Values */}
       <section className="section-padding bg-muted">
         <div className="container-custom">
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-card p-8 rounded-2xl border border-border">
-              <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-6"><Eye className="text-primary" size={24} /></div>
-              <h3 className="font-display text-2xl font-bold text-foreground mb-4">Our Vision</h3>
-              <p className="text-muted-foreground leading-relaxed">To be a leading industrial company in Somalia, known for quality products, innovative solutions, and our contribution to workforce development.</p>
-            </div>
-            <div className="bg-card p-8 rounded-2xl border border-border">
-              <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-6"><Target className="text-primary" size={24} /></div>
-              <h3 className="font-display text-2xl font-bold text-foreground mb-4">Our Mission</h3>
-              <p className="text-muted-foreground leading-relaxed">To deliver quality steel fabrication and manufacturing services while empowering communities through technical education and sustainable employment.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="section-padding bg-background">
-        <div className="container-custom">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">Our <span className="text-primary">Values</span></h2>
-            <p className="text-muted-foreground">The principles that guide everything we do.</p>
+          <div className="text-center mb-16">
+            <p className="text-accent text-sm font-medium tracking-widest mb-4">OUR PRINCIPLES</p>
+            <h2 className="font-display text-3xl md:text-4xl text-foreground">Core Values</h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {values.map((value) => (
-              <div key={value.title} className="text-center p-6 rounded-2xl bg-card border border-border hover:border-primary/50 transition-colors">
-                <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4"><value.icon className="text-primary" size={24} /></div>
-                <h3 className="font-display text-lg font-semibold text-foreground mb-2">{value.title}</h3>
+              <div key={value.title} className="bg-background border border-primary p-6 text-center">
+                <value.icon size={40} className="text-accent mx-auto mb-4" strokeWidth={1} />
+                <h3 className="font-display text-lg text-foreground mb-2">{value.title}</h3>
                 <p className="text-muted-foreground text-sm">{value.description}</p>
               </div>
             ))}
@@ -83,18 +103,24 @@ const About = () => {
         </div>
       </section>
 
-      <section className="section-padding bg-muted">
+      {/* Timeline */}
+      <section className="section-padding bg-background">
         <div className="container-custom">
-          <div className="text-center max-w-2xl mx-auto mb-16"><h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">Our <span className="text-primary">Journey</span></h2></div>
+          <div className="text-center mb-16">
+            <p className="text-accent text-sm font-medium tracking-widest mb-4">OUR HISTORY</p>
+            <h2 className="font-display text-3xl md:text-4xl text-foreground">Our Journey</h2>
+          </div>
           <div className="max-w-3xl mx-auto">
             <div className="relative">
-              <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-border" />
+              <div className="absolute left-8 top-0 bottom-0 w-px bg-border" />
               {milestones.map((milestone) => (
                 <div key={milestone.year} className="relative flex gap-8 pb-12 last:pb-0">
-                  <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center shrink-0 z-10"><span className="font-display text-lg font-bold text-primary-foreground">{milestone.year.slice(-2)}</span></div>
+                  <div className="w-16 h-16 bg-primary flex items-center justify-center shrink-0 z-10">
+                    <span className="font-display text-lg text-primary-foreground">{milestone.year.slice(-2)}</span>
+                  </div>
                   <div className="pt-3">
-                    <div className="text-sm text-primary font-medium mb-1">{milestone.year}</div>
-                    <h3 className="font-display text-xl font-semibold text-foreground mb-2">{milestone.title}</h3>
+                    <p className="text-accent text-xs font-medium tracking-widest mb-1">{milestone.year}</p>
+                    <h3 className="font-display text-xl text-foreground mb-2">{milestone.title}</h3>
                     <p className="text-muted-foreground">{milestone.description}</p>
                   </div>
                 </div>
@@ -104,11 +130,20 @@ const About = () => {
         </div>
       </section>
 
-      <section className="section-padding bg-foreground">
-        <div className="container-custom text-center">
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-background mb-4">Want to Work With Us?</h2>
-          <p className="text-background/70 mb-8 max-w-lg mx-auto">Let's discuss how we can help with your project.</p>
-          <Button asChild size="lg" className="rounded-full px-10"><Link to="/contact">Contact Us<ArrowRight className="ml-2" size={18} /></Link></Button>
+      {/* CTA Section */}
+      <section className="relative py-24">
+        <div className="absolute inset-0">
+          <img src={servicesCollage} alt="Contact CTA" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-primary/85" />
+        </div>
+        <div className="container-custom relative z-10 text-center text-primary-foreground">
+          <h2 className="font-display text-3xl md:text-4xl italic mb-4">Want to Work With Us?</h2>
+          <p className="text-primary-foreground/80 mb-8 max-w-lg mx-auto">
+            Let's discuss how we can help with your project.
+          </p>
+          <Link to="/contact" className="btn-gold inline-block">
+            CONTACT US
+          </Link>
         </div>
       </section>
     </Layout>
