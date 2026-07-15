@@ -55,8 +55,19 @@ export function CommandPalette() {
   const recent = useMemo(() => all.slice(0, 5), [all]);
 
   useEffect(() => {
-    if (!paletteOpen) setQ("");
-  }, [paletteOpen]);
+    if (!paletteOpen) {
+      setQ("");
+      return;
+    }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.stopPropagation();
+        setPaletteOpen(false);
+      }
+    };
+    window.addEventListener("keydown", onKey, true);
+    return () => window.removeEventListener("keydown", onKey, true);
+  }, [paletteOpen, setPaletteOpen]);
 
   const jump = (nodeId: string) => {
     selectNode(nodeId);
