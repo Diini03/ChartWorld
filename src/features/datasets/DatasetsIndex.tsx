@@ -39,7 +39,7 @@ export function DatasetsIndex() {
   const rowVirtualizer = useVirtualizer({
     count: rows.length,
     getScrollElement: () => scrollRef.current,
-    estimateSize: () => 40,
+    estimateSize: () => 48,
     overscan: 12,
   });
 
@@ -174,10 +174,15 @@ export function DatasetsIndex() {
                   <div>
                     <QualityBar value={row.qualityScore} />
                   </div>
-                  <div className="flex min-w-0 flex-wrap gap-1 overflow-hidden">
-                    {row.tags.slice(0, 3).map((t) => (
-                      <TagChip key={t} label={t} />
+                  <div className="flex min-w-0 items-center gap-1 overflow-hidden">
+                    {row.tags.slice(0, 2).map((t) => (
+                      <TagChip key={t} label={t} className="shrink-0" />
                     ))}
+                    {row.tags.length > 2 && (
+                      <span className="shrink-0 font-mono text-[10.5px] text-subtle-foreground">
+                        +{row.tags.length - 2}
+                      </span>
+                    )}
                   </div>
                   <div className="flex items-center gap-1.5">
                     <UserAvatar userId={row.owner} size={18} />
