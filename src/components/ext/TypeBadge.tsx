@@ -1,3 +1,4 @@
+import type { LucideIcon } from "lucide-react";
 import type { NodeType } from "@/lib/mock/types";
 import {
   Table2,
@@ -11,10 +12,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export const typeMeta: Record<
-  NodeType,
-  { label: string; icon: React.ComponentType<{ className?: string; size?: number }>; token: string }
-> = {
+export const typeMeta: Record<NodeType, { label: string; icon: LucideIcon; token: string }> = {
   dataset: { label: "Dataset", icon: Table2, token: "node-dataset" },
   pipeline: { label: "Pipeline", icon: GitBranch, token: "node-pipeline" },
   transformation: { label: "Transform", icon: Wand2, token: "node-transformation" },
@@ -54,7 +52,15 @@ export function TypeBadge({
   );
 }
 
-export function TypeIcon({ type, size = 14, className }: { type: NodeType; size?: number; className?: string }) {
+export function TypeIcon({
+  type,
+  size = 14,
+  className,
+}: {
+  type: NodeType;
+  size?: number;
+  className?: string;
+}) {
   const Icon = typeMeta[type].icon;
   return <Icon size={size} className={className} />;
 }
