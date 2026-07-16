@@ -33,7 +33,7 @@ export function AppShell() {
   const navSize = sideNavCollapsed ? 3.5 : sideNavSize;
 
   return (
-    <div className="flex h-screen w-screen flex-col overflow-hidden bg-background text-foreground">
+    <div className="flex h-dvh w-screen flex-col overflow-hidden bg-background text-foreground">
       <TopBar />
 
       <div className="min-h-0 flex-1">
