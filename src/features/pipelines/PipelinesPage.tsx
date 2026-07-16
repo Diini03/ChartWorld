@@ -62,7 +62,7 @@ export function PipelinesPage() {
                   <span className="font-mono text-[10.5px] text-muted-foreground">{formatMinutes((Date.now() - new Date(p.updatedAt).getTime()) / 60_000)}</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-[70px]"><Sparkline data={trend} height={18} /></div>
+                  <div className="w-[70px]"><Sparkline data={trend.map((v) => ({ value: v }))} height={18} /></div>
                   <div className="min-w-0 flex-1 truncate text-[11.5px] text-muted-foreground">{p.system}</div>
                 </div>
               </button>
