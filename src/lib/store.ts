@@ -39,7 +39,7 @@ export const useAppStore = create<UIState>()(
       toggleInspector: () => set((s) => ({ inspectorOpen: !s.inspectorOpen })),
       toggleActivity: () => set((s) => ({ activityOpen: !s.activityOpen })),
       setPaletteOpen: (paletteOpen) => set({ paletteOpen }),
-      selectNode: (selectedNodeId) => set({ selectedNodeId, inspectorOpen: true }),
+      selectNode: (selectedNodeId) => set({ selectedNodeId }),
       setTheme: (theme) => {
         document.documentElement.classList.toggle("dark", theme === "dark");
         document.documentElement.classList.toggle("light", theme === "light");
