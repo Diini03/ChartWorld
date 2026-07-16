@@ -64,7 +64,13 @@ export const useAppStore = create<UIState>()(
 
 /** Apply the persisted theme class on first import so there is no flash. */
 export function initTheme() {
-  const t = useAppStore.getState().theme;
-  document.documentElement.classList.toggle("dark", t === "dark");
-  document.documentElement.classList.toggle("light", t === "light");
+  let t = useAppStore.getState().theme;
+  if (typeof window !== "undefined" && !localStorage.getItem("raadraac-ui")) {
+    const prefersLight = window.matchMedia?.("(prefers-color-scheme: light)").matches;
+    t = prefersLight ? "light" : "dark";
+    useAppStore.setState({ theme: t });
+  }
+  document.documentElement.classList.remove("dark", "light");
+  document.documentElement.classList.add(t);
 }
+
