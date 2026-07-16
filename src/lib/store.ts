@@ -39,12 +39,13 @@ export const useAppStore = create<UIState>()(
       toggleInspector: () => set((s) => ({ inspectorOpen: !s.inspectorOpen })),
       toggleActivity: () => set((s) => ({ activityOpen: !s.activityOpen })),
       setPaletteOpen: (paletteOpen) => set({ paletteOpen }),
-      selectNode: (selectedNodeId) => set({ selectedNodeId, inspectorOpen: true }),
+      selectNode: (selectedNodeId) => set({ selectedNodeId }),
       setTheme: (theme) => {
-        document.documentElement.classList.toggle("dark", theme === "dark");
-        document.documentElement.classList.toggle("light", theme === "light");
+        document.documentElement.classList.remove("dark", "light");
+        document.documentElement.classList.add(theme);
         set({ theme });
       },
+
       setPanelSizes: (sizes) => set((s) => ({ ...s, ...sizes })),
     }),
     {
@@ -64,7 +65,13 @@ export const useAppStore = create<UIState>()(
 
 /** Apply the persisted theme class on first import so there is no flash. */
 export function initTheme() {
-  const t = useAppStore.getState().theme;
-  document.documentElement.classList.toggle("dark", t === "dark");
-  document.documentElement.classList.toggle("light", t === "light");
+  let t = useAppStore.getState().theme;
+  if (typeof window !== "undefined" && !localStorage.getItem("raadraac-ui")) {
+    const prefersLight = window.matchMedia?.("(prefers-color-scheme: light)").matches;
+    t = prefersLight ? "light" : "dark";
+    useAppStore.setState({ theme: t });
+  }
+  document.documentElement.classList.remove("dark", "light");
+  document.documentElement.classList.add(t);
 }
+

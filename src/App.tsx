@@ -7,18 +7,14 @@ import { AppShell } from "@/app/shell/AppShell";
 import { LineageWorkspace } from "@/features/lineage/LineageWorkspace";
 import { DatasetsIndex } from "@/features/datasets/DatasetsIndex";
 import { ActivityPage } from "@/features/activity/ActivityPage";
-import { EmptyModule } from "@/pages/EmptyModule";
+import { SchemaExplorer } from "@/features/schema/SchemaExplorer";
+import { ColumnLineage } from "@/features/columnLineage/ColumnLineage";
+import { PipelinesPage } from "@/features/pipelines/PipelinesPage";
+import { QualityPage } from "@/features/quality/QualityPage";
+import { AlertsPage } from "@/features/alerts/AlertsPage";
+import { VersionsPage } from "@/features/versions/VersionsPage";
+import { SettingsPage } from "@/features/settings/SettingsPage";
 import { NotFound } from "@/pages/NotFound";
-import {
-  BarChart3,
-  BellRing,
-  Boxes,
-  Columns3,
-  FileClock,
-  GitCompareArrows,
-  Settings2,
-  Waypoints,
-} from "lucide-react";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -38,77 +34,14 @@ export default function App() {
               <Route index element={<LineageWorkspace />} />
               <Route path="datasets" element={<DatasetsIndex />} />
               <Route path="datasets/:id" element={<DatasetsIndex />} />
+              <Route path="schema" element={<SchemaExplorer />} />
+              <Route path="column-lineage" element={<ColumnLineage />} />
+              <Route path="pipelines" element={<PipelinesPage />} />
+              <Route path="quality" element={<QualityPage />} />
+              <Route path="alerts" element={<AlertsPage />} />
               <Route path="activity" element={<ActivityPage />} />
-              <Route
-                path="schema"
-                element={
-                  <EmptyModule
-                    icon={Columns3}
-                    title="Schema Explorer"
-                    description="Browse every table's schema, primary keys, and constraints in a searchable tree. Coming in the next iteration."
-                  />
-                }
-              />
-              <Route
-                path="column-lineage"
-                element={
-                  <EmptyModule
-                    icon={Waypoints}
-                    title="Column Lineage"
-                    description="Trace how a single column flows through transformations, from source to report. Coming in the next iteration."
-                  />
-                }
-              />
-              <Route
-                path="pipelines"
-                element={
-                  <EmptyModule
-                    icon={Boxes}
-                    title="Pipeline Viewer"
-                    description="Inspect DAG runs, task timings, and retries per pipeline. Coming in the next iteration."
-                  />
-                }
-              />
-              <Route
-                path="quality"
-                element={
-                  <EmptyModule
-                    icon={BarChart3}
-                    title="Data Quality"
-                    description="Configure freshness, completeness, and duplicate checks. Coming in the next iteration."
-                  />
-                }
-              />
-              <Route
-                path="alerts"
-                element={
-                  <EmptyModule
-                    icon={BellRing}
-                    title="Alerts"
-                    description="Wire quality failures into Slack, PagerDuty, or email. Coming in the next iteration."
-                  />
-                }
-              />
-              <Route
-                path="versions"
-                element={
-                  <EmptyModule
-                    icon={GitCompareArrows}
-                    title="Version History"
-                    description="Compare any two versions of a dataset and see added, removed, or retyped columns. Coming in the next iteration."
-                  />
-                }
-              />
-              <Route
-                path="settings"
-                element={
-                  <EmptyModule
-                    icon={Settings2}
-                    title="Settings"
-                    description="Workspace preferences, integrations, and access controls. Coming in the next iteration."
-                  />
-                }
-              />
+              <Route path="versions" element={<VersionsPage />} />
+              <Route path="settings" element={<SettingsPage />} />
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>
