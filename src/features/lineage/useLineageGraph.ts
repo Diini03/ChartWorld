@@ -48,29 +48,27 @@ export function useLineageGraph(
       });
     });
 
-    // 3. determine highlight sets from selection
+    // 3. determine highlight sets from selection (iterative BFS, cycle-safe)
     const upstream = new Set<string>();
     const downstream = new Set<string>();
     if (selectedId) {
-      const walkUp = (id: string) => {
-        for (const e of data.edges) {
-          if (e.target === id && !upstream.has(e.source)) {
-            upstream.add(e.source);
-            walkUp(e.source);
+      const bfs = (start: string, direction: "up" | "down", out: Set<string>) => {
+        const queue: string[] = [start];
+        while (queue.length) {
+          const cur = queue.shift()!;
+          for (const e of data.edges) {
+            const next = direction === "up" ? (e.target === cur ? e.source : null) : (e.source === cur ? e.target : null);
+            if (next && !out.has(next)) {
+              out.add(next);
+              queue.push(next);
+            }
           }
         }
       };
-      const walkDown = (id: string) => {
-        for (const e of data.edges) {
-          if (e.source === id && !downstream.has(e.target)) {
-            downstream.add(e.target);
-            walkDown(e.target);
-          }
-        }
-      };
-      walkUp(selectedId);
-      walkDown(selectedId);
+      bfs(selectedId, "up", upstream);
+      bfs(selectedId, "down", downstream);
     }
+
 
     // 4. filter visibility
     const isVisible = (n: CatalogNode) => {
