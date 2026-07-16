@@ -53,7 +53,9 @@ export function DatasetsIndex() {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement | null;
-      if (target?.tagName === "INPUT" || target?.tagName === "TEXTAREA") return;
+      if (target?.tagName === "INPUT" || target?.tagName === "TEXTAREA" || target?.isContentEditable) return;
+      if (useAppStore.getState().paletteOpen) return;
+
       if (e.key === "ArrowDown") {
         e.preventDefault();
         setCursor((c) => Math.min(rows.length - 1, c + 1));
