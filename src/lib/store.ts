@@ -41,10 +41,11 @@ export const useAppStore = create<UIState>()(
       setPaletteOpen: (paletteOpen) => set({ paletteOpen }),
       selectNode: (selectedNodeId) => set({ selectedNodeId }),
       setTheme: (theme) => {
-        document.documentElement.classList.toggle("dark", theme === "dark");
-        document.documentElement.classList.toggle("light", theme === "light");
+        document.documentElement.classList.remove("dark", "light");
+        document.documentElement.classList.add(theme);
         set({ theme });
       },
+
       setPanelSizes: (sizes) => set((s) => ({ ...s, ...sizes })),
     }),
     {
