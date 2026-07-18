@@ -14,7 +14,288 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      activity: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          dataset_id: string | null
+          id: string
+          kind: string
+          payload: Json | null
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          dataset_id?: string | null
+          id?: string
+          kind: string
+          payload?: Json | null
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          dataset_id?: string | null
+          id?: string
+          kind?: string
+          payload?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "activity_dataset_id_fkey"
+            columns: ["dataset_id"]
+            isOneToOne: false
+            referencedRelation: "datasets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      collections: {
+        Row: {
+          color: string | null
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          owner_id: string
+        }
+        Insert: {
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          owner_id: string
+        }
+        Update: {
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          owner_id?: string
+        }
+        Relationships: []
+      }
+      dataset_notes: {
+        Row: {
+          author_id: string
+          body: string
+          created_at: string
+          dataset_id: string
+          id: string
+        }
+        Insert: {
+          author_id: string
+          body: string
+          created_at?: string
+          dataset_id: string
+          id?: string
+        }
+        Update: {
+          author_id?: string
+          body?: string
+          created_at?: string
+          dataset_id?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dataset_notes_dataset_id_fkey"
+            columns: ["dataset_id"]
+            isOneToOne: false
+            referencedRelation: "datasets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      dataset_versions: {
+        Row: {
+          change_note: string | null
+          column_count: number | null
+          created_at: string
+          created_by: string | null
+          dataset_id: string
+          file_size: number | null
+          id: string
+          preview: Json | null
+          row_count: number | null
+          schema: Json | null
+          storage_path: string | null
+          version_number: number
+        }
+        Insert: {
+          change_note?: string | null
+          column_count?: number | null
+          created_at?: string
+          created_by?: string | null
+          dataset_id: string
+          file_size?: number | null
+          id?: string
+          preview?: Json | null
+          row_count?: number | null
+          schema?: Json | null
+          storage_path?: string | null
+          version_number: number
+        }
+        Update: {
+          change_note?: string | null
+          column_count?: number | null
+          created_at?: string
+          created_by?: string | null
+          dataset_id?: string
+          file_size?: number | null
+          id?: string
+          preview?: Json | null
+          row_count?: number | null
+          schema?: Json | null
+          storage_path?: string | null
+          version_number?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dataset_versions_dataset_id_fkey"
+            columns: ["dataset_id"]
+            isOneToOne: false
+            referencedRelation: "datasets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      datasets: {
+        Row: {
+          collection_id: string | null
+          column_count: number
+          created_at: string
+          current_version: number
+          description: string | null
+          file_size: number
+          folder_id: string | null
+          id: string
+          is_archived: boolean
+          is_favorite: boolean
+          name: string
+          owner_id: string
+          row_count: number
+          storage_path: string | null
+          tags: string[]
+          updated_at: string
+        }
+        Insert: {
+          collection_id?: string | null
+          column_count?: number
+          created_at?: string
+          current_version?: number
+          description?: string | null
+          file_size?: number
+          folder_id?: string | null
+          id?: string
+          is_archived?: boolean
+          is_favorite?: boolean
+          name: string
+          owner_id: string
+          row_count?: number
+          storage_path?: string | null
+          tags?: string[]
+          updated_at?: string
+        }
+        Update: {
+          collection_id?: string | null
+          column_count?: number
+          created_at?: string
+          current_version?: number
+          description?: string | null
+          file_size?: number
+          folder_id?: string | null
+          id?: string
+          is_archived?: boolean
+          is_favorite?: boolean
+          name?: string
+          owner_id?: string
+          row_count?: number
+          storage_path?: string | null
+          tags?: string[]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "datasets_collection_id_fkey"
+            columns: ["collection_id"]
+            isOneToOne: false
+            referencedRelation: "collections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "datasets_folder_id_fkey"
+            columns: ["folder_id"]
+            isOneToOne: false
+            referencedRelation: "folders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      folders: {
+        Row: {
+          collection_id: string | null
+          created_at: string
+          id: string
+          name: string
+          owner_id: string
+          parent_id: string | null
+        }
+        Insert: {
+          collection_id?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          owner_id: string
+          parent_id?: string | null
+        }
+        Update: {
+          collection_id?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          owner_id?: string
+          parent_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "folders_collection_id_fkey"
+            columns: ["collection_id"]
+            isOneToOne: false
+            referencedRelation: "collections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "folders_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "folders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
