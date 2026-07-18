@@ -165,7 +165,7 @@ export default function Home() {
           ].map(([Icon, t, d]) => (
             <div key={t as string} className="group rounded-2xl border border-border bg-surface p-5 shadow-soft transition-all hover:shadow-card">
               <div className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                {/* @ts-expect-error dynamic icon */}
+                {/* @ts-ignore */}
                 <Icon size={18} />
               </div>
               <h3 className="font-medium">{t as string}</h3>
@@ -193,7 +193,7 @@ export default function Home() {
             ].map(([Icon, name, sub], i) => (
               <div key={name as string} className="relative rounded-2xl border border-border bg-surface p-8 text-center shadow-soft">
                 <div className={`mx-auto mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-${i === 0 ? "primary" : i === 1 ? "accent" : "foreground"}/10 text-${i === 0 ? "primary" : i === 1 ? "accent" : "foreground"}`}>
-                  {/* @ts-expect-error dyn */}
+                  {/* @ts-ignore */}
                   <Icon size={22} />
                 </div>
                 <h3 className="font-display text-2xl">{name as string}</h3>
