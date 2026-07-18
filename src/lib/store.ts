@@ -1,77 +1,61 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-interface PanelState {
-  sideNavCollapsed: boolean;
-  inspectorOpen: boolean;
-  activityOpen: boolean;
-  sideNavSize: number; // percent
-  inspectorSize: number;
-  activitySize: number;
-}
+type Theme = "light" | "dark";
+type ViewMode = "grid" | "table";
 
-interface UIState extends PanelState {
+interface UIState {
+  theme: Theme;
+  sidebarCollapsed: boolean;
+  viewMode: ViewMode;
   paletteOpen: boolean;
-  selectedNodeId: string | null;
-  theme: "light" | "dark";
-  toggleSideNav: () => void;
-  toggleInspector: () => void;
-  toggleActivity: () => void;
-  setPaletteOpen: (open: boolean) => void;
-  selectNode: (id: string | null) => void;
-  setTheme: (t: "light" | "dark") => void;
-  setPanelSizes: (sizes: Partial<Pick<PanelState, "sideNavSize" | "inspectorSize" | "activitySize">>) => void;
+  setTheme: (t: Theme) => void;
+  toggleTheme: () => void;
+  setSidebarCollapsed: (v: boolean) => void;
+  toggleSidebar: () => void;
+  setViewMode: (v: ViewMode) => void;
+  setPaletteOpen: (v: boolean) => void;
 }
 
-export const useAppStore = create<UIState>()(
+export const useUI = create<UIState>()(
   persist(
-    (set) => ({
-      sideNavCollapsed: false,
-      inspectorOpen: true,
-      activityOpen: true,
-      sideNavSize: 16,
-      inspectorSize: 24,
-      activitySize: 22,
+    (set, get) => ({
+      theme: "light",
+      sidebarCollapsed: false,
+      viewMode: "grid",
       paletteOpen: false,
-      selectedNodeId: null,
-      theme: "dark",
-      toggleSideNav: () => set((s) => ({ sideNavCollapsed: !s.sideNavCollapsed })),
-      toggleInspector: () => set((s) => ({ inspectorOpen: !s.inspectorOpen })),
-      toggleActivity: () => set((s) => ({ activityOpen: !s.activityOpen })),
-      setPaletteOpen: (paletteOpen) => set({ paletteOpen }),
-      selectNode: (selectedNodeId) => set({ selectedNodeId }),
       setTheme: (theme) => {
-        document.documentElement.classList.remove("dark", "light");
-        document.documentElement.classList.add(theme);
+        applyTheme(theme);
         set({ theme });
       },
-
-      setPanelSizes: (sizes) => set((s) => ({ ...s, ...sizes })),
+      toggleTheme: () => {
+        const next: Theme = get().theme === "dark" ? "light" : "dark";
+        applyTheme(next);
+        set({ theme: next });
+      },
+      setSidebarCollapsed: (v) => set({ sidebarCollapsed: v }),
+      toggleSidebar: () => set({ sidebarCollapsed: !get().sidebarCollapsed }),
+      setViewMode: (viewMode) => set({ viewMode }),
+      setPaletteOpen: (paletteOpen) => set({ paletteOpen }),
     }),
-    {
-      name: "raadraac-ui",
-      partialize: (s) => ({
-        sideNavCollapsed: s.sideNavCollapsed,
-        inspectorOpen: s.inspectorOpen,
-        activityOpen: s.activityOpen,
-        sideNavSize: s.sideNavSize,
-        inspectorSize: s.inspectorSize,
-        activitySize: s.activitySize,
-        theme: s.theme,
-      }),
-    }
+    { name: "raadraac-ui" }
   )
 );
 
-/** Apply the persisted theme class on first import so there is no flash. */
-export function initTheme() {
-  let t = useAppStore.getState().theme;
-  if (typeof window !== "undefined" && !localStorage.getItem("raadraac-ui")) {
-    const prefersLight = window.matchMedia?.("(prefers-color-scheme: light)").matches;
-    t = prefersLight ? "light" : "dark";
-    useAppStore.setState({ theme: t });
-  }
-  document.documentElement.classList.remove("dark", "light");
-  document.documentElement.classList.add(t);
+function applyTheme(theme: Theme) {
+  const root = document.documentElement;
+  root.classList.remove("light", "dark");
+  root.classList.add(theme);
 }
 
+export function initTheme() {
+  try {
+    const raw = localStorage.getItem("raadraac-ui");
+    const theme: Theme =
+      (raw && JSON.parse(raw)?.state?.theme) ||
+      (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    applyTheme(theme);
+  } catch {
+    applyTheme("light");
+  }
+}

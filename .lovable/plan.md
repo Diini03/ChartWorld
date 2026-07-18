@@ -1,80 +1,71 @@
 
-# RaadRaac v1.1 — Hardening, UX Polish & Empty-Module Fill
+# RaadRaac — Dataset Management Platform
 
-Right now the shell, lineage, datasets, search and command palette work, but seven routes still render "coming soon" placeholders, and there are real bugs across responsiveness, layout persistence, keyboard flow, and small visual glitches. This pass acts on the whole surface like a v1.1 release — no new stack, just craftsmanship.
+A full rebuild. Two surfaces sharing one design system: a **marketing website** at the root and an **authenticated dataset workspace** at `/app`. Backed by Lovable Cloud for auth + storage + database.
 
-## Goals
+## Scope (v1)
 
-1. Fix concrete bugs (see list below).
-2. Replace every EmptyModule with a real, believable screen driven by existing mock data.
-3. Sharpen UX affordances (responsive shell, focus, a11y, empty/skeleton/error states).
-4. Keep it frontend-only. No backend.
+### Marketing site (public)
+- `/` Home — nav, hero with app preview mock, trusted-by, problem, solution, features grid, workflow (RaadRaac → NadiifiData → XogArag), app preview, testimonials placeholder, pricing placeholder, FAQ, footer
+- `/features` — deep dive on the 16 feature cards, grouped
+- `/solutions` — analysts, researchers, students, NGOs, teams
+- `/docs` — static docs shell with sidebar TOC and 4–5 seeded articles
+- `/pricing` — 3-tier pricing UI only
+- `/about` — mission, ecosystem, team placeholder
+- `/contact` — contact form (UI only, toast on submit)
+- `/auth` — sign up / sign in / forgot / reset (Lovable Cloud)
 
-## Bugs to fix
+### Application (authenticated, at `/app`)
+- **Shell**: left sidebar (Collections, Folders, Favorites, Recent, Archive), top bar (global search, upload, user menu), main area, optional right metadata panel
+- **Library** `/app` — dataset grid + table toggle, filters, sort, tags
+- **Collection view** `/app/collections/:id`
+- **Folder view** `/app/folders/:id`
+- **Dataset profile** `/app/datasets/:id` — header, description, owner, dates, tags, size, rows, cols, schema table, preview (first 50 rows), versions, notes, activity, actions (Download, Duplicate, Share, Open in NadiifiData, Delete)
+- **Versions** — list + side-by-side compare (schema diff + row-count diff)
+- **Search** — `⌘K` palette, global across name/tags/description/owner/collection/schema
+- **Settings / Profile**
 
-- **`h-screen` on AppShell** breaks on mobile browser chrome → switch to `h-dvh`.
-- **`useHotkeys` interferes with typing**: `mod+b/i/j` fire even inside inputs → guard by active element (already partial for `mod+k` only in palette).
-- **Panel layout state** is duplicated between Zustand `persist` and `react-resizable-panels` `autoSaveId` → single source of truth (drop `autoSaveId`, drive from store) so collapse/restore is stable.
-- **Inspector auto-opens on any selectNode** even when user just closed it → only open on explicit user intent (double-click / dedicated action), respect closed state.
-- **Theme toggle**: on first load `initTheme` writes both `dark` and `light` classes; also no system-preference fallback.
-- **Lineage `useLineageGraph`** recomputes on every filter object identity change even when unchanged → memoize sets properly; recursive `walkUp/walkDown` can stack-overflow on cycles → convert to iterative BFS with visited set.
-- **Datasets keyboard nav** binds a `window` keydown that also fires when palette is open → check `paletteOpen` and `document.activeElement`.
-- **Command palette**: no result-empty state, no recent items, `Escape` doesn't clear query.
-- **TopBar search** is decorative only → wire to `useCatalogSearch` and open palette pre-filled.
-- **A11y**: icon-only buttons in TopBar / SideNav / Inspector missing `aria-label`; graph nodes not focusable; `<main>` exists but no skip-link.
-- **NotFound** doesn't render inside AppShell chrome consistently — verify and fix.
-- **Favicon + document title** — confirm meta is set for RaadRaac, not Lovable default.
+## Design system
 
-## New screens (replace EmptyModule)
+Distinctive, not generic SaaS. Warm ivory light theme + deep slate dark theme, single expressive accent (electric coral `#FF5A36` or similar) with a secondary muted teal. Editorial serif for large display headings (e.g. Fraunces), geometric sans for UI (e.g. Geist / Inter Tight), JetBrains Mono for data. Generous spacing scale, hairline borders, soft layered shadows, rounded-xl cards, subtle grain texture on hero surfaces. All colors as HSL semantic tokens in `index.css`; both themes fully supported. Consistent motion: 150–250ms easings, scroll-reveal for marketing only, none in the app shell.
 
-Driven entirely by the existing `service` mock layer, extended where needed.
+## Backend (Lovable Cloud)
 
-1. **`/schema` — Schema Explorer**  
-   Two-pane: left virtualized tree of `database → schema → table`, right column list with type, PK/FK/nullable badges, distinct count sparkline. Filter box, "Copy DDL" action.
+Tables:
+- `profiles` (id → auth.users, display_name, avatar_url)
+- `collections` (id, owner_id, name, description, color, created_at)
+- `folders` (id, owner_id, collection_id nullable, parent_id nullable, name)
+- `datasets` (id, owner_id, collection_id, folder_id, name, description, tags text[], row_count, column_count, file_size, storage_path, current_version, is_favorite, created_at, updated_at)
+- `dataset_versions` (id, dataset_id, version_number, storage_path, row_count, column_count, schema jsonb, change_note, created_by, created_at)
+- `dataset_notes` (id, dataset_id, author_id, body, created_at)
+- `activity` (id, dataset_id, actor_id, kind, payload jsonb, created_at)
 
-2. **`/column-lineage` — Column Lineage**  
-   Dataset + column picker in header; ReactFlow subgraph showing only edges touching that column across upstream transformations. Reuses `CatalogFlowNode` in a compact variant.
+RLS: owner-only reads/writes on all tables (v1 — collaboration/permissions are UI stubs). GRANTs to `authenticated` + `service_role` per platform rules. Storage bucket `datasets` (private) with owner-scoped policies. Auto-create `profiles` row via trigger on signup.
 
-3. **`/pipelines` — Pipeline Viewer**  
-   List of pipelines with last-run status, avg duration sparkline, next-run ETA. Selecting one opens a right-side run-history timeline (Gantt-ish bars per task) using mock runs.
-
-4. **`/quality` — Data Quality**  
-   Grid of quality checks (freshness / completeness / uniqueness / row count) grouped by dataset. Pass/warn/fail pills, 30-day trend sparkline, "last failure" excerpt.
-
-5. **`/alerts` — Alerts**  
-   Rule list with severity, channel (Slack/PagerDuty/Email icons), mute toggle, last-fired timestamp. Detail drawer shows fire history.
-
-6. **`/versions` — Version History**  
-   Timeline per dataset of schema versions (added / removed / retyped columns). Two-column diff view when a version is selected.
-
-7. **`/settings` — Settings**  
-   Real settings surface: Appearance (theme, density), Keyboard shortcuts reference, Workspace (name, timezone), Integrations (mock toggles), About. Non-functional writes but persisted in Zustand.
-
-Each screen ships with: proper header, empty state when filtered to nothing, skeleton on first mount, keyboard nav where a list exists.
-
-## Shell polish
-
-- Responsive: below `md`, collapse SideNav to icon rail, hide Inspector by default, Activity becomes a sheet.
-- Add breadcrumbs in TopBar tied to route.
-- Add a subtle "syncing…" indicator in TopBar (fake 2s pulse on route change) — sells the "real app" feel.
-- Global toast on ⌘K discoverability the first time.
-- Focus-visible ring audit across all interactive components using `focus-ring` token.
-
-## Mock data additions
-
-Extend `src/lib/mock/` with: pipeline runs (last 20 per pipeline), quality checks + 30-day history, alert rules + fire history, schema versions per dataset, deterministic seeding so reloads are stable.
+CSV parsing (rows/cols/schema inference) happens client-side on upload with Papa Parse; first 50 rows cached as JSON in `dataset_versions.schema` for preview.
 
 ## Tech notes
 
-- No new dependencies. Reuse `reactflow`, `@tanstack/react-virtual`, `recharts`, `cmdk`, existing shadcn primitives.
-- Split any file over ~250 lines.
-- New files under existing feature folders: `src/features/schema/`, `src/features/columnLineage/`, `src/features/pipelines/`, `src/features/quality/`, `src/features/alerts/`, `src/features/versions/`, `src/features/settings/`.
-- Update `App.tsx` routes to point to real screens; keep `EmptyModule` around for future stubs but unused.
-- Verify with a Playwright pass across all routes: no console errors, no layout overflow at 375/768/1280.
+- Router restructured: public layout + `/app/*` authenticated layout guarded by session
+- `useAuth()` hook wraps supabase-js; `onAuthStateChange` first, then `getUser` for trusted checks
+- Zustand keeps UI state (sidebar, view mode, selection); server state via TanStack Query
+- Command palette reused from current code, rewired to dataset search
+- All existing lineage/pipelines/quality/etc. code is removed
 
-## Out of scope
+## Delivery order
 
-- Real backend / Lovable Cloud.
-- Auth.
-- Real column-level parsing (mock only).
-- Persistence beyond `localStorage`.
+1. Wipe old feature routes, install deps (papaparse, date-fns already present), enable Lovable Cloud
+2. Migrations + storage bucket + RLS
+3. Design tokens + typography + shared primitives (Button, Card, Input, Badge tuned)
+4. Marketing site (Home first, then remaining pages)
+5. Auth pages + guarded `/app` shell
+6. Library → Dataset profile → Versions → Search → Settings
+7. Polish pass: empty states, loading skeletons, mobile, a11y sweep
+
+## Out of scope for v1
+- Real team collaboration / invites / permission editor (UI stubs only)
+- Real "Open in NadiifiData" handoff (button + toast)
+- Payments on pricing page
+- Docs authoring (static content only)
+
+Ready to build on approval.
