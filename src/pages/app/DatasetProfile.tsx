@@ -18,6 +18,7 @@ export default function DatasetProfile() {
   const { id = "" } = useParams();
   const nav = useNavigate();
   const qc = useQueryClient();
+  const [compareOpen, setCompareOpen] = useState(false);
 
   const { data: d, isLoading } = useQuery({ queryKey: ["dataset", id], queryFn: () => getDataset(id) });
   const { data: versions = [] } = useQuery({ queryKey: ["versions", id], queryFn: () => listVersions(id) });
