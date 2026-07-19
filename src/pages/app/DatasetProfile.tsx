@@ -148,6 +148,12 @@ export default function DatasetProfile() {
         </TabsContent>
 
         <TabsContent value="versions" className="mt-4">
+          <div className="mb-3 flex items-center justify-between">
+            <p className="text-xs text-muted-foreground">{versions.length} version{versions.length === 1 ? "" : "s"}</p>
+            <Button variant="outline" size="sm" onClick={() => setCompareOpen(true)} disabled={versions.length < 2}>
+              <GitCompare size={14} /> Compare versions
+            </Button>
+          </div>
           <div className="space-y-3">
             {versions.map((v) => (
               <div key={v.id} className="flex items-center justify-between rounded-xl border border-border bg-surface p-4 shadow-soft">
@@ -170,11 +176,11 @@ export default function DatasetProfile() {
         </TabsContent>
 
         <TabsContent value="notes" className="mt-4">
-          <div className="rounded-xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
-            Notes coming soon. Use the description for now.
-          </div>
+          <NotesEditor datasetId={d.id} />
         </TabsContent>
       </Tabs>
+
+      <VersionCompare open={compareOpen} onOpenChange={setCompareOpen} versions={versions} />
     </div>
   );
 }
