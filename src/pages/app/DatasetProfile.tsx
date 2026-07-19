@@ -1,15 +1,18 @@
+import { useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { format, formatDistanceToNow } from "date-fns";
 import { toast } from "sonner";
 import {
-  ArrowLeft, Download, Copy, Share2, Trash2, ExternalLink, Star, GitBranch,
+  ArrowLeft, Download, Copy, Share2, Trash2, ExternalLink, Star, GitBranch, GitCompare,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   getDataset, listVersions, toggleFavorite, deleteDataset, downloadDataset, formatBytes,
 } from "@/lib/datasets";
+import { NotesEditor } from "@/components/app/NotesEditor";
+import { VersionCompare } from "@/components/app/VersionCompare";
 
 export default function DatasetProfile() {
   const { id = "" } = useParams();
