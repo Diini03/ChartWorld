@@ -1,20 +1,24 @@
+import { useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { format, formatDistanceToNow } from "date-fns";
 import { toast } from "sonner";
 import {
-  ArrowLeft, Download, Copy, Share2, Trash2, ExternalLink, Star, GitBranch,
+  ArrowLeft, Download, Copy, Share2, Trash2, ExternalLink, Star, GitBranch, GitCompare,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   getDataset, listVersions, toggleFavorite, deleteDataset, downloadDataset, formatBytes,
 } from "@/lib/datasets";
+import { NotesEditor } from "@/components/app/NotesEditor";
+import { VersionCompare } from "@/components/app/VersionCompare";
 
 export default function DatasetProfile() {
   const { id = "" } = useParams();
   const nav = useNavigate();
   const qc = useQueryClient();
+  const [compareOpen, setCompareOpen] = useState(false);
 
   const { data: d, isLoading } = useQuery({ queryKey: ["dataset", id], queryFn: () => getDataset(id) });
   const { data: versions = [] } = useQuery({ queryKey: ["versions", id], queryFn: () => listVersions(id) });
@@ -144,6 +148,12 @@ export default function DatasetProfile() {
         </TabsContent>
 
         <TabsContent value="versions" className="mt-4">
+          <div className="mb-3 flex items-center justify-between">
+            <p className="text-xs text-muted-foreground">{versions.length} version{versions.length === 1 ? "" : "s"}</p>
+            <Button variant="outline" size="sm" onClick={() => setCompareOpen(true)} disabled={versions.length < 2}>
+              <GitCompare size={14} /> Compare versions
+            </Button>
+          </div>
           <div className="space-y-3">
             {versions.map((v) => (
               <div key={v.id} className="flex items-center justify-between rounded-xl border border-border bg-surface p-4 shadow-soft">
@@ -166,11 +176,11 @@ export default function DatasetProfile() {
         </TabsContent>
 
         <TabsContent value="notes" className="mt-4">
-          <div className="rounded-xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
-            Notes coming soon. Use the description for now.
-          </div>
+          <NotesEditor datasetId={d.id} />
         </TabsContent>
       </Tabs>
+
+      <VersionCompare open={compareOpen} onOpenChange={setCompareOpen} versions={versions} />
     </div>
   );
 }
