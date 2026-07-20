@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import {
   ArrowRight, FolderTree, GitBranch, Tags, Search, FileText, Users, Shield, Activity,
-  Star, Layers, Sparkles, ChevronDown, Database, Wand2, FileBarChart2, CheckCircle2,
+  Star, Layers, Sparkles, Database, Wand2, FileBarChart2, CheckCircle2,
+  UserPlus, Upload, Share2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -15,31 +16,68 @@ export default function Home() {
         <div className="absolute inset-0 grain opacity-40 pointer-events-none" />
         <div className="container relative py-24 md:py-32">
           <div className="mx-auto max-w-3xl text-center">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-3 py-1 text-xs font-medium text-muted-foreground backdrop-blur">
+            <div className="mb-6 inline-flex animate-fade-in items-center gap-2 rounded-full border border-border bg-surface/60 px-3 py-1 text-xs font-medium text-muted-foreground backdrop-blur">
               <span className="h-1.5 w-1.5 rounded-full bg-primary" />
               A workspace for data teams
             </div>
-            <h1 className="font-display text-5xl leading-[1.05] md:text-7xl">
+            <h1 className="animate-fade-in font-display text-5xl leading-[1.05] md:text-7xl" style={{ animationDelay: "60ms", animationFillMode: "backwards" }}>
               Manage every dataset in one place
             </h1>
-            <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">
-              Organize, version, document and collaborate on datasets with a modern
-              workspace built for analysts, researchers and data teams.
+            <p className="mx-auto mt-6 max-w-xl animate-fade-in text-lg text-muted-foreground" style={{ animationDelay: "140ms", animationFillMode: "backwards" }}>
+              RaadRaac is a modern workspace for analysts, researchers, NGOs and students
+              to organize, version and document datasets — before analysis begins.
             </p>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-              <Button asChild size="lg" className="gap-2">
-                <Link to="/auth?mode=signup">Get started <ArrowRight size={16} /></Link>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3 animate-fade-in" style={{ animationDelay: "220ms", animationFillMode: "backwards" }}>
+              <Button asChild size="lg" className="gap-2 hover-scale">
+                <Link to="/auth?mode=signup">Get started free <ArrowRight size={16} /></Link>
               </Button>
               <Button asChild size="lg" variant="outline">
-                <Link to="/features">Watch demo</Link>
+                <Link to="/features">Explore features</Link>
               </Button>
             </div>
-            <p className="mt-4 text-xs text-muted-foreground">Free during beta. No credit card required.</p>
+            <p className="mt-4 text-xs text-muted-foreground">Free during beta · Browse the site without signing up</p>
           </div>
 
           {/* App preview mock */}
-          <div className="mx-auto mt-16 max-w-6xl">
+          <div className="mx-auto mt-16 max-w-6xl animate-fade-in" style={{ animationDelay: "320ms", animationFillMode: "backwards" }}>
             <AppPreview />
+          </div>
+        </div>
+      </section>
+
+      {/* GETTING STARTED */}
+      <section className="border-y border-border/60 bg-surface-2/40">
+        <div className="container py-20">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="mb-3 font-mono text-xs uppercase tracking-widest text-primary">Getting started</p>
+            <h2 className="font-display text-4xl md:text-5xl">Three steps to a tidy data workspace.</h2>
+            <p className="mt-4 text-muted-foreground">
+              You'll be organizing your first dataset in under a minute.
+            </p>
+          </div>
+          <ol className="mx-auto mt-12 grid max-w-5xl gap-6 md:grid-cols-3">
+            {[
+              [UserPlus, "1", "Create an account", "Sign up with email or Google. Your workspace is ready instantly — no setup, no credit card."],
+              [Upload, "2", "Upload and organize", "Drag in CSV files, add tags and descriptions, and group them into collections that make sense for your team."],
+              [Share2, "3", "Clean or export", "Send a dataset to NadiifiData for cleaning, or export the canonical version anywhere you need it."],
+            ].map(([Icon, step, title, desc]) => (
+              <li key={step as string} className="relative rounded-2xl border border-border bg-surface p-6 shadow-soft transition-all hover:shadow-card">
+                <div className="mb-4 flex items-center justify-between">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    {/* @ts-ignore */}
+                    <Icon size={18} />
+                  </div>
+                  <span className="font-display text-3xl text-muted-foreground/40">{step as string}</span>
+                </div>
+                <h3 className="font-display text-xl">{title as string}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{desc as string}</p>
+              </li>
+            ))}
+          </ol>
+          <div className="mt-10 text-center">
+            <Button asChild size="lg" className="gap-2">
+              <Link to="/auth?mode=signup">Create your workspace <ArrowRight size={16} /></Link>
+            </Button>
           </div>
         </div>
       </section>
@@ -185,24 +223,37 @@ export default function Home() {
               RaadRaac hands off cleanly to the rest of the modern data stack.
             </p>
           </div>
-          <div className="mx-auto mt-14 grid max-w-5xl gap-6 md:grid-cols-3">
+          <div className="mx-auto mt-14 grid max-w-5xl items-stretch gap-4 md:grid-cols-[1fr_auto_1fr_auto_1fr]">
             {[
-              [Database, "RaadRaac", "Organize & manage", "primary"],
-              [Wand2, "NadiifiData", "Clean & analyze", "accent"],
-              [FileBarChart2, "XogArag", "Report & present", "foreground"],
-            ].map(([Icon, name, sub], i) => (
-              <div key={name as string} className="relative rounded-2xl border border-border bg-surface p-8 text-center shadow-soft">
-                <div className={`mx-auto mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-${i === 0 ? "primary" : i === 1 ? "accent" : "foreground"}/10 text-${i === 0 ? "primary" : i === 1 ? "accent" : "foreground"}`}>
-                  {/* @ts-ignore */}
-                  <Icon size={22} />
+              { Icon: Database, name: "RaadRaac", sub: "Organize & manage", tone: "primary", active: true },
+              { Icon: Wand2, name: "NadiifiData", sub: "Clean & analyze", tone: "accent", active: false },
+              { Icon: FileBarChart2, name: "XogArag", sub: "Report & present", tone: "foreground", active: false },
+            ].flatMap((n, i, arr) => {
+              const iconBg = n.tone === "primary" ? "bg-primary/10 text-primary" : n.tone === "accent" ? "bg-accent/10 text-accent" : "bg-foreground/10 text-foreground";
+              const ring = n.active ? "ring-2 ring-primary/40" : "";
+              const card = (
+                <div key={n.name} className={`relative rounded-2xl border border-border bg-surface p-8 text-center shadow-soft transition-all hover:shadow-card ${ring}`}>
+                  <div className={`mx-auto mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl ${iconBg}`}>
+                    {/* @ts-ignore */}
+                    <n.Icon size={22} />
+                  </div>
+                  <h3 className="font-display text-2xl">{n.name}</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">{n.sub}</p>
+                  {n.active && (
+                    <span className="mt-3 inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-primary">
+                      You are here
+                    </span>
+                  )}
                 </div>
-                <h3 className="font-display text-2xl">{name as string}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{sub as string}</p>
-                {i < 2 && (
-                  <ArrowRight size={20} className="absolute -right-3 top-1/2 hidden -translate-y-1/2 text-muted-foreground md:block" />
-                )}
-              </div>
-            ))}
+              );
+              if (i === arr.length - 1) return [card];
+              return [
+                card,
+                <div key={`arrow-${i}`} className="flex items-center justify-center py-4 md:py-0">
+                  <ArrowRight size={22} className="rotate-90 text-muted-foreground md:rotate-0" />
+                </div>,
+              ];
+            })}
           </div>
         </div>
       </section>
