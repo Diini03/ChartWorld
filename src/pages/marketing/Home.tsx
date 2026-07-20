@@ -223,24 +223,37 @@ export default function Home() {
               RaadRaac hands off cleanly to the rest of the modern data stack.
             </p>
           </div>
-          <div className="mx-auto mt-14 grid max-w-5xl gap-6 md:grid-cols-3">
+          <div className="mx-auto mt-14 grid max-w-5xl items-stretch gap-4 md:grid-cols-[1fr_auto_1fr_auto_1fr]">
             {[
-              [Database, "RaadRaac", "Organize & manage", "primary"],
-              [Wand2, "NadiifiData", "Clean & analyze", "accent"],
-              [FileBarChart2, "XogArag", "Report & present", "foreground"],
-            ].map(([Icon, name, sub], i) => (
-              <div key={name as string} className="relative rounded-2xl border border-border bg-surface p-8 text-center shadow-soft">
-                <div className={`mx-auto mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-${i === 0 ? "primary" : i === 1 ? "accent" : "foreground"}/10 text-${i === 0 ? "primary" : i === 1 ? "accent" : "foreground"}`}>
-                  {/* @ts-ignore */}
-                  <Icon size={22} />
+              { Icon: Database, name: "RaadRaac", sub: "Organize & manage", tone: "primary", active: true },
+              { Icon: Wand2, name: "NadiifiData", sub: "Clean & analyze", tone: "accent", active: false },
+              { Icon: FileBarChart2, name: "XogArag", sub: "Report & present", tone: "foreground", active: false },
+            ].flatMap((n, i, arr) => {
+              const iconBg = n.tone === "primary" ? "bg-primary/10 text-primary" : n.tone === "accent" ? "bg-accent/10 text-accent" : "bg-foreground/10 text-foreground";
+              const ring = n.active ? "ring-2 ring-primary/40" : "";
+              const card = (
+                <div key={n.name} className={`relative rounded-2xl border border-border bg-surface p-8 text-center shadow-soft transition-all hover:shadow-card ${ring}`}>
+                  <div className={`mx-auto mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl ${iconBg}`}>
+                    {/* @ts-ignore */}
+                    <n.Icon size={22} />
+                  </div>
+                  <h3 className="font-display text-2xl">{n.name}</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">{n.sub}</p>
+                  {n.active && (
+                    <span className="mt-3 inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-primary">
+                      You are here
+                    </span>
+                  )}
                 </div>
-                <h3 className="font-display text-2xl">{name as string}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{sub as string}</p>
-                {i < 2 && (
-                  <ArrowRight size={20} className="absolute -right-3 top-1/2 hidden -translate-y-1/2 text-muted-foreground md:block" />
-                )}
-              </div>
-            ))}
+              );
+              if (i === arr.length - 1) return [card];
+              return [
+                card,
+                <div key={`arrow-${i}`} className="flex items-center justify-center py-4 md:py-0">
+                  <ArrowRight size={22} className="rotate-90 text-muted-foreground md:rotate-0" />
+                </div>,
+              ];
+            })}
           </div>
         </div>
       </section>
