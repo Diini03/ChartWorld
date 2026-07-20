@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import {
   ArrowRight, FolderTree, GitBranch, Tags, Search, FileText, Users, Shield, Activity,
-  Star, Layers, Sparkles, ChevronDown, Database, Wand2, FileBarChart2, CheckCircle2,
+  Star, Layers, Sparkles, Database, Wand2, FileBarChart2, CheckCircle2,
+  UserPlus, Upload, Share2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
