@@ -1,74 +1,173 @@
-Portfolio Project
+# ChartWorld
 
-## Project info!
+Explore every chart. Learn when to use it.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+ChartWorld is an open-source reference for data visualization. It helps students, data analysts, and developers understand different chart types through practical explanations, business examples, and concise Python code.
 
-## How can I edit this code?
+Live Demo
 
-There are several ways of editing your application.
+chartworld.diinikahiye.online
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## About
 
-Changes made via Lovable will be committed automatically to this repo.
+Choosing the right chart is often more difficult than creating one.
 
-**Use your preferred IDE**
+ChartWorld explains:
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- what a chart is
+- when to use it
+- when not to use it
+- common mistakes
+- business use cases
+- Python implementation
+- related charts
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+The goal is to make data visualization easier to understand through examples rather than lengthy documentation.
 
-Follow these steps:
+---
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## Features
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+- Large collection of chart types
+- Short Python examples
+- Interactive chart previews
+- Chart comparison
+- Chart recommendation guide
+- Business use cases
+- Responsive design
+- Dark mode
 
-# Step 3: Install the necessary dependencies.
-npm i
+---
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+## Supported Charts
+
+The project includes dozens of visualization types, including:
+
+- Bar Chart
+- Line Chart
+- Pie Chart
+- Scatter Plot
+- Histogram
+- Heatmap
+- Box Plot
+- Violin Plot
+- Bubble Chart
+- Treemap
+- Sunburst
+- Sankey Diagram
+- Waterfall Chart
+- Funnel Chart
+- Radar Chart
+- Gantt Chart
+- Timeline
+- Decision Tree
+- Confusion Matrix
+- ROC Curve
+
+Additional charts will continue to be added.
+
+---
+
+## Technology
+
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- shadcn/ui
+- Recharts
+- Framer Motion
+
+---
+
+## Project Structure
+
+```text
+src/
+├── components/
+├── pages/
+├── charts/
+├── playground/
+├── data/
+├── hooks/
+├── utils/
+└── assets/
+```
+
+---
+
+## Getting Started
+
+```bash
+git clone https://github.com/Diini03/chartworld.git
+
+cd chartworld
+
+npm install
+
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Roadmap
 
-**Use GitHub Codespaces**
+Current version
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+- Chart gallery
+- Python examples
+- Interactive previews
+- Chart comparison
+- Responsive interface
 
-## What technologies are used for this project?
+Planned improvements
 
-This project is built with:
+- More chart types
+- Additional visualization libraries
+- Interactive playground
+- Search improvements
+- Business case studies
+- Exportable code examples
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-- -----------
+---
 
-## How can I deploy this project?
+## Related Projects
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+LearnData
+https://learndata.diinikahiye.online/
+A learning platform for Data Analysis, SQL, Python, Power BI, Machine Learning, and AI in Somali.
 
-## Can I connect a custom domain to my Lovable project?
 
-Yes, you can!
+NadiifiData
+https://nadiifi-data.diinikahiye.online/
+Clean, analyse, and visualise datasets without writing code.
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+XogArag
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Create dashboards, reports, and data stories from your analysis.
+
+---
+
+## Author
+
+Diini Kahiye
+
+Portfolio
+
+https://www.diinikahiye.online
+
+GitHub
+
+https://github.com/Diini03
+
+LinkedIn
+
+https://www.linkedin.com/in/diinikahiye/
+
+---
+
+## License
+
+Released under the MIT License.
