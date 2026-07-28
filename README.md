@@ -4,9 +4,7 @@ Explore every chart. Learn when to use it.
 
 ChartWorld is an open-source reference for data visualization. It helps students, data analysts, and developers understand different chart types through practical explanations, business examples, and concise Python code.
 
-Live Demo
-
-chartworld.diinikahiye.online
+URL: chartworld.diinikahiye.online
 
 ---
 
