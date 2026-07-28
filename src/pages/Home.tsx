@@ -7,32 +7,30 @@ import { useUI } from "@/lib/store";
 
 interface Floater { slug: string; kind: any; name: string; x: number; y: number; scale: number; delay: number; duration: number; }
 
-function useFloaters(n = 12): Floater[] {
+function useFloaters(n = 4): Floater[] {
   return useMemo(() => {
     let s = 42;
     const rand = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
     const picks = [...CHARTS].sort(() => rand() - 0.5).slice(0, n);
-    const perSide = Math.ceil(n / 2);
     return picks.map((c, i) => {
-      const isLeft = i < perSide;
-      const idx = isLeft ? i : i - perSide;
-      // Two side columns that avoid the centered text (roughly 30%-70%)
-      const xBase = isLeft ? 3 + (idx % 2) * 8 : 80 + (idx % 2) * 8;
-      const y = 6 + Math.floor(idx / 2) * 28 + (rand() - 0.5) * 4;
+      const isLeft = i % 2 === 0;
+      // Place 2 soft floaters on each side, well clear of centered text
+      const xBase = isLeft ? 6 + (i / 2) * 5 : 78 + ((i - 1) / 2) * 5;
+      const y = 18 + (i % 2) * 44 + (rand() - 0.5) * 6;
       return {
         slug: c.slug, kind: c.preview, name: c.name,
         x: xBase + (rand() - 0.5) * 2,
         y,
-        scale: 0.7 + rand() * 0.35,
+        scale: 0.55 + rand() * 0.15,
         delay: rand() * 4,
-        duration: 8 + rand() * 6,
+        duration: 10 + rand() * 8,
       };
     });
   }, [n]);
 }
 
 export default function Home() {
-  const floaters = useFloaters(12);
+  const floaters = useFloaters(4);
   const { setSearchOpen } = useUI();
   const [hovered, setHovered] = useState<string | null>(null);
   const ref = useRef<HTMLDivElement>(null);
@@ -50,20 +48,20 @@ export default function Home() {
               to={`/chart/${f.slug}`}
               onMouseEnter={() => setHovered(f.slug)}
               onMouseLeave={() => setHovered(null)}
-              className="pointer-events-auto absolute block rounded-2xl border border-border/60 bg-card/70 p-3 shadow-md backdrop-blur transition-all duration-500 hover:z-20 hover:scale-[1.6] hover:shadow-lg"
+              className="pointer-events-auto absolute block rounded-2xl border border-border/40 bg-card/40 p-3 shadow-sm backdrop-blur-sm transition-all duration-500 hover:z-20 hover:scale-[1.15] hover:border-border/60 hover:bg-card/60 hover:shadow-md"
               style={{
                 left: `${f.x}%`,
                 top: `${f.y}%`,
-                width: 160,
+                width: 140,
                 transform: `scale(${f.scale})`,
                 animation: `drift ${f.duration}s ease-in-out ${f.delay}s infinite`,
-                opacity: hovered && hovered !== f.slug ? 0.35 : 1,
+                opacity: hovered ? (hovered === f.slug ? 0.7 : 0.15) : 0.22,
               }}
             >
-              <div className="pointer-events-none h-20 w-full overflow-hidden">
-                <ChartPreview kind={f.kind} height={80} seed={f.slug.length * 3} />
+              <div className="pointer-events-none h-16 w-full overflow-hidden opacity-60">
+                <ChartPreview kind={f.kind} height={64} seed={f.slug.length * 3} />
               </div>
-              <div className="mt-1 truncate text-center text-[10px] font-medium text-muted-foreground">{f.name}</div>
+              <div className="mt-1 truncate text-center text-[10px] font-medium text-muted-foreground/60">{f.name}</div>
             </Link>
           ))}
         </div>
