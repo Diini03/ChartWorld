@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useMemo, useRef, useState } from "react";
 import { CHARTS } from "@/data/charts";
 import { ChartPreview } from "@/components/chart/ChartPreview";
-import { ArrowRight, Sparkles, Search, GitCompareArrows, Code2 } from "lucide-react";
+import { ArrowRight, Sparkles, Search, GitCompareArrows, Code2, Quote, Github, Globe, Linkedin, ArrowUpRight } from "lucide-react";
 import { useUI } from "@/lib/store";
 
 interface Floater { slug: string; kind: any; name: string; x: number; y: number; scale: number; delay: number; duration: number; }
