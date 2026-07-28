@@ -32,7 +32,7 @@ function useFloaters(n = 12): Floater[] {
 }
 
 export default function Home() {
-  const floaters = useFloaters(16);
+  const floaters = useFloaters(12);
   const { setSearchOpen } = useUI();
   const [hovered, setHovered] = useState<string | null>(null);
   const ref = useRef<HTMLDivElement>(null);
