@@ -151,6 +151,51 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Why I built this — personal quote + socials */}
+      <section className="container pb-24">
+        <div className="relative overflow-hidden rounded-3xl border border-border bg-card p-10 shadow-sm md:p-14">
+          <div className="absolute inset-0 mesh-bg opacity-40" />
+          <div className="relative mx-auto max-w-3xl text-center">
+            <div className="mx-auto mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+              <Quote size={22} />
+            </div>
+            <p className="mb-3 font-mono text-xs uppercase tracking-widest text-primary">Why I built this</p>
+            <blockquote className="font-display text-2xl leading-relaxed md:text-3xl">
+              "I designed this site to store the charts. I was curious about charts, so I built this — to save myself, and other analysts, some time."
+            </blockquote>
+            <p className="mt-6 text-sm text-muted-foreground">— Diini Kahiye</p>
+
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+              <a
+                href="https://www.diinikahiye.online/"
+                target="_blank"
+                rel="noreferrer"
+                className="group inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-transform hover:scale-[1.02]"
+              >
+                <Globe size={14} /> Visit portfolio
+                <ArrowUpRight size={14} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </a>
+              <a
+                href="https://github.com/Diini03"
+                target="_blank"
+                rel="noreferrer"
+                className="glass inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm text-muted-foreground hover:text-foreground"
+              >
+                <Github size={14} /> GitHub
+              </a>
+              <a
+                href="https://www.linkedin.com/in/diinikahiye/"
+                target="_blank"
+                rel="noreferrer"
+                className="glass inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm text-muted-foreground hover:text-foreground"
+              >
+                <Linkedin size={14} /> LinkedIn
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Chooser CTA */}
       <section className="container pb-24">
         <div className="glass relative overflow-hidden rounded-3xl p-10 text-center shadow-lg md:p-16">
