@@ -8,7 +8,7 @@ export default {
     container: {
       center: true,
       padding: { DEFAULT: "1.25rem", lg: "2rem" },
-      screens: { "2xl": "1280px" },
+      screens: { sm: "64rem", md: "64rem", lg: "64rem", xl: "64rem", "2xl": "64rem" },
     },
     extend: {
       fontFamily: {
