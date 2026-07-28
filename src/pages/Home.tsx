@@ -7,24 +7,32 @@ import { useUI } from "@/lib/store";
 
 interface Floater { slug: string; kind: any; name: string; x: number; y: number; scale: number; delay: number; duration: number; }
 
-function useFloaters(n = 18): Floater[] {
+function useFloaters(n = 12): Floater[] {
   return useMemo(() => {
     let s = 42;
     const rand = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
     const picks = [...CHARTS].sort(() => rand() - 0.5).slice(0, n);
-    return picks.map((c, i) => ({
-      slug: c.slug, kind: c.preview, name: c.name,
-      x: 5 + (i % 6) * 16 + (rand() - 0.5) * 6,
-      y: 5 + Math.floor(i / 6) * 32 + (rand() - 0.5) * 8,
-      scale: 0.75 + rand() * 0.6,
-      delay: rand() * 4,
-      duration: 8 + rand() * 6,
-    }));
+    const perSide = Math.ceil(n / 2);
+    return picks.map((c, i) => {
+      const isLeft = i < perSide;
+      const idx = isLeft ? i : i - perSide;
+      // Two side columns that avoid the centered text (roughly 30%-70%)
+      const xBase = isLeft ? 3 + (idx % 2) * 8 : 80 + (idx % 2) * 8;
+      const y = 6 + Math.floor(idx / 2) * 28 + (rand() - 0.5) * 4;
+      return {
+        slug: c.slug, kind: c.preview, name: c.name,
+        x: xBase + (rand() - 0.5) * 2,
+        y,
+        scale: 0.7 + rand() * 0.35,
+        delay: rand() * 4,
+        duration: 8 + rand() * 6,
+      };
+    });
   }, [n]);
 }
 
 export default function Home() {
-  const floaters = useFloaters(16);
+  const floaters = useFloaters(12);
   const { setSearchOpen } = useUI();
   const [hovered, setHovered] = useState<string | null>(null);
   const ref = useRef<HTMLDivElement>(null);
