@@ -7,25 +7,23 @@ import { useUI } from "@/lib/store";
 
 interface Floater { slug: string; kind: any; name: string; x: number; y: number; scale: number; delay: number; duration: number; }
 
-function useFloaters(n = 12): Floater[] {
+function useFloaters(n = 4): Floater[] {
   return useMemo(() => {
     let s = 42;
     const rand = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
     const picks = [...CHARTS].sort(() => rand() - 0.5).slice(0, n);
-    const perSide = Math.ceil(n / 2);
     return picks.map((c, i) => {
-      const isLeft = i < perSide;
-      const idx = isLeft ? i : i - perSide;
-      // Two side columns that avoid the centered text (roughly 30%-70%)
-      const xBase = isLeft ? 3 + (idx % 2) * 8 : 80 + (idx % 2) * 8;
-      const y = 6 + Math.floor(idx / 2) * 28 + (rand() - 0.5) * 4;
+      const isLeft = i % 2 === 0;
+      // Place 2 soft floaters on each side, well clear of centered text
+      const xBase = isLeft ? 6 + (i / 2) * 5 : 78 + ((i - 1) / 2) * 5;
+      const y = 18 + (i % 2) * 44 + (rand() - 0.5) * 6;
       return {
         slug: c.slug, kind: c.preview, name: c.name,
         x: xBase + (rand() - 0.5) * 2,
         y,
-        scale: 0.7 + rand() * 0.35,
+        scale: 0.55 + rand() * 0.15,
         delay: rand() * 4,
-        duration: 8 + rand() * 6,
+        duration: 10 + rand() * 8,
       };
     });
   }, [n]);
