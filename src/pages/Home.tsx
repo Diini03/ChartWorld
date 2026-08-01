@@ -29,11 +29,19 @@ function useFloaters(n = 4): Floater[] {
   }, [n]);
 }
 
+const FEATURED_SLUGS = ["bar-chart", "line-chart", "scatter-plot", "histogram", "sankey-diagram", "heatmap"];
+
 export default function Home() {
   const floaters = useFloaters(4);
+  const featured = useMemo(() => {
+    const picked = FEATURED_SLUGS.map((s) => CHARTS.find((c) => c.slug === s)).filter(Boolean) as typeof CHARTS;
+    const fill = CHARTS.filter((c) => !FEATURED_SLUGS.includes(c.slug));
+    return [...picked, ...fill].slice(0, 6);
+  }, []);
   const { setSearchOpen } = useUI();
   const [hovered, setHovered] = useState<string | null>(null);
   const ref = useRef<HTMLDivElement>(null);
+
 
   return (
     <div className="relative -mt-24">
