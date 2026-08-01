@@ -17,9 +17,9 @@ export default function Compare() {
         <p className="mt-4 text-muted-foreground">See where each one shines — and where it doesn't.</p>
       </header>
 
-      <div className="mx-auto mt-10 flex max-w-2xl items-center gap-3">
+      <div className="mx-auto mt-10 flex max-w-2xl flex-col items-stretch gap-3 sm:flex-row sm:items-center">
         <ChartSelect value={a} onChange={setA} />
-        <ArrowLeftRight size={18} className="text-muted-foreground" />
+        <ArrowLeftRight size={18} className="mx-auto shrink-0 text-muted-foreground" />
         <ChartSelect value={b} onChange={setB} />
       </div>
 
@@ -64,7 +64,7 @@ function ChartSelect({ value, onChange }: { value: string; onChange: (v: string)
     <select
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className="flex-1 rounded-xl border border-border bg-surface px-4 py-3 font-display text-lg focus-ring"
+      className="w-full min-w-0 flex-1 rounded-xl border border-border bg-surface px-4 py-3 font-display text-base focus-ring sm:text-lg"
     >
       {CHARTS.map((c) => (
         <option key={c.slug} value={c.slug}>{c.name}</option>
@@ -75,12 +75,12 @@ function ChartSelect({ value, onChange }: { value: string; onChange: (v: string)
 
 function ComparisonRow({ label, a, b, pos, neg }: any) {
   return (
-    <div className="grid grid-cols-[140px_1fr_1fr] gap-4 border-b border-border p-5 last:border-0 md:grid-cols-[180px_1fr_1fr]">
+    <div className="grid grid-cols-1 gap-2 border-b border-border p-5 last:border-0 sm:grid-cols-[120px_1fr_1fr] sm:gap-4 md:grid-cols-[180px_1fr_1fr]">
       <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground">{label}</div>
-      <div className={`text-sm ${pos ? "text-[hsl(var(--chart-5))]" : neg ? "text-[hsl(var(--chart-3))]" : ""}`}>
+      <div className={`min-w-0 break-words text-sm ${pos ? "text-[hsl(var(--chart-5))]" : neg ? "text-[hsl(var(--chart-3))]" : ""}`}>
         {pos && <Check size={14} className="mr-1.5 inline" />}{neg && <X size={14} className="mr-1.5 inline" />}{a}
       </div>
-      <div className={`text-sm ${pos ? "text-[hsl(var(--chart-5))]" : neg ? "text-[hsl(var(--chart-3))]" : ""}`}>
+      <div className={`min-w-0 break-words text-sm ${pos ? "text-[hsl(var(--chart-5))]" : neg ? "text-[hsl(var(--chart-3))]" : ""}`}>
         {pos && <Check size={14} className="mr-1.5 inline" />}{neg && <X size={14} className="mr-1.5 inline" />}{b}
       </div>
     </div>
