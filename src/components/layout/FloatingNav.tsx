@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { Search, Moon, Sun, Menu, X } from "lucide-react";
+import { Search, Moon, Sun, Menu } from "lucide-react";
 import { useUI } from "@/lib/store";
 import { cn } from "@/lib/utils";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerClose,
+} from "@/components/ui/drawer";
 
 const links = [
   { to: "/explore", label: "Explore" },
@@ -41,81 +48,98 @@ export function FloatingNav() {
     <>
       <div
         className={cn(
-          "fixed top-4 left-1/2 z-50 -translate-x-1/2 transition-all duration-500",
+          "fixed inset-x-0 z-50 transition-all duration-500",
           scrolled ? "top-3" : "top-6",
         )}
       >
-        <nav className="glass flex items-center gap-1 rounded-full px-2 py-1.5 shadow-md">
-          <Link to="/" className="flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-semibold">
-            <Logo />
-            <span className="hidden font-display text-base sm:inline">ChartWorld</span>
-          </Link>
-          <div className="mx-1 hidden h-6 w-px bg-border md:block" />
-          <ul className="hidden items-center md:flex">
-            {links.map((l) => (
-              <li key={l.to}>
-                <NavLink
-                  to={l.to}
-                  className={({ isActive }) =>
-                    cn(
-                      "rounded-full px-3 py-1.5 text-sm transition-colors",
-                      isActive ? "bg-foreground/10 text-foreground" : "text-muted-foreground hover:text-foreground"
-                    )
-                  }
-                >
-                  {l.label}
-                </NavLink>
-              </li>
-            ))}
-          </ul>
-          <div className="mx-1 hidden h-6 w-px bg-border md:block" />
-          <button
-            onClick={() => setSearchOpen(true)}
-            className="flex h-9 items-center gap-2 rounded-full bg-surface-2 px-3 text-sm text-muted-foreground hover:text-foreground focus-ring"
-            aria-label="Search"
-          >
-            <Search size={14} />
-            <span className="hidden sm:inline">Search</span>
-            <kbd className="hidden rounded border border-border bg-background px-1.5 py-0.5 font-mono text-[10px] sm:inline">⌘K</kbd>
-          </button>
-          <button
-            onClick={toggleTheme}
-            aria-label="Toggle theme"
-            className="flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground hover:bg-surface-2 hover:text-foreground focus-ring"
-          >
-            {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
-          </button>
-          <button
-            onClick={() => setMobileOpen((s) => !s)}
-            aria-label="Menu"
-            className="flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground hover:bg-surface-2 hover:text-foreground focus-ring md:hidden"
-          >
-            {mobileOpen ? <X size={16} /> : <Menu size={16} />}
-          </button>
-        </nav>
+        <div className="container flex justify-center">
+          <nav className="glass flex max-w-full items-center gap-1 overflow-hidden rounded-full px-2 py-1.5 shadow-md">
+            <Link to="/" className="flex shrink-0 items-center gap-2 rounded-full px-2 py-1.5 text-sm font-semibold sm:px-3">
+              <Logo />
+              <span className="hidden font-display text-base sm:inline">ChartWorld</span>
+            </Link>
+            <div className="mx-1 hidden h-6 w-px bg-border md:block" />
+            <ul className="hidden items-center md:flex">
+              {links.map((l) => (
+                <li key={l.to}>
+                  <NavLink
+                    to={l.to}
+                    className={({ isActive }) =>
+                      cn(
+                        "rounded-full px-3 py-1.5 text-sm transition-colors",
+                        isActive ? "bg-foreground/10 text-foreground" : "text-muted-foreground hover:text-foreground"
+                      )
+                    }
+                  >
+                    {l.label}
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
+            <div className="mx-1 hidden h-6 w-px bg-border md:block" />
+            <button
+              onClick={() => setSearchOpen(true)}
+              className="flex h-9 shrink-0 items-center gap-2 rounded-full bg-surface-2 px-3 text-sm text-muted-foreground hover:text-foreground focus-ring"
+              aria-label="Search"
+            >
+              <Search size={14} />
+              <span className="hidden sm:inline">Search</span>
+              <kbd className="hidden rounded border border-border bg-background px-1.5 py-0.5 font-mono text-[10px] md:inline">⌘K</kbd>
+            </button>
+            <button
+              onClick={toggleTheme}
+              aria-label="Toggle theme"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-muted-foreground hover:bg-surface-2 hover:text-foreground focus-ring"
+            >
+              {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
+            <button
+              onClick={() => setMobileOpen(true)}
+              aria-label="Open menu"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-muted-foreground hover:bg-surface-2 hover:text-foreground focus-ring md:hidden"
+            >
+              <Menu size={16} />
+            </button>
+          </nav>
+        </div>
       </div>
 
-      {mobileOpen && (
-        <div className="fixed inset-x-4 top-20 z-40 rounded-2xl border border-border bg-popover p-2 shadow-lg md:hidden animate-in fade-in slide-in-from-top-2">
-          <ul>
-            {links.map((l) => (
-              <li key={l.to}>
-                <NavLink
-                  to={l.to}
-                  className={({ isActive }) =>
-                    cn(
-                      "block rounded-lg px-3 py-2 text-sm transition-colors",
-                      isActive ? "bg-foreground/10" : "text-muted-foreground hover:bg-surface-2 hover:text-foreground"
-                    )
-                  }
-                >
-                  {l.label}
-                </NavLink>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      <Drawer open={mobileOpen} onOpenChange={setMobileOpen}>
+        <DrawerContent className="md:hidden">
+          <DrawerHeader className="pb-2 text-left">
+            <DrawerTitle className="font-display text-xl">ChartWorld</DrawerTitle>
+          </DrawerHeader>
+          <nav className="px-4 pb-8">
+            <ul className="space-y-1">
+              {links.map((l) => (
+                <li key={l.to}>
+                  <DrawerClose asChild>
+                    <NavLink
+                      to={l.to}
+                      className={({ isActive }) =>
+                        cn(
+                          "block rounded-xl px-4 py-3 text-base transition-colors",
+                          isActive ? "bg-foreground/10 text-foreground" : "text-muted-foreground hover:bg-surface-2 hover:text-foreground"
+                        )
+                      }
+                    >
+                      {l.label}
+                    </NavLink>
+                  </DrawerClose>
+                </li>
+              ))}
+            </ul>
+            <DrawerClose asChild>
+              <button
+                onClick={() => setTimeout(() => setSearchOpen(true), 250)}
+                className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-foreground px-4 py-3 text-sm font-medium text-background"
+              >
+                <Search size={14} /> Search charts
+              </button>
+            </DrawerClose>
+          </nav>
+        </DrawerContent>
+      </Drawer>
     </>
   );
 }
