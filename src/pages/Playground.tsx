@@ -37,7 +37,7 @@ plt.tight_layout(); plt.show()`, [title, color, opacity, showGrid, showLegend]);
         <p className="mt-4 text-muted-foreground">Change a knob — the chart and the Python code update in real time.</p>
       </header>
 
-      <div className="mt-12 grid gap-6 lg:grid-cols-[300px_1fr]">
+      <div className="mt-12 grid gap-6 lg:grid-cols-[300px_minmax(0,1fr)]">
         <aside className="space-y-6 rounded-3xl border border-border bg-card p-6">
           <div>
             <label className="mb-1 block text-xs font-medium uppercase tracking-widest text-muted-foreground">Chart</label>
@@ -72,7 +72,7 @@ plt.tight_layout(); plt.show()`, [title, color, opacity, showGrid, showLegend]);
           </div>
         </aside>
 
-        <div className="space-y-6">
+        <div className="min-w-0 space-y-6">
           <div className="rounded-3xl border border-border bg-card p-6 shadow-md">
             <div className="mb-4 font-display text-2xl">{title}</div>
             <div style={{ filter: `opacity(${opacity[0]}%)` }}>

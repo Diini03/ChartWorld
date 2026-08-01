@@ -29,11 +29,19 @@ function useFloaters(n = 4): Floater[] {
   }, [n]);
 }
 
+const FEATURED_SLUGS = ["bar-chart", "line-chart", "scatter-plot", "histogram", "sankey", "heatmap"];
+
 export default function Home() {
   const floaters = useFloaters(4);
+  const featured = useMemo(() => {
+    const picked = FEATURED_SLUGS.map((s) => CHARTS.find((c) => c.slug === s)).filter(Boolean) as typeof CHARTS;
+    const fill = CHARTS.filter((c) => !FEATURED_SLUGS.includes(c.slug));
+    return [...picked, ...fill].slice(0, 6);
+  }, []);
   const { setSearchOpen } = useUI();
   const [hovered, setHovered] = useState<string | null>(null);
   const ref = useRef<HTMLDivElement>(null);
+
 
   return (
     <div className="relative -mt-24">
@@ -131,6 +139,42 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Featured charts */}
+      <section className="container pb-24">
+        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="mb-3 font-mono text-xs uppercase tracking-widest text-primary">Featured charts</p>
+            <h2 className="font-display text-4xl">Start with the classics.</h2>
+          </div>
+          <Link to="/explore" className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline">
+            View all charts <ArrowRight size={14} />
+          </Link>
+        </div>
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {featured.map((c) => (
+            <Link
+              key={c.slug}
+              to={`/chart/${c.slug}`}
+              className="group overflow-hidden rounded-2xl border border-border bg-card p-4 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
+            >
+              <div className="overflow-hidden rounded-xl border border-border bg-surface-2 p-2">
+                <ChartPreview kind={c.preview} height={120} seed={c.slug.length * 5} />
+              </div>
+              <div className="mt-4 flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <h3 className="truncate font-display text-xl">{c.name}</h3>
+                  <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">{c.tagline}</p>
+                </div>
+                <ArrowUpRight size={16} className="mt-1 shrink-0 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary" />
+              </div>
+              <p className="mt-3 inline-flex rounded-full bg-surface-2 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                {c.category}
+              </p>
+            </Link>
+          ))}
+        </div>
+      </section>
+
       {/* Category strip */}
       <section className="container pb-24">
         <div className="mx-auto mb-8 max-w-2xl text-center">
@@ -151,50 +195,68 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Why I built this — personal quote + socials */}
+      {/* Why I built this — portfolio section */}
       <section className="container pb-24">
-        <div className="relative overflow-hidden rounded-3xl border border-border bg-card p-10 shadow-sm md:p-14">
-          <div className="absolute inset-0 mesh-bg opacity-40" />
-          <div className="relative mx-auto max-w-3xl text-center">
-            <div className="mx-auto mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-              <Quote size={22} />
+        <div className="relative overflow-hidden rounded-3xl border border-border bg-card shadow-card">
+          <div className="absolute inset-0 mesh-bg opacity-50" />
+          <div className="relative grid gap-10 p-8 md:grid-cols-[1fr_1.1fr] md:p-14">
+            <div>
+              <p className="mb-3 font-mono text-xs uppercase tracking-widest text-primary">Why I built this</p>
+              <h2 className="font-display text-4xl leading-tight md:text-5xl">A portfolio project, built for real use.</h2>
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                ChartWorld is a personal project by Diini Kahiye — a data analyst who kept
+                re-searching the same chart questions. It collects dozens of chart types,
+                when to use them, and runnable Python in one place.
+              </p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                <a
+                  href="https://www.diinikahiye.online/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-transform hover:scale-[1.02]"
+                >
+                  <Globe size={14} /> Visit portfolio
+                  <ArrowUpRight size={14} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </a>
+                <a
+                  href="https://github.com/Diini03"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="glass inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm text-muted-foreground hover:text-foreground"
+                >
+                  <Github size={14} /> GitHub
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/diinikahiye/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="glass inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm text-muted-foreground hover:text-foreground"
+                >
+                  <Linkedin size={14} /> LinkedIn
+                </a>
+              </div>
             </div>
-            <p className="mb-3 font-mono text-xs uppercase tracking-widest text-primary">Why I built this</p>
-            <blockquote className="font-display text-2xl leading-relaxed md:text-3xl">
-              "I designed this site to store the charts. I was curious about charts, so I built this — to save myself, and other analysts, some time."
-            </blockquote>
-            <p className="mt-6 text-sm text-muted-foreground">— Diini Kahiye</p>
 
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-              <a
-                href="https://www.diinikahiye.online/"
-                target="_blank"
-                rel="noreferrer"
-                className="group inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-transform hover:scale-[1.02]"
-              >
-                <Globe size={14} /> Visit portfolio
-                <ArrowUpRight size={14} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </a>
-              <a
-                href="https://github.com/Diini03"
-                target="_blank"
-                rel="noreferrer"
-                className="glass inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm text-muted-foreground hover:text-foreground"
-              >
-                <Github size={14} /> GitHub
-              </a>
-              <a
-                href="https://www.linkedin.com/in/diinikahiye/"
-                target="_blank"
-                rel="noreferrer"
-                className="glass inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm text-muted-foreground hover:text-foreground"
-              >
-                <Linkedin size={14} /> LinkedIn
-              </a>
-            </div>
+            <figure className="relative flex flex-col justify-center rounded-2xl border border-border bg-background/70 p-8 backdrop-blur-sm">
+              <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                <Quote size={20} />
+              </div>
+              <blockquote className="font-display text-2xl leading-relaxed md:text-[1.75rem]">
+                "I designed this site to store the charts. I was curious about charts, so I built
+                this — to save myself, and other analysts, some time."
+              </blockquote>
+              <figcaption className="mt-6 flex items-center gap-3 text-sm">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-foreground text-xs font-semibold text-background">DK</span>
+                <span>
+                  <span className="block font-medium">Diini Kahiye</span>
+                  <span className="block text-xs text-muted-foreground">Data analyst · Creator of ChartWorld</span>
+                </span>
+              </figcaption>
+            </figure>
           </div>
         </div>
       </section>
+
 
       {/* Chooser CTA */}
       <section className="container pb-24">
