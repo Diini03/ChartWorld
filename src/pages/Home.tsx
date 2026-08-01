@@ -29,7 +29,7 @@ function useFloaters(n = 4): Floater[] {
   }, [n]);
 }
 
-const FEATURED_SLUGS = ["bar-chart", "line-chart", "scatter-plot", "histogram", "sankey-diagram", "heatmap"];
+const FEATURED_SLUGS = ["bar-chart", "line-chart", "scatter-plot", "histogram", "sankey", "heatmap"];
 
 export default function Home() {
   const floaters = useFloaters(4);
