@@ -199,8 +199,9 @@ export const VizChart = memo(function VizChart({ frame, type, style, className }
               <ErrorBar dataKey="median" width={0} strokeWidth={0} />
             </Bar>
             <Scatter dataKey="median" fill={colorAt(style.palette, 0)} shape="cross" />
-            <Scatter dataKey="min" fill="hsl(var(--muted-foreground))" shape="line" />
-            <Scatter dataKey="max" fill="hsl(var(--muted-foreground))" shape="line" />
+            <Scatter dataKey="min" fill="hsl(var(--muted-foreground))" shape="square" />
+            <Scatter dataKey="max" fill="hsl(var(--muted-foreground))" shape="square" />
+
           </ComposedChart>
         );
       case "scatter":
