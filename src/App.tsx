@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import Home from "@/pages/Home";
 import Explore from "@/pages/Explore";
+import Create from "@/pages/Create";
 import Categories from "@/pages/Categories";
 import ChartDetail from "@/pages/ChartDetail";
 import Compare from "@/pages/Compare";
@@ -32,6 +33,7 @@ export default function App() {
             <Route element={<SiteLayout />}>
               <Route index element={<Home />} />
               <Route path="explore" element={<Explore />} />
+              <Route path="create" element={<Create />} />
               <Route path="categories" element={<Categories />} />
               <Route path="chart/:slug" element={<ChartDetail />} />
               <Route path="compare" element={<Compare />} />
