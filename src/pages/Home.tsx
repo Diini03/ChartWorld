@@ -4,6 +4,7 @@ import { CHARTS } from "@/data/charts";
 import { ChartPreview } from "@/components/chart/ChartPreview";
 import { ArrowRight, Sparkles, Search, GitCompareArrows, Code2, Quote, Github, Globe, Linkedin, ArrowUpRight } from "lucide-react";
 import { useUI } from "@/lib/store";
+import { ChartStudio } from "@/components/viz/ChartStudio";
 
 interface Floater { slug: string; kind: any; name: string; x: number; y: number; scale: number; delay: number; duration: number; }
 
@@ -101,6 +102,15 @@ export default function Home() {
             </button>
           </div>
         </div>
+      </section>
+
+      {/* Interactive studio, right at the top */}
+      <section className="container -mt-16 pb-24">
+        <div className="mb-6 text-center">
+          <p className="mb-2 font-mono text-xs uppercase tracking-widest text-primary">Try it now — no account</p>
+          <h2 className="font-display text-4xl">Pick data. Pick a chart. Copy the Python.</h2>
+        </div>
+        <ChartStudio compact />
       </section>
 
       {/* Feature Trio */}
