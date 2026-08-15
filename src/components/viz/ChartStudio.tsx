@@ -236,7 +236,7 @@ export function ChartStudio({ compact = false }: { compact?: boolean }) {
             {mode === "code" && (
               <div className="space-y-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <SegButtons ariaLabel="Library" value={lib} onChange={setLib}
+                  <SegButtons<Library> ariaLabel="Library" value={lib} onChange={setLib}
                     options={(["Matplotlib", "Seaborn", "Plotly"] as Library[]).map((l) => ({ value: l, label: l }))} />
                   <div className="flex gap-2">
                     <button onClick={copyCode} className="focus-ring inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs hover:bg-surface-2">
