@@ -30,6 +30,24 @@ export function SearchDialog() {
     return Array.from(m.entries());
   }, [results]);
 
+  const pages = useMemo(() => {
+    const all = [
+      { to: "/create", label: "Create a chart", hint: "Upload data and build" },
+      { to: "/explore", label: "Explore charts", hint: "Browse all chart types" },
+      { to: "/categories", label: "Categories", hint: "Charts grouped by purpose" },
+      { to: "/chooser", label: "Chart chooser", hint: "Find the right chart" },
+      { to: "/compare", label: "Compare charts", hint: "Side-by-side comparison" },
+      { to: "/playground", label: "Playground", hint: "Style experiments" },
+      { to: "/python", label: "Python guide", hint: "Matplotlib, Seaborn, Plotly" },
+      { to: "/resources", label: "Resources", hint: "Books, tools, references" },
+      { to: "/muuji", label: "Muuji", hint: "Collaborate" },
+      { to: "/about", label: "About", hint: "Why ChartWorld exists" },
+    ];
+    const term = q.trim().toLowerCase();
+    if (!term) return all.slice(0, 4);
+    return all.filter((p) => (p.label + " " + p.hint).toLowerCase().includes(term)).slice(0, 5);
+  }, [q]);
+
   useEffect(() => { if (!searchOpen) setQ(""); }, [searchOpen]);
 
   if (!searchOpen) return null;
