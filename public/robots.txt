@@ -12,3 +12,5 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+Sitemap: https://hiber-web-bloom.lovable.app/sitemap.xml
