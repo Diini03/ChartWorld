@@ -1,9 +1,11 @@
+import { useSeo } from "@/hooks/use-seo";
 import { useState } from "react";
 import { CHARTS } from "@/data/charts";
 import { ChartPreview } from "@/components/chart/ChartPreview";
 import { ArrowLeftRight, Check, X } from "lucide-react";
 
 export default function Compare() {
+  useSeo({ title: "Compare Charts", description: "Put two chart types side by side and see how their strengths, weaknesses and best use cases differ.", path: "/compare" });
   const [a, setA] = useState("bar-chart");
   const [b, setB] = useState("line-chart");
   const A = CHARTS.find((c) => c.slug === a)!;

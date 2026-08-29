@@ -1,8 +1,10 @@
+import { useSeo } from "@/hooks/use-seo";
 import { Link } from "react-router-dom";
 import { CATEGORIES, CATEGORY_META, chartsByCategory } from "@/data/charts";
 import { ChartPreview } from "@/components/chart/ChartPreview";
 
 export default function Categories() {
+  useSeo({ title: "Chart Categories", description: "Charts grouped by what they do: comparison, time series, distribution, relationship, composition, flow, hierarchy and more.", path: "/categories" });
   return (
     <div className="container py-10">
       <header className="mx-auto max-w-3xl text-center">

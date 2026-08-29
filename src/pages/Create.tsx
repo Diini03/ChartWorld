@@ -1,9 +1,11 @@
+import { useSeo } from "@/hooks/use-seo";
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { ChartStudio } from "@/components/viz/ChartStudio";
 import { useViz } from "@/lib/viz/store";
 
 export default function Create() {
+  useSeo({ title: "Create a Chart", description: "Upload your CSV or use a sample dataset, map fields, style your chart and export it as PNG, SVG or Python code.", path: "/create" });
   const [params] = useSearchParams();
   const hydrate = useViz((s) => s.hydrate);
 

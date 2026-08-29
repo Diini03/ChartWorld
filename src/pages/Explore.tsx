@@ -1,3 +1,4 @@
+import { useSeo } from "@/hooks/use-seo";
 import { Link } from "react-router-dom";
 import { useMemo, useState } from "react";
 import { CHARTS, CATEGORIES } from "@/data/charts";
@@ -5,6 +6,7 @@ import { ChartPreview } from "@/components/chart/ChartPreview";
 import { Search } from "lucide-react";
 
 export default function Explore() {
+  useSeo({ title: "Explore Charts", description: "Browse and search 40+ chart types by category, difficulty and data shape. Find the right visualization for your data in seconds.", path: "/explore" });
   const [q, setQ] = useState("");
   const [cat, setCat] = useState<string>("All");
 

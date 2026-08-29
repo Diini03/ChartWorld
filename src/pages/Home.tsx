@@ -1,3 +1,4 @@
+import { useSeo } from "@/hooks/use-seo";
 import { Link } from "react-router-dom";
 import { useMemo, useRef, useState } from "react";
 import { CHARTS } from "@/data/charts";
@@ -33,6 +34,7 @@ function useFloaters(n = 4): Floater[] {
 const FEATURED_SLUGS = ["bar-chart", "line-chart", "scatter-plot", "histogram", "sankey", "heatmap"];
 
 export default function Home() {
+  useSeo({ title: "ChartWorld — Explore Every Chart. Learn When to Use It.", description: "Build, customize and understand data visualizations in the browser. Explore 40+ chart types, generate Python code for Matplotlib, Seaborn and Plotly, and export instantly.", path: "/" });
   const floaters = useFloaters(4);
   const featured = useMemo(() => {
     const picked = FEATURED_SLUGS.map((s) => CHARTS.find((c) => c.slug === s)).filter(Boolean) as typeof CHARTS;
@@ -50,7 +52,7 @@ export default function Home() {
       <section className="relative min-h-[100dvh] overflow-hidden pt-24">
         <div className="absolute inset-0 mesh-bg" />
         <div className="absolute inset-0 grid-bg opacity-30" />
-        <div className="pointer-events-none absolute inset-0" ref={ref}>
+        <div className="pointer-events-none absolute inset-0 hidden overflow-hidden md:block" ref={ref}>
           {floaters.map((f) => (
             <Link
               key={f.slug}

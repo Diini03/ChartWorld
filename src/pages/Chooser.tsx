@@ -1,3 +1,4 @@
+import { useSeo } from "@/hooks/use-seo";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { CHARTS } from "@/data/charts";
@@ -39,6 +40,7 @@ const STEPS: Step[] = [
 ];
 
 export default function Chooser() {
+  useSeo({ title: "Chart Chooser", description: "Answer a few questions about your data and goal, and get a recommended chart type with reasoning.", path: "/chooser" });
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [step, setStep] = useState(0);
   const done = step >= STEPS.length;

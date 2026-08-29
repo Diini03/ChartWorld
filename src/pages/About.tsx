@@ -1,4 +1,6 @@
+import { useSeo } from "@/hooks/use-seo";
 export default function About() {
+  useSeo({ title: "About ChartWorld", description: "Why ChartWorld exists, who it is for, and how it was designed and built as a portfolio project.", path: "/about" });
   return (
     <div className="container py-10">
       <header className="mx-auto max-w-3xl text-center">

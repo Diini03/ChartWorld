@@ -1,3 +1,4 @@
+import { useSeo } from "@/hooks/use-seo";
 import { Link, useParams } from "react-router-dom";
 import { chartBySlug, chartsByCategory } from "@/data/charts";
 import { ChartPreview } from "@/components/chart/ChartPreview";
@@ -9,6 +10,24 @@ import { ArrowLeft, Check, X, AlertTriangle, Sparkles, GitCompareArrows } from "
 export default function ChartDetail() {
   const { slug = "" } = useParams();
   const chart = chartBySlug(slug);
+  useSeo({
+    title: chart ? `${chart.name} — When and How to Use It` : "Chart not found",
+    description: chart
+      ? `${chart.summary} Learn when to use a ${chart.name.toLowerCase()}, what to avoid, and copy ready-made Python code.`
+      : "This chart type does not exist in ChartWorld.",
+    path: `/chart/${slug}`,
+    noIndex: !chart,
+    jsonLd: chart
+      ? {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          headline: `${chart.name} — When and How to Use It`,
+          description: chart.summary,
+          about: chart.category,
+          isPartOf: { "@type": "WebSite", name: "ChartWorld" },
+        }
+      : undefined,
+  });
   if (!chart) return <NotFound />;
   const related = chart.related.map((s) => chartBySlug(s)).filter(Boolean);
   const alsoInCategory = chartsByCategory(chart.category).filter((c) => c.slug !== chart.slug).slice(0, 4);
