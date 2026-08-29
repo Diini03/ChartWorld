@@ -52,7 +52,7 @@ export default function Home() {
       <section className="relative min-h-[100dvh] overflow-hidden pt-24">
         <div className="absolute inset-0 mesh-bg" />
         <div className="absolute inset-0 grid-bg opacity-30" />
-        <div className="pointer-events-none absolute inset-0" ref={ref}>
+        <div className="pointer-events-none absolute inset-0 hidden overflow-hidden md:block" ref={ref}>
           {floaters.map((f) => (
             <Link
               key={f.slug}
