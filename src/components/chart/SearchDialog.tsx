@@ -71,7 +71,27 @@ export function SearchDialog() {
             <kbd className="rounded border border-border bg-surface-2 px-1.5 py-0.5 font-mono text-[10px]">esc</kbd>
           </div>
           <Command.List className="max-h-[60vh] overflow-y-auto p-2">
-            <Command.Empty className="p-8 text-center text-sm text-muted-foreground">No charts found for "{q}"</Command.Empty>
+            {results.length === 0 && pages.length === 0 && (
+              <div className="p-8 text-center text-sm text-muted-foreground">No results for "{q}"</div>
+            )}
+            {pages.length > 0 && (
+              <Command.Group heading="Go to" className="[&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:pb-1 [&_[cmdk-group-heading]]:pt-3 [&_[cmdk-group-heading]]:text-[10px] [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-widest [&_[cmdk-group-heading]]:text-muted-foreground">
+                {pages.map((p) => (
+                  <Command.Item
+                    key={p.to}
+                    value={`page-${p.to}`}
+                    onSelect={() => { setSearchOpen(false); nav(p.to); }}
+                    className="group flex cursor-pointer items-center justify-between rounded-lg px-3 py-2 aria-selected:bg-surface-2"
+                  >
+                    <div>
+                      <div className="text-sm font-medium">{p.label}</div>
+                      <div className="text-xs text-muted-foreground">{p.hint}</div>
+                    </div>
+                    <ChevronRight size={14} className="opacity-0 transition-opacity group-aria-selected:opacity-100" />
+                  </Command.Item>
+                ))}
+              </Command.Group>
+            )}
             {byCat.map(([cat, items]) => (
               <Command.Group key={cat} heading={cat} className="[&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:pb-1 [&_[cmdk-group-heading]]:pt-3 [&_[cmdk-group-heading]]:text-[10px] [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-widest [&_[cmdk-group-heading]]:text-muted-foreground">
                 {items.map((c) => (
