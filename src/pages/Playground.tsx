@@ -1,3 +1,4 @@
+import { useSeo } from "@/hooks/use-seo";
 import { useMemo, useState } from "react";
 import { CHARTS } from "@/data/charts";
 import { ChartPreview } from "@/components/chart/ChartPreview";
@@ -7,6 +8,7 @@ import { Slider } from "@/components/ui/slider";
 const PLAYABLE = CHARTS.filter((c) => ["bar", "line", "area", "scatter", "radar", "stackedBar", "histogram"].includes(c.preview));
 
 export default function Playground() {
+  useSeo({ title: "Chart Playground", description: "Experiment with chart styling, palettes and layout in a live interactive playground.", path: "/playground" });
   const [slug, setSlug] = useState(PLAYABLE[0].slug);
   const chart = CHARTS.find((c) => c.slug === slug)!;
 

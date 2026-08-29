@@ -1,6 +1,8 @@
+import { useSeo } from "@/hooks/use-seo";
 import { CodeBlock } from "@/components/chart/CodeBlock";
 
 export default function Python() {
+  useSeo({ title: "Python Charting Guide", description: "Matplotlib, Seaborn and Plotly compared, with ready-to-copy Python snippets for every chart type.", path: "/python" });
   return (
     <div className="container py-10">
       <header className="mx-auto max-w-3xl text-center">

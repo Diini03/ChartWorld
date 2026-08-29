@@ -1,3 +1,4 @@
+import { useSeo } from "@/hooks/use-seo";
 import { ExternalLink } from "lucide-react";
 
 const RESOURCES = [
@@ -23,6 +24,7 @@ const RESOURCES = [
 ];
 
 export default function Resources() {
+  useSeo({ title: "Data Visualization Resources", description: "Curated books, tools, articles and references for learning data visualization well.", path: "/resources" });
   return (
     <div className="container py-10">
       <header className="mx-auto max-w-3xl text-center">

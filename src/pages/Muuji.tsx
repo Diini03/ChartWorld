@@ -1,3 +1,4 @@
+import { useSeo } from "@/hooks/use-seo";
 import { Github, Globe, Linkedin, ArrowUpRight } from "lucide-react";
 
 const CARDS = [
@@ -28,6 +29,7 @@ const CARDS = [
 ];
 
 export default function Muuji() {
+  useSeo({ title: "Muuji — Collaborate", description: "Connect, collaborate and share visualization work with the ChartWorld community.", path: "/muuji" });
   return (
     <div className="container py-10">
       <header className="mx-auto max-w-3xl text-center">
