@@ -56,3 +56,61 @@ export function defaultConfigFor(ds: Dataset) {
     size: undefined as string | undefined,
   };
 }
+
+/**
+ * Re-map the encodings when the user switches chart type so every type in the
+ * picker renders something valid instead of an error state.
+ */
+export function configForType<C extends { x?: string; y?: string; series?: string; size?: string; agg?: string }>(
+  ds: Dataset,
+  cfg: C,
+  type: BuildableType,
+): { x?: string; y?: string; series?: string; size?: string } {
+  const enc = BUILDABLE[type].enc;
+  const nums = ds.fields.filter((f) => f.type === "number");
+  const cats = ds.fields.filter((f) => f.type === "category");
+  const dates = ds.fields.filter((f) => f.type === "date");
+  const typeOf = (n?: string) => ds.fields.find((f) => f.name === n)?.type;
+  const first = <T,>(...v: (T | undefined)[]) => v.find((x) => x !== undefined);
+
+  let x = cfg.x;
+  let y = cfg.y;
+  let series = cfg.series;
+  let size = cfg.size;
+
+  /* X ------------------------------------------------------------------ */
+  if (enc.x === "number") {
+    if (typeOf(x) !== "number") x = first(nums[0]?.name);
+  } else if (enc.x === "category") {
+    if (typeOf(x) !== "category") x = first(cats[0]?.name, dates[0]?.name, x);
+  } else if (!x) {
+    x = first(dates[0]?.name, cats[0]?.name, nums[0]?.name);
+  }
+
+  /* Y ------------------------------------------------------------------ */
+  if (enc.yOptional) {
+    // histogram / density read the numeric column from X
+    if (typeOf(x) !== "number") x = first(nums[0]?.name, x);
+    y = undefined;
+  } else if (typeOf(y) !== "number" || y === x) {
+    y = first(nums.find((f) => f.name !== x)?.name, nums[0]?.name, y);
+  }
+
+  /* Series -------------------------------------------------------------- */
+  if (!enc.series) {
+    series = undefined;
+  } else if (type === "heatmap") {
+    // heatmap needs both axes — pick a second categorical field
+    if (!series || series === x || typeOf(series) === "number") {
+      series = first(cats.find((f) => f.name !== x)?.name, dates.find((f) => f.name !== x)?.name, cats[0]?.name);
+    }
+  } else if (series && (series === x || typeOf(series) === "number")) {
+    series = undefined;
+  }
+
+  /* Size ---------------------------------------------------------------- */
+  if (!enc.size) size = undefined;
+  else if (typeOf(size) !== "number") size = first(nums.find((f) => f.name !== x && f.name !== y)?.name, nums[0]?.name);
+
+  return { x, y, series, size };
+}
