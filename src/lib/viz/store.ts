@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { DEFAULT_DATASET, SAMPLE_DATASETS, getDataset } from "./datasets";
-import { defaultConfigFor } from "./registry";
+import { configForType, defaultConfigFor } from "./registry";
 import type { BuildableType, Dataset, VizConfig, VizStyle } from "./types";
 
 export const DEFAULT_STYLE: VizStyle = {
@@ -51,7 +51,8 @@ export const useViz = create<VizState>((set, get) => ({
     if (ds) set({ dataset: ds, config: initialConfig(ds) });
   },
   addUpload: (ds) => set((s) => ({ uploads: [ds, ...s.uploads].slice(0, 8), dataset: ds, config: initialConfig(ds) })),
-  setType: (type) => set((s) => ({ config: { ...s.config, type } })),
+  setType: (type) =>
+    set((s) => ({ config: { ...s.config, type, ...configForType(s.dataset, s.config, type) } })),
   patchConfig: (p) => set((s) => ({ config: { ...s.config, ...p } })),
   patchStyle: (p) => set((s) => ({ style: { ...s.style, ...p } })),
   resetStyle: () => set({ style: DEFAULT_STYLE }),
@@ -72,6 +73,7 @@ export const useViz = create<VizState>((set, get) => ({
     if (title) style.title = title;
     const pal = params.get("p");
     if (pal) style.palette = pal as VizStyle["palette"];
+    Object.assign(cfg, configForType(base, cfg, cfg.type));
     set({ dataset: base, config: cfg, style });
   },
 }));
