@@ -103,11 +103,25 @@ export default function Home() {
               <kbd className="rounded border border-border bg-background px-1.5 py-0.5 font-mono text-[10px]">⌘K</kbd>
             </button>
           </div>
+
+          <dl className="pointer-events-auto mt-12 grid w-full max-w-lg grid-cols-3 gap-px overflow-hidden rounded-2xl border border-border/60 bg-border/60 animate-in fade-in duration-1000 delay-500 fill-mode-backwards">
+            {[
+              { v: `${CHARTS.length}`, l: "Chart types" },
+              { v: "12", l: "Categories" },
+              { v: "3", l: "Python libraries" },
+            ].map((s) => (
+              <div key={s.l} className="bg-background/70 px-3 py-4 backdrop-blur-sm">
+                <dt className="font-display text-3xl leading-none">{s.v}</dt>
+                <dd className="mt-1.5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">{s.l}</dd>
+              </div>
+            ))}
+          </dl>
+
         </div>
       </section>
 
       {/* Interactive studio, right at the top */}
-      <section className="container -mt-16 pb-24">
+      <section className="container -mt-16 pb-24" data-reveal>
         <div className="mb-6 text-center">
           <p className="mb-2 font-mono text-xs uppercase tracking-widest text-primary">Try it now — no account</p>
           <h2 className="font-display text-4xl">Pick data. Pick a chart. Copy the Python.</h2>
@@ -116,7 +130,10 @@ export default function Home() {
       </section>
 
       {/* Feature Trio */}
-      <section className="container py-24">
+      <div className="container"><div className="rule-fade" /></div>
+
+      {/* Feature Trio */}
+      <section className="container py-24" data-reveal>
         <div className="mx-auto mb-14 max-w-2xl text-center">
           <p className="mb-3 font-mono text-xs uppercase tracking-widest text-primary">A world, not a website</p>
           <h2 className="font-display text-5xl">Three ways to explore.</h2>
@@ -152,7 +169,7 @@ export default function Home() {
       </section>
 
       {/* Featured charts */}
-      <section className="container pb-24">
+      <section className="container pb-24" data-reveal>
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="mb-3 font-mono text-xs uppercase tracking-widest text-primary">Featured charts</p>
@@ -163,12 +180,15 @@ export default function Home() {
           </Link>
         </div>
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {featured.map((c) => (
+          {featured.map((c, i) => (
             <Link
               key={c.slug}
               to={`/chart/${c.slug}`}
-              className="group overflow-hidden rounded-2xl border border-border bg-card p-4 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
+              data-reveal
+              style={{ ["--reveal-delay" as string]: `${i * 70}ms` }}
+              className="card-lift group overflow-hidden rounded-2xl border border-border bg-card p-4 shadow-sm"
             >
+
               <div className="overflow-hidden rounded-xl border border-border bg-surface-2 p-2">
                 <ChartPreview kind={c.preview} height={120} seed={c.slug.length * 5} />
               </div>
@@ -188,7 +208,7 @@ export default function Home() {
       </section>
 
       {/* Category strip */}
-      <section className="container pb-24">
+      <section className="container pb-24" data-reveal>
         <div className="mx-auto mb-8 max-w-2xl text-center">
           <p className="mb-3 font-mono text-xs uppercase tracking-widest text-primary">Twelve categories</p>
           <h2 className="font-display text-4xl">Every kind of question deserves the right chart.</h2>
@@ -208,7 +228,7 @@ export default function Home() {
       </section>
 
       {/* Why I built this — portfolio section */}
-      <section className="container pb-24">
+      <section className="container pb-24" data-reveal>
         <div className="relative overflow-hidden rounded-3xl border border-border bg-card shadow-card">
           <div className="absolute inset-0 mesh-bg opacity-50" />
           <div className="relative grid gap-10 p-8 md:grid-cols-[1fr_1.1fr] md:p-14">
@@ -271,7 +291,7 @@ export default function Home() {
 
 
       {/* Chooser CTA */}
-      <section className="container pb-24">
+      <section className="container pb-24" data-reveal>
         <div className="glass relative overflow-hidden rounded-3xl p-10 text-center shadow-lg md:p-16">
           <div className="absolute inset-0 mesh-bg opacity-70" />
           <div className="relative">
@@ -292,7 +312,7 @@ export default function Home() {
 
 function FeatureCard({ icon, title, desc, to, preview }: any) {
   return (
-    <Link to={to} className="group relative overflow-hidden rounded-3xl border border-border bg-card p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg">
+    <Link to={to} className="card-lift group relative overflow-hidden rounded-3xl border border-border bg-card p-6 shadow-sm">
       <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">{icon}</div>
       <h3 className="font-display text-2xl">{title}</h3>
       <p className="mt-2 text-sm text-muted-foreground">{desc}</p>
