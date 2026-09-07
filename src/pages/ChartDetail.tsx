@@ -110,6 +110,27 @@ export default function ChartDetail() {
         </Tabs>
       </section>
 
+      {/* Ready-to-run templates */}
+      <section className="mt-16">
+        <div className="mb-6">
+          <p className="mb-2 font-mono text-xs uppercase tracking-widest text-primary">Start from your own data</p>
+          <h2 className="font-display text-3xl md:text-4xl">Ready-to-run templates.</h2>
+          <p className="mt-3 max-w-2xl text-muted-foreground">
+            Complete scripts — imports, CSV load, and plotting included. Change only the column names at the top; everything else runs as-is.
+          </p>
+        </div>
+        <Tabs defaultValue="Matplotlib">
+          <TabsList className="w-fit">
+            {readySnippets(chart.preview, chart.name).map((s) => <TabsTrigger key={s.library} value={s.library}>{s.library}</TabsTrigger>)}
+          </TabsList>
+          {readySnippets(chart.preview, chart.name).map((s) => (
+            <TabsContent key={s.library} value={s.library} className="mt-4">
+              <CodeBlock code={s.code} library={s.library} note={s.note} />
+            </TabsContent>
+          ))}
+        </Tabs>
+      </section>
+
       {/* Related */}
       <section className="mt-16">
         <h2 className="mb-6 font-display text-3xl">Related charts</h2>
