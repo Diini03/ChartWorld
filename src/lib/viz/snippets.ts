@@ -564,7 +564,7 @@ px.parallel_coordinates(df, dimensions=num, color=df[GROUP_COL].astype("category
   ],
 
   candlestick: () => [
-    { library: "Matplotlib", code: script(MPL, { DATE_COL: "date", extra: "" } as never, `# open / high / low / close columns
+    { library: "Matplotlib", code: script(MPL, { DATE_COL: "date" }, `# open / high / low / close columns
 O, H, L, C = "open", "high", "low", "close"
 
 fig, ax = plt.subplots(figsize=(10, 5))
@@ -728,7 +728,7 @@ fig.show()`), note: "`None` breaks the line between separate edges." },
   ],
 
   roc: () => [
-    { library: "Matplotlib", code: script(["import pandas as pd", "import matplotlib.pyplot as plt", "from sklearn.metrics import roc_curve, auc"], { extra: "" } as never, `y_true = df["label"]      # 0/1 ground truth
+    { library: "Matplotlib", code: script(["import pandas as pd", "import matplotlib.pyplot as plt", "from sklearn.metrics import roc_curve, auc"], {}, `y_true = df["label"]      # 0/1 ground truth
 y_score = df["score"]     # predicted probability
 
 fpr, tpr, _ = roc_curve(y_true, y_score)
@@ -739,12 +739,12 @@ ax.plot([0, 1], [0, 1], "--", color="#a1a1aa")
 ax.set_xlabel("False positive rate"); ax.set_ylabel("True positive rate")
 ax.legend()
 ${show()}`), note: "Always plot the diagonal — it is the random baseline." },
-    { library: "Seaborn", code: script(["import pandas as pd", "import seaborn as sns", "import matplotlib.pyplot as plt", "from sklearn.metrics import roc_curve, auc"], { extra: "" } as never, `fpr, tpr, _ = roc_curve(df["label"], df["score"])
+    { library: "Seaborn", code: script(["import pandas as pd", "import seaborn as sns", "import matplotlib.pyplot as plt", "from sklearn.metrics import roc_curve, auc"], {}, `fpr, tpr, _ = roc_curve(df["label"], df["score"])
 sns.lineplot(x=fpr, y=tpr, linewidth=2)
 plt.plot([0, 1], [0, 1], "--", color="#a1a1aa")
 plt.title(f"ROC — AUC {auc(fpr, tpr):.3f}")
 ${show()}`), note: "Same curve, Seaborn's theme." },
-    { library: "Plotly", code: script(["import pandas as pd", "import plotly.express as px", "from sklearn.metrics import roc_curve, auc"], { extra: "" } as never, `fpr, tpr, _ = roc_curve(df["label"], df["score"])
+    { library: "Plotly", code: script(["import pandas as pd", "import plotly.express as px", "from sklearn.metrics import roc_curve, auc"], {}, `fpr, tpr, _ = roc_curve(df["label"], df["score"])
 fig = px.area(x=fpr, y=tpr, title=f"ROC — AUC {auc(fpr, tpr):.3f}",
               labels=dict(x="FPR", y="TPR"), template="plotly_white")
 fig.add_shape(type="line", x0=0, y0=0, x1=1, y1=1, line=dict(dash="dash"))
@@ -752,15 +752,15 @@ fig.show()`), note: "Filling under the curve makes AUC visible." },
   ],
 
   confusion: () => [
-    { library: "Matplotlib", code: script(["import pandas as pd", "import matplotlib.pyplot as plt", "from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay"], { extra: "" } as never, `cm = confusion_matrix(df["y_true"], df["y_pred"])
+    { library: "Matplotlib", code: script(["import pandas as pd", "import matplotlib.pyplot as plt", "from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay"], {}, `cm = confusion_matrix(df["y_true"], df["y_pred"])
 ConfusionMatrixDisplay(cm).plot(cmap="Blues", values_format="d")
 plt.show()`), note: "scikit-learn ships the display helper — use it." },
-    { library: "Seaborn", code: script(["import pandas as pd", "import seaborn as sns", "import matplotlib.pyplot as plt", "from sklearn.metrics import confusion_matrix"], { extra: "" } as never, `cm = confusion_matrix(df["y_true"], df["y_pred"], normalize="true")
+    { library: "Seaborn", code: script(["import pandas as pd", "import seaborn as sns", "import matplotlib.pyplot as plt", "from sklearn.metrics import confusion_matrix"], {}, `cm = confusion_matrix(df["y_true"], df["y_pred"], normalize="true")
 sns.heatmap(cm, annot=True, fmt=".2f", cmap="Blues", square=True,
             xticklabels=sorted(df["y_true"].unique()), yticklabels=sorted(df["y_true"].unique()))
 plt.xlabel("Predicted"); plt.ylabel("Actual")
 ${show()}`), note: "`normalize='true'` shows per-class recall, not raw counts." },
-    { library: "Plotly", code: script(["import pandas as pd", "import plotly.express as px", "from sklearn.metrics import confusion_matrix"], { extra: "" } as never, `cm = confusion_matrix(df["y_true"], df["y_pred"])
+    { library: "Plotly", code: script(["import pandas as pd", "import plotly.express as px", "from sklearn.metrics import confusion_matrix"], {}, `cm = confusion_matrix(df["y_true"], df["y_pred"])
 px.imshow(cm, text_auto=True, color_continuous_scale="Blues",
           labels=dict(x="Predicted", y="Actual")).show()`), note: "`text_auto` writes the count into every cell." },
   ],
@@ -780,17 +780,17 @@ px.bar(imp, x=VALUE_COL, y=LABEL_COL, orientation="h", template="plotly_white").
   ],
 
   learning: () => [
-    { library: "Matplotlib", code: script(MPL, { extra: "" } as never, `# expects columns: train_size, train_score, val_score
+    { library: "Matplotlib", code: script(MPL, {}, `# expects columns: train_size, train_score, val_score
 fig, ax = plt.subplots(figsize=(8, 5))
 ax.plot(df["train_size"], df["train_score"], marker="o", label="Train")
 ax.plot(df["train_size"], df["val_score"], marker="o", label="Validation")
 ax.set_xlabel("Training examples"); ax.set_ylabel("Score")
 ax.legend()
 ${show()}`), note: "A wide, persistent gap means overfitting." },
-    { library: "Seaborn", code: script(SNS, { extra: "" } as never, `long = df.melt("train_size", ["train_score", "val_score"], var_name="split", value_name="score")
+    { library: "Seaborn", code: script(SNS, {}, `long = df.melt("train_size", ["train_score", "val_score"], var_name="split", value_name="score")
 sns.lineplot(data=long, x="train_size", y="score", hue="split", marker="o")
 ${show()}`), note: "Melt to long format so `hue` can split the curves." },
-    { library: "Plotly", code: script(PX, { extra: "" } as never, `long = df.melt("train_size", ["train_score", "val_score"], var_name="split", value_name="score")
+    { library: "Plotly", code: script(PX, {}, `long = df.melt("train_size", ["train_score", "val_score"], var_name="split", value_name="score")
 px.line(long, x="train_size", y="score", color="split", markers=True, template="plotly_white").show()`), note: "Toggle a curve by clicking its legend entry." },
   ],
 
