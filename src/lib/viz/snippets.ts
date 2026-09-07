@@ -564,7 +564,7 @@ px.parallel_coordinates(df, dimensions=num, color=df[GROUP_COL].astype("category
   ],
 
   candlestick: () => [
-    { library: "Matplotlib", code: script(MPL, { DATE_COL: "date", extra: "" } as never, `# open / high / low / close columns
+    { library: "Matplotlib", code: script(MPL, { DATE_COL: "date" }, `# open / high / low / close columns
 O, H, L, C = "open", "high", "low", "close"
 
 fig, ax = plt.subplots(figsize=(10, 5))
