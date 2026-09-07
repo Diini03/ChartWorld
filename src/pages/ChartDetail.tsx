@@ -5,6 +5,7 @@ import { ChartPreview } from "@/components/chart/ChartPreview";
 import { CodeBlock } from "@/components/chart/CodeBlock";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { NotFound } from "./NotFound";
+import { readySnippets } from "@/lib/viz/snippets";
 import { ArrowLeft, Check, X, AlertTriangle, Sparkles, GitCompareArrows } from "lucide-react";
 
 export default function ChartDetail() {
