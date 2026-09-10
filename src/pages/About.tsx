@@ -3,12 +3,12 @@ export default function About() {
   useSeo({ title: "About ChartWorld", description: "Why ChartWorld exists, who it is for, and how it was designed and built as a portfolio project.", path: "/about" });
   return (
     <div className="container py-10">
-      <header className="mx-auto max-w-3xl text-center">
+      <header data-reveal className="mx-auto max-w-3xl text-center">
         <p className="mb-3 font-mono text-xs uppercase tracking-widest text-primary">About</p>
         <h1 className="font-display text-5xl md:text-6xl">Built to be enjoyed.</h1>
       </header>
 
-      <div className="mx-auto mt-12 max-w-3xl space-y-6 text-lg leading-relaxed text-foreground/90">
+      <div data-reveal className="mx-auto mt-12 max-w-3xl space-y-6 text-lg leading-relaxed text-foreground/90">
         <p>
           <strong>ChartWorld</strong> is an interactive world for discovering charts. It was designed around a single belief: <em>learning data visualisation should feel like exploration, not homework.</em>
         </p>

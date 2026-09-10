@@ -17,7 +17,7 @@ export default function Explore() {
 
   return (
     <div className="container py-10">
-      <header className="mx-auto max-w-3xl text-center">
+      <header data-reveal className="mx-auto max-w-3xl text-center">
         <p className="mb-3 font-mono text-xs uppercase tracking-widest text-primary">Explore</p>
         <h1 className="font-display text-5xl md:text-6xl">Every chart, in one place.</h1>
         <p className="mt-4 text-muted-foreground">Browse the whole gallery — click any to open its story.</p>
@@ -46,12 +46,12 @@ export default function Explore() {
         </div>
       </div>
 
-      <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div data-reveal className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {filtered.map((c) => (
           <Link
             key={c.slug}
             to={`/chart/${c.slug}`}
-            className="group relative overflow-hidden rounded-2xl border border-border bg-card p-4 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
+            className="card-lift group relative overflow-hidden rounded-2xl border border-border bg-card p-4 shadow-sm"
           >
             <div className="mb-3 flex items-center justify-between">
               <span className="rounded-md bg-surface-2 px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">{c.category}</span>

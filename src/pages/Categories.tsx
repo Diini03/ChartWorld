@@ -7,7 +7,7 @@ export default function Categories() {
   useSeo({ title: "Chart Categories", description: "Charts grouped by what they do: comparison, time series, distribution, relationship, composition, flow, hierarchy and more.", path: "/categories" });
   return (
     <div className="container py-10">
-      <header className="mx-auto max-w-3xl text-center">
+      <header data-reveal className="mx-auto max-w-3xl text-center">
         <p className="mb-3 font-mono text-xs uppercase tracking-widest text-primary">Categories</p>
         <h1 className="font-display text-5xl md:text-6xl">Twelve families of charts.</h1>
         <p className="mt-4 text-muted-foreground">Each family answers a different kind of question.</p>
@@ -18,7 +18,7 @@ export default function Categories() {
           const items = chartsByCategory(cat);
           const meta = CATEGORY_META[cat];
           return (
-            <section key={cat} id={cat.toLowerCase().replace(/\s+/g, "-")} className="scroll-mt-24">
+            <section key={cat} id={cat.toLowerCase().replace(/\s+/g, "-")} className="scroll-mt-24" data-reveal>
               <div className="mb-8 flex flex-col items-start justify-between gap-3 md:flex-row md:items-end">
                 <div>
                   <div className="mb-2 h-1 w-16 rounded-full" style={{ background: `hsl(${meta.hue} 80% 60%)` }} />
@@ -29,7 +29,7 @@ export default function Categories() {
               </div>
               <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {items.map((c) => (
-                  <Link key={c.slug} to={`/chart/${c.slug}`} className="group overflow-hidden rounded-2xl border border-border bg-card p-4 transition-all hover:-translate-y-1 hover:shadow-lg">
+                  <Link key={c.slug} to={`/chart/${c.slug}`} className="card-lift group overflow-hidden rounded-2xl border border-border bg-card p-4">
                     <div className="overflow-hidden rounded-xl bg-surface-2/50 p-2">
                       <ChartPreview kind={c.preview} height={130} seed={c.slug.length} />
                     </div>
