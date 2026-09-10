@@ -27,7 +27,7 @@ export default function Resources() {
   useSeo({ title: "Data Visualization Resources", description: "Curated books, tools, articles and references for learning data visualization well.", path: "/resources" });
   return (
     <div className="container py-10">
-      <header className="mx-auto max-w-3xl text-center">
+      <header data-reveal className="mx-auto max-w-3xl text-center">
         <p className="mb-3 font-mono text-xs uppercase tracking-widest text-primary">Resources</p>
         <h1 className="font-display text-5xl md:text-6xl">The bookshelf.</h1>
         <p className="mt-4 text-muted-foreground">A curated list of what shaped ChartWorld.</p>
@@ -35,7 +35,7 @@ export default function Resources() {
 
       <div className="mt-16 space-y-12">
         {RESOURCES.map((g) => (
-          <section key={g.cat}>
+          <section key={g.cat} data-reveal>
             <h2 className="mb-6 font-display text-3xl">{g.cat}</h2>
             <div className="grid gap-4 md:grid-cols-3">
               {g.items.map((i) => (

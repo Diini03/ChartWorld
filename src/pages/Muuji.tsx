@@ -32,7 +32,7 @@ export default function Muuji() {
   useSeo({ title: "Muuji — Collaborate", description: "Connect, collaborate and share visualization work with the ChartWorld community.", path: "/muuji" });
   return (
     <div className="container py-10">
-      <header className="mx-auto max-w-3xl text-center">
+      <header data-reveal className="mx-auto max-w-3xl text-center">
         <p className="mb-3 font-mono text-xs uppercase tracking-widest text-primary">Muuji</p>
         <h1 className="font-display text-5xl md:text-6xl">Say hello.</h1>
         <p className="mx-auto mt-4 max-w-xl text-lg text-muted-foreground">
@@ -47,8 +47,9 @@ export default function Muuji() {
             href={c.url}
             target="_blank"
             rel="noreferrer"
-            className="group relative overflow-hidden rounded-3xl border border-border bg-card p-6 shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-lg"
-            style={{ animationDelay: `${i * 80}ms` }}
+            className="card-lift group relative overflow-hidden rounded-3xl border border-border bg-card p-6 shadow-sm"
+            data-reveal
+            style={{ ["--reveal-delay" as string]: `${i * 80}ms` }}
           >
             <div className={`absolute inset-0 -z-10 bg-gradient-to-br ${c.gradient} opacity-0 transition-opacity duration-500 group-hover:opacity-15`} />
             <div className={`mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br ${c.gradient} text-white shadow-md transition-transform duration-500 group-hover:rotate-6 group-hover:scale-110`}>
@@ -65,7 +66,7 @@ export default function Muuji() {
         ))}
       </div>
 
-      <div className="glass mx-auto mt-16 max-w-3xl rounded-3xl p-8 text-center">
+      <div data-reveal className="glass mx-auto mt-16 max-w-3xl rounded-3xl p-8 text-center">
         <p className="font-display text-2xl leading-relaxed md:text-3xl">
           "Charts are how we make the invisible visible. The best ones don't decorate data — they let data speak."
         </p>

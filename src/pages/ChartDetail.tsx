@@ -64,7 +64,7 @@ export default function ChartDetail() {
       </section>
 
       {/* When to / not to */}
-      <section className="mt-16 grid gap-6 md:grid-cols-2">
+      <section data-reveal className="mt-16 grid gap-6 md:grid-cols-2">
         <Panel icon={<Check size={16} />} title="When to use it" tone="pos">
           <ul className="space-y-2">
             {chart.whenToUse.map((w) => <li key={w} className="flex gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[hsl(var(--chart-5))]" />{w}</li>)}
@@ -78,7 +78,7 @@ export default function ChartDetail() {
       </section>
 
       {/* Business example */}
-      <section className="mt-8">
+      <section data-reveal className="mt-8">
         <div className="glass rounded-3xl p-8">
           <p className="mb-2 font-mono text-xs uppercase tracking-widest text-primary">Business example</p>
           <p className="font-display text-2xl leading-snug md:text-3xl">"{chart.businessExample}"</p>
@@ -86,14 +86,14 @@ export default function ChartDetail() {
       </section>
 
       {/* Advantages / Limitations / Mistakes */}
-      <section className="mt-8 grid gap-6 md:grid-cols-3">
+      <section data-reveal className="mt-8 grid gap-6 md:grid-cols-3">
         <SmallList title="Advantages" items={chart.advantages} tone="pos" />
         <SmallList title="Limitations" items={chart.limitations} tone="neu" />
         <SmallList title="Common mistakes" items={chart.mistakes} tone="warn" icon={<AlertTriangle size={14} />} />
       </section>
 
       {/* Code */}
-      <section className="mt-16">
+      <section data-reveal className="mt-16">
         <div className="mb-6">
           <p className="mb-2 font-mono text-xs uppercase tracking-widest text-primary">Python</p>
           <h2 className="font-display text-3xl md:text-4xl">Copy the code you need.</h2>
@@ -111,7 +111,7 @@ export default function ChartDetail() {
       </section>
 
       {/* Ready-to-run templates */}
-      <section className="mt-16">
+      <section data-reveal className="mt-16">
         <div className="mb-6">
           <p className="mb-2 font-mono text-xs uppercase tracking-widest text-primary">Start from your own data</p>
           <h2 className="font-display text-3xl md:text-4xl">Ready-to-run templates.</h2>
@@ -132,7 +132,7 @@ export default function ChartDetail() {
       </section>
 
       {/* Related */}
-      <section className="mt-16">
+      <section data-reveal className="mt-16">
         <h2 className="mb-6 font-display text-3xl">Related charts</h2>
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
           {[...related, ...alsoInCategory].slice(0, 4).map((c) => c && (

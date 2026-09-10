@@ -5,19 +5,19 @@ export default function Python() {
   useSeo({ title: "Python Charting Guide", description: "Matplotlib, Seaborn and Plotly compared, with ready-to-copy Python snippets for every chart type.", path: "/python" });
   return (
     <div className="container py-10">
-      <header className="mx-auto max-w-3xl text-center">
+      <header data-reveal className="mx-auto max-w-3xl text-center">
         <p className="mb-3 font-mono text-xs uppercase tracking-widest text-primary">Python</p>
         <h1 className="font-display text-5xl md:text-6xl">Three libraries. One goal.</h1>
         <p className="mt-4 text-muted-foreground">Every chart on ChartWorld comes with Matplotlib, Seaborn, and Plotly code.</p>
       </header>
 
-      <section className="mx-auto mt-12 grid max-w-5xl gap-6 md:grid-cols-3">
+      <section data-reveal className="mx-auto mt-12 grid max-w-5xl gap-6 md:grid-cols-3">
         <LibraryCard name="Matplotlib" tag="The foundation" desc="Verbose, but you control every pixel. Ships with Python's scientific stack." install="pip install matplotlib" />
         <LibraryCard name="Seaborn" tag="Statistical & pretty" desc="Built on matplotlib with beautiful defaults and dataframe-first APIs." install="pip install seaborn" />
         <LibraryCard name="Plotly" tag="Interactive" desc="Interactive by default. Great for dashboards, notebooks and the web." install="pip install plotly" />
       </section>
 
-      <section className="mx-auto mt-16 max-w-4xl">
+      <section data-reveal className="mx-auto mt-16 max-w-4xl">
         <h2 className="mb-6 font-display text-3xl">The universal setup</h2>
         <CodeBlock library="Matplotlib" code={`import matplotlib.pyplot as plt
 import seaborn as sns
@@ -37,7 +37,7 @@ plt.rcParams.update({
 sns.set_palette("deep")`} note="Set this once at the top of your notebook and every chart inherits it." />
       </section>
 
-      <section className="mx-auto mt-16 max-w-4xl">
+      <section data-reveal className="mx-auto mt-16 max-w-4xl">
         <h2 className="mb-6 font-display text-3xl">Colour that actually communicates</h2>
         <p className="mb-4 text-muted-foreground">Prefer perceptually-uniform palettes. Reserve bright colours for what matters.</p>
         <div className="grid gap-4 md:grid-cols-3">
@@ -47,7 +47,7 @@ sns.set_palette("deep")`} note="Set this once at the top of your notebook and ev
         </div>
       </section>
 
-      <section className="mx-auto mt-16 max-w-4xl">
+      <section data-reveal className="mx-auto mt-16 max-w-4xl">
         <h2 className="mb-6 font-display text-3xl">Ship-ready patterns</h2>
         <div className="space-y-8">
           <div>
