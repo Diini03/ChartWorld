@@ -41,6 +41,7 @@ export function SearchDialog() {
       { to: "/python", label: "Python guide", hint: "Matplotlib, Seaborn, Plotly" },
       { to: "/resources", label: "Resources", hint: "Books, tools, references" },
       { to: "/muuji", label: "Muuji", hint: "Collaborate" },
+      { to: "/quiz", label: "Chart Quiz", hint: "Test your chart knowledge" },
       { to: "/about", label: "About", hint: "Why ChartWorld exists" },
     ];
     const term = q.trim().toLowerCase();
