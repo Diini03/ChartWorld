@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useMemo, useRef, useState } from "react";
 import { CHARTS } from "@/data/charts";
 import { ChartPreview } from "@/components/chart/ChartPreview";
-import { ArrowRight, Sparkles, Search, GitCompareArrows, Code2, Quote, Github, Globe, Linkedin, ArrowUpRight } from "lucide-react";
+import { ArrowRight, Sparkles, Search, GitCompareArrows, Code2, Quote, Github, Globe, Linkedin, ArrowUpRight, Trophy } from "lucide-react";
 import { useUI } from "@/lib/store";
 import { ChartStudio } from "@/components/viz/ChartStudio";
 
@@ -224,6 +224,44 @@ export default function Home() {
               {c}
             </Link>
           ))}
+        </div>
+      </section>
+
+      {/* Quiz CTA */}
+      <section className="container pb-24" data-reveal>
+        <div className="relative overflow-hidden rounded-3xl border border-border bg-card p-10 shadow-card md:p-14">
+          <div className="absolute inset-0 mesh-bg opacity-30" />
+          <div className="relative grid gap-8 md:grid-cols-2 md:items-center">
+            <div>
+              <p className="mb-3 font-mono text-xs uppercase tracking-widest text-primary">Test your knowledge</p>
+              <h2 className="font-display text-4xl md:text-5xl">Can you spot the right chart?</h2>
+              <p className="mt-4 max-w-md text-sm text-muted-foreground">
+                Ten questions. Two modes — identify a chart from its visual
+                preview, or pick the right chart for a real-world scenario. Beat
+                your best score.
+              </p>
+              <Link
+                to="/quiz"
+                className="mt-6 inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-transform hover:scale-[1.02]"
+              >
+                <Trophy size={16} /> Take the quiz <ArrowRight size={14} />
+              </Link>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="overflow-hidden rounded-2xl border border-border bg-surface-2/50 p-2">
+                <ChartPreview kind="bar" height={80} seed={3} />
+              </div>
+              <div className="overflow-hidden rounded-2xl border border-border bg-surface-2/50 p-2">
+                <ChartPreview kind="scatter" height={80} seed={7} />
+              </div>
+              <div className="overflow-hidden rounded-2xl border border-border bg-surface-2/50 p-2">
+                <ChartPreview kind="radar" height={80} seed={11} />
+              </div>
+              <div className="overflow-hidden rounded-2xl border border-border bg-surface-2/50 p-2">
+                <ChartPreview kind="funnel" height={80} seed={5} />
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
