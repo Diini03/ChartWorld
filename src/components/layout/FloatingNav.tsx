@@ -14,8 +14,8 @@ import {
 const links = [
   { to: "/explore", label: "Explore" },
   { to: "/create", label: "Create" },
-  { to: "/categories", label: "Categories" },
   { to: "/playground", label: "Playground" },
+  { to: "/quiz", label: "Quiz" },
   { to: "/muuji", label: "Muuji" },
 ];
 

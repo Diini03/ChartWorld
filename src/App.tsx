@@ -16,6 +16,7 @@ import Python from "@/pages/Python";
 import Resources from "@/pages/Resources";
 import Muuji from "@/pages/Muuji";
 import About from "@/pages/About";
+import Quiz from "@/pages/Quiz";
 import { NotFound } from "@/pages/NotFound";
 
 const queryClient = new QueryClient({
@@ -43,6 +44,7 @@ export default function App() {
               <Route path="resources" element={<Resources />} />
               <Route path="muuji" element={<Muuji />} />
               <Route path="about" element={<About />} />
+              <Route path="quiz" element={<Quiz />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
