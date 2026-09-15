@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { Search, Moon, Sun, Menu } from "lucide-react";
+import { Search, Moon, Sun, Menu, Shuffle } from "lucide-react";
 import { useUI } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import {
@@ -78,6 +78,14 @@ export function FloatingNav() {
               ))}
             </ul>
             <div className="mx-1 hidden h-6 w-px bg-border md:block" />
+            <Link
+              to="/surprise"
+              aria-label="Surprise me — random chart"
+              title="Surprise me"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-muted-foreground hover:bg-surface-2 hover:text-primary focus-ring transition-colors"
+            >
+              <Shuffle size={15} />
+            </Link>
             <button
               onClick={() => setSearchOpen(true)}
               className="flex h-9 shrink-0 items-center gap-2 rounded-full bg-surface-2 px-3 text-sm text-muted-foreground hover:text-foreground focus-ring"
@@ -137,6 +145,14 @@ export function FloatingNav() {
               >
                 <Search size={14} /> Search charts
               </button>
+            </DrawerClose>
+            <DrawerClose asChild>
+              <Link
+                to="/surprise"
+                className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl border border-border px-4 py-3 text-sm font-medium text-muted-foreground hover:text-foreground"
+              >
+                <Shuffle size={14} /> Surprise me
+              </Link>
             </DrawerClose>
           </nav>
         </DrawerContent>
