@@ -146,6 +146,14 @@ export function FloatingNav() {
                 <Search size={14} /> Search charts
               </button>
             </DrawerClose>
+            <DrawerClose asChild>
+              <Link
+                to="/surprise"
+                className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl border border-border px-4 py-3 text-sm font-medium text-muted-foreground hover:text-foreground"
+              >
+                <Shuffle size={14} /> Surprise me
+              </Link>
+            </DrawerClose>
           </nav>
         </DrawerContent>
       </Drawer>
