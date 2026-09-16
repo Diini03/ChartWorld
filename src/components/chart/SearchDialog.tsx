@@ -43,6 +43,7 @@ export function SearchDialog() {
       { to: "/muuji", label: "Muuji", hint: "Collaborate" },
       { to: "/quiz", label: "Chart Quiz", hint: "Test your chart knowledge" },
       { to: "/surprise", label: "Surprise Me", hint: "Spin a random chart" },
+      { to: "/cheatsheet", label: "Cheat Sheet", hint: "Printable one-page chart reference" },
       { to: "/about", label: "About", hint: "Why ChartWorld exists" },
     ];
     const term = q.trim().toLowerCase();

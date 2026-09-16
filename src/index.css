@@ -224,3 +224,11 @@
   0% { background-position: -1000px 0; }
   100% { background-position: 1000px 0; }
 }
+
+/* Print styles (cheat sheet) */
+@media print {
+  .no-print { display: none !important; }
+  header, footer, nav { display: none !important; }
+  body { background: white !important; color: black !important; }
+  a { text-decoration: none; color: inherit; }
+}

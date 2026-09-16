@@ -23,6 +23,9 @@ export function Footer() {
         <FooterCol title="More" links={[
           ["/playground", "Playground"],
           ["/python", "Python guide"],
+          ["/cheatsheet", "Cheat sheet"],
+          ["/quiz", "Quiz"],
+          ["/surprise", "Surprise me"],
           ["/resources", "Resources"],
           ["/muuji", "Muuji"],
         ]} />
