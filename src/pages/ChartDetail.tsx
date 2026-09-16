@@ -6,11 +6,18 @@ import { CodeBlock } from "@/components/chart/CodeBlock";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { NotFound } from "./NotFound";
 import { readySnippets } from "@/lib/viz/snippets";
+import { FavoriteButton } from "@/components/chart/FavoriteButton";
+import { useSaved } from "@/lib/saved";
+import { useEffect } from "react";
 import { ArrowLeft, Check, X, AlertTriangle, Sparkles, GitCompareArrows } from "lucide-react";
 
 export default function ChartDetail() {
   const { slug = "" } = useParams();
   const chart = chartBySlug(slug);
+  const visit = useSaved((s) => s.visit);
+  useEffect(() => {
+    if (chart) visit(chart.slug);
+  }, [chart, visit]);
   useSeo({
     title: chart ? `${chart.name} — When and How to Use It` : "Chart not found",
     description: chart
@@ -56,6 +63,7 @@ export default function ChartDetail() {
             <Link to="/playground" className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-sm hover:bg-surface-2">
               <Sparkles size={14} /> Try in Playground
             </Link>
+            <FavoriteButton slug={chart.slug} size={15} withLabel className="px-4 py-2 text-sm" />
           </div>
         </div>
         <div className="glass overflow-hidden rounded-3xl p-4 shadow-lg">
