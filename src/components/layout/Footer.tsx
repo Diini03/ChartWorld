@@ -24,6 +24,7 @@ export function Footer() {
           ["/playground", "Playground"],
           ["/python", "Python guide"],
           ["/cheatsheet", "Cheat sheet"],
+          ["/saved", "Saved charts"],
           ["/quiz", "Quiz"],
           ["/surprise", "Surprise me"],
           ["/resources", "Resources"],

@@ -19,6 +19,7 @@ import About from "@/pages/About";
 import Quiz from "@/pages/Quiz";
 import Surprise from "@/pages/Surprise";
 import CheatSheet from "@/pages/CheatSheet";
+import Saved from "@/pages/Saved";
 import { NotFound } from "@/pages/NotFound";
 
 const queryClient = new QueryClient({
@@ -49,6 +50,7 @@ export default function App() {
               <Route path="quiz" element={<Quiz />} />
               <Route path="surprise" element={<Surprise />} />
               <Route path="cheatsheet" element={<CheatSheet />} />
+              <Route path="saved" element={<Saved />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>

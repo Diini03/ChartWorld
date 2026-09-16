@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useMemo, useState } from "react";
 import { CHARTS, CATEGORIES } from "@/data/charts";
 import { ChartPreview } from "@/components/chart/ChartPreview";
+import { FavoriteButton } from "@/components/chart/FavoriteButton";
 import { Search } from "lucide-react";
 
 export default function Explore() {
@@ -53,9 +54,12 @@ export default function Explore() {
             to={`/chart/${c.slug}`}
             className="card-lift group relative overflow-hidden rounded-2xl border border-border bg-card p-4 shadow-sm"
           >
-            <div className="mb-3 flex items-center justify-between">
+            <div className="mb-3 flex items-center justify-between gap-2">
               <span className="rounded-md bg-surface-2 px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">{c.category}</span>
-              <span className="text-[10px] text-muted-foreground">{c.difficulty}</span>
+              <div className="flex items-center gap-1.5">
+                <span className="text-[10px] text-muted-foreground">{c.difficulty}</span>
+                <FavoriteButton slug={c.slug} />
+              </div>
             </div>
             <div className="overflow-hidden rounded-xl bg-surface-2/50 p-2">
               <ChartPreview kind={c.preview} height={140} seed={c.slug.length + 3} />
