@@ -40,7 +40,7 @@ export function SearchDialog() {
       { to: "/playground", label: "Playground", hint: "Style experiments" },
       { to: "/python", label: "Python guide", hint: "Matplotlib, Seaborn, Plotly" },
       { to: "/resources", label: "Resources", hint: "Books, tools, references" },
-      { to: "/muuji", label: "Muuji", hint: "Collaborate" },
+      { to: "/connect", label: "Connect", hint: "GitHub, portfolio, LinkedIn" },
       { to: "/quiz", label: "Chart Quiz", hint: "Test your chart knowledge" },
       { to: "/surprise", label: "Surprise Me", hint: "Spin a random chart" },
       { to: "/cheatsheet", label: "Cheat Sheet", hint: "Printable one-page chart reference" },

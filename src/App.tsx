@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import Home from "@/pages/Home";
 import Explore from "@/pages/Explore";
@@ -14,7 +14,7 @@ import Chooser from "@/pages/Chooser";
 import Playground from "@/pages/Playground";
 import Python from "@/pages/Python";
 import Resources from "@/pages/Resources";
-import Muuji from "@/pages/Muuji";
+import Connect from "@/pages/Connect";
 import About from "@/pages/About";
 import Quiz from "@/pages/Quiz";
 import Surprise from "@/pages/Surprise";
@@ -45,7 +45,8 @@ export default function App() {
               <Route path="playground" element={<Playground />} />
               <Route path="python" element={<Python />} />
               <Route path="resources" element={<Resources />} />
-              <Route path="muuji" element={<Muuji />} />
+              <Route path="connect" element={<Connect />} />
+              <Route path="muuji" element={<Navigate to="/connect" replace />} />
               <Route path="about" element={<About />} />
               <Route path="quiz" element={<Quiz />} />
               <Route path="surprise" element={<Surprise />} />

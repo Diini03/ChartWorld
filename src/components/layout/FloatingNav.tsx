@@ -16,7 +16,7 @@ const links = [
   { to: "/create", label: "Create" },
   { to: "/playground", label: "Playground" },
   { to: "/quiz", label: "Quiz" },
-  { to: "/muuji", label: "Muuji" },
+  { to: "/connect", label: "Connect" },
 ];
 
 export function FloatingNav() {
