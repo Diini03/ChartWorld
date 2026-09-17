@@ -28,7 +28,7 @@ export function Footer() {
           ["/quiz", "Quiz"],
           ["/surprise", "Surprise me"],
           ["/resources", "Resources"],
-          ["/muuji", "Muuji"],
+          ["/connect", "Connect"],
         ]} />
       </div>
       <div className="border-t border-border/60">

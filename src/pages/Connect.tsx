@@ -28,12 +28,12 @@ const CARDS = [
   },
 ];
 
-export default function Muuji() {
-  useSeo({ title: "Muuji — Collaborate", description: "Connect, collaborate and share visualization work with the ChartWorld community.", path: "/muuji" });
+export default function Connect() {
+  useSeo({ title: "Connect", description: "Connect, collaborate and share visualization work with the ChartWorld community.", path: "/connect" });
   return (
     <div className="container py-10">
       <header data-reveal className="mx-auto max-w-3xl text-center">
-        <p className="mb-3 font-mono text-xs uppercase tracking-widest text-primary">Muuji</p>
+        <p className="mb-3 font-mono text-xs uppercase tracking-widest text-primary">Connect</p>
         <h1 className="font-display text-5xl md:text-6xl">Say hello.</h1>
         <p className="mx-auto mt-4 max-w-xl text-lg text-muted-foreground">
           ChartWorld is part of a personal ecosystem focused on helping people learn data and build practical skills. If any of that resonates, I'd love to hear from you.
