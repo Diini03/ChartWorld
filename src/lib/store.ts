@@ -5,6 +5,8 @@ interface UIState {
   toggleTheme: () => void;
   searchOpen: boolean;
   setSearchOpen: (v: boolean) => void;
+  shortcutsOpen: boolean;
+  setShortcutsOpen: (v: boolean) => void;
 }
 
 export const useUI = create<UIState>((set, get) => ({
@@ -17,4 +19,6 @@ export const useUI = create<UIState>((set, get) => ({
   },
   searchOpen: false,
   setSearchOpen: (searchOpen) => set({ searchOpen }),
+  shortcutsOpen: false,
+  setShortcutsOpen: (shortcutsOpen) => set({ shortcutsOpen }),
 }));

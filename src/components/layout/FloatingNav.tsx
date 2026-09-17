@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { Search, Moon, Sun, Menu, Shuffle } from "lucide-react";
+import { Search, Moon, Sun, Menu, Shuffle, Keyboard } from "lucide-react";
 import { useUI } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import {
@@ -20,7 +20,7 @@ const links = [
 ];
 
 export function FloatingNav() {
-  const { theme, toggleTheme, setSearchOpen } = useUI();
+  const { theme, toggleTheme, setSearchOpen, setShortcutsOpen } = useUI();
   const { pathname } = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -94,6 +94,14 @@ export function FloatingNav() {
               <Search size={14} />
               <span className="hidden sm:inline">Search</span>
               <kbd className="hidden rounded border border-border bg-background px-1.5 py-0.5 font-mono text-[10px] md:inline">⌘K</kbd>
+            </button>
+            <button
+              onClick={() => setShortcutsOpen(true)}
+              aria-label="Keyboard shortcuts"
+              title="Keyboard shortcuts (?)"
+              className="hidden h-9 w-9 shrink-0 items-center justify-center rounded-full text-muted-foreground hover:bg-surface-2 hover:text-foreground focus-ring md:flex"
+            >
+              <Keyboard size={16} />
             </button>
             <button
               onClick={toggleTheme}

@@ -4,6 +4,7 @@ import { FloatingNav } from "./FloatingNav";
 import { Footer } from "./Footer";
 import { SearchDialog } from "@/components/chart/SearchDialog";
 import { ScrollProgress, BackToTop } from "./ScrollUtilities";
+import { ShortcutsDialog } from "./ShortcutsDialog";
 import { useReveal } from "@/hooks/use-reveal";
 
 export function SiteLayout() {
@@ -26,6 +27,7 @@ export function SiteLayout() {
       </main>
       <Footer />
       <SearchDialog />
+      <ShortcutsDialog />
       <BackToTop />
     </div>
   );
