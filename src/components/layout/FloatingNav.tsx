@@ -16,6 +16,7 @@ const links = [
   { to: "/create", label: "Create" },
   { to: "/playground", label: "Playground" },
   { to: "/quiz", label: "Quiz" },
+  { to: "/cheatsheet", label: "Cheat sheet" },
   { to: "/connect", label: "Connect" },
 ];
 
@@ -57,7 +58,7 @@ export function FloatingNav() {
           <nav className="glass flex max-w-full items-center gap-1 overflow-hidden rounded-full px-2 py-1.5 shadow-md">
             <Link to="/" className="flex shrink-0 items-center gap-2 rounded-full px-2 py-1.5 text-sm font-semibold sm:px-3">
               <Logo />
-              <span className="hidden font-display text-base sm:inline">ChartWorld</span>
+              <span className="hidden font-display text-base lg:inline">ChartWorld</span>
             </Link>
             <div className="mx-1 hidden h-6 w-px bg-border md:block" />
             <ul className="hidden items-center md:flex">
@@ -67,7 +68,7 @@ export function FloatingNav() {
                     to={l.to}
                     className={({ isActive }) =>
                       cn(
-                        "rounded-full px-3 py-1.5 text-sm transition-colors",
+                        "whitespace-nowrap rounded-full px-3 py-1.5 text-sm transition-colors",
                         isActive ? "bg-foreground/10 text-foreground" : "text-muted-foreground hover:text-foreground"
                       )
                     }
@@ -92,8 +93,8 @@ export function FloatingNav() {
               aria-label="Search"
             >
               <Search size={14} />
-              <span className="hidden sm:inline">Search</span>
-              <kbd className="hidden rounded border border-border bg-background px-1.5 py-0.5 font-mono text-[10px] md:inline">⌘K</kbd>
+              <span className="hidden lg:inline">Search</span>
+              <kbd className="hidden rounded border border-border bg-background px-1.5 py-0.5 font-mono text-[10px] lg:inline">⌘K</kbd>
             </button>
             <button
               onClick={() => setShortcutsOpen(true)}
