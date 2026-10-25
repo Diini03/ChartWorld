@@ -5,7 +5,7 @@
 - Redesign Explore filtering as a compact left sidebar
 - Verify: typecheck + live preview check
 
-## In progress
+## Done (more)
 - Show /cheatsheet in the top nav (search, sitemap, footer already wired)
 
 ## Open
