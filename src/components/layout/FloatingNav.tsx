@@ -68,7 +68,7 @@ export function FloatingNav() {
                     to={l.to}
                     className={({ isActive }) =>
                       cn(
-                        "rounded-full px-3 py-1.5 text-sm transition-colors",
+                        "whitespace-nowrap rounded-full px-3 py-1.5 text-sm transition-colors",
                         isActive ? "bg-foreground/10 text-foreground" : "text-muted-foreground hover:text-foreground"
                       )
                     }
@@ -93,7 +93,7 @@ export function FloatingNav() {
               aria-label="Search"
             >
               <Search size={14} />
-              <span className="hidden sm:inline">Search</span>
+              <span className="hidden lg:inline">Search</span>
               <kbd className="hidden rounded border border-border bg-background px-1.5 py-0.5 font-mono text-[10px] lg:inline">⌘K</kbd>
             </button>
             <button
