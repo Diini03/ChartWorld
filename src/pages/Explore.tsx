@@ -1,19 +1,55 @@
 import { useSeo } from "@/hooks/use-seo";
-import { Link } from "react-router-dom";
-import { useMemo, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
 import { CHARTS, CATEGORIES } from "@/data/charts";
 import { ChartPreview } from "@/components/chart/ChartPreview";
 import { FavoriteButton } from "@/components/chart/FavoriteButton";
-import { Search, LayoutGrid, X } from "lucide-react";
+import { Search, LayoutGrid, X, Link2, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const DIFFICULTIES = ["All", "Beginner", "Intermediate", "Advanced"] as const;
 
+function validCategory(v: string | null): string {
+  return v && (v === "All" || (CATEGORIES as readonly string[]).includes(v)) ? v : "All";
+}
+function validDifficulty(v: string | null): string {
+  return v && (DIFFICULTIES as readonly string[]).includes(v) ? v : "All";
+}
+
 export default function Explore() {
   useSeo({ title: "Explore Charts", description: "Browse and search 40+ chart types by category, difficulty and data shape. Find the right visualization for your data in seconds.", path: "/explore" });
-  const [q, setQ] = useState("");
-  const [cat, setCat] = useState<string>("All");
-  const [diff, setDiff] = useState<string>("All");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [q, setQ] = useState(() => searchParams.get("q") ?? "");
+  const [cat, setCat] = useState(() => validCategory(searchParams.get("cat")));
+  const [diff, setDiff] = useState(() => validDifficulty(searchParams.get("diff")));
+  const [copied, setCopied] = useState(false);
+
+  // Keep the URL in sync so any filter state is shareable.
+  useEffect(() => {
+    const next = new URLSearchParams();
+    if (q) next.set("q", q);
+    if (cat !== "All") next.set("cat", cat);
+    if (diff !== "All") next.set("diff", diff);
+    if (next.toString() !== searchParams.toString()) {
+      setSearchParams(next, { replace: true });
+    }
+  }, [q, cat, diff, searchParams, setSearchParams]);
+
+  const shareLink = async () => {
+    const url = `${window.location.origin}/explore?${searchParams.toString()}`;
+    try {
+      await navigator.clipboard.writeText(url);
+    } catch {
+      const ta = document.createElement("textarea");
+      ta.value = url;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      ta.remove();
+    }
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 2000);
+  };
 
   const counts = useMemo(() => {
     const m = new Map<string, number>();
@@ -98,11 +134,25 @@ export default function Explore() {
               ))}
             </div>
 
-            {hasFilters && (
-              <button onClick={reset} className="mt-4 w-full rounded-lg border border-border py-2 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground">
-                Reset filters
+            <div className="mt-4 flex gap-2">
+              {hasFilters && (
+                <button onClick={reset} className="flex-1 rounded-lg border border-border py-2 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground">
+                  Reset
+                </button>
+              )}
+              <button
+                onClick={shareLink}
+                className={cn(
+                  "flex flex-1 items-center justify-center gap-1.5 rounded-lg py-2 text-xs font-medium transition-colors",
+                  copied
+                    ? "bg-[hsl(var(--chart-5))]/15 text-[hsl(var(--chart-5))]"
+                    : "bg-primary/10 text-primary hover:bg-primary/15"
+                )}
+              >
+                {copied ? <Check size={13} /> : <Link2 size={13} />}
+                {copied ? "Copied!" : "Copy link"}
               </button>
-            )}
+            </div>
           </div>
         </aside>
 
