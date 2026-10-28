@@ -1,9 +1,10 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { Printer } from "lucide-react";
+import { Printer, Columns2, Square, Minimize2, Maximize2 } from "lucide-react";
 import { useSeo } from "@/hooks/use-seo";
 import { CATEGORIES, CATEGORY_META, chartsByCategory, CHARTS, type Difficulty } from "@/data/charts";
 import { ChartPreview } from "@/components/chart/ChartPreview";
+import { cn } from "@/lib/utils";
 
 const LEVELS: (Difficulty | "All")[] = ["All", "Beginner", "Intermediate", "Advanced"];
 
@@ -15,15 +16,24 @@ export default function CheatSheet() {
   });
   const [level, setLevel] = useState<Difficulty | "All">("All");
   const [thumbs, setThumbs] = useState(true);
+  const [topics, setTopics] = useState<string[]>(() => [...CATEGORIES]);
+  const [columns, setColumns] = useState<1 | 2>(2);
+  const [compact, setCompact] = useState(false);
+
+  const toggleTopic = (cat: string) =>
+    setTopics((t) => (t.includes(cat) ? t.filter((c) => c !== cat) : [...t, cat]));
+  const allTopics = topics.length === CATEGORIES.length;
 
   const sections = useMemo(
     () =>
-      CATEGORIES.map((cat) => ({
-        cat,
-        meta: CATEGORY_META[cat],
-        items: chartsByCategory(cat).filter((c) => level === "All" || c.difficulty === level),
-      })).filter((s) => s.items.length > 0),
-    [level],
+      CATEGORIES.filter((cat) => topics.includes(cat))
+        .map((cat) => ({
+          cat,
+          meta: CATEGORY_META[cat],
+          items: chartsByCategory(cat).filter((c) => level === "All" || c.difficulty === level),
+        }))
+        .filter((s) => s.items.length > 0),
+    [level, topics],
   );
 
   const total = sections.reduce((n, s) => n + s.items.length, 0);
@@ -39,35 +49,132 @@ export default function CheatSheet() {
         </p>
       </header>
 
-      <div className="no-print mt-8 flex flex-wrap items-center justify-center gap-2">
-        {LEVELS.map((l) => (
+      {/* Print controls */}
+      <div className="no-print mx-auto mt-8 max-w-3xl rounded-2xl border border-border bg-card p-4 shadow-sm" data-reveal>
+        <p className="mb-2 px-1 text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Topics to include</p>
+        <div className="flex flex-wrap items-center gap-1.5">
           <button
-            key={l}
-            onClick={() => setLevel(l)}
-            className={`rounded-full border px-3 py-1.5 text-xs transition-colors ${
-              level === l ? "border-transparent bg-foreground text-background" : "border-border text-muted-foreground hover:text-foreground"
-            }`}
+            onClick={() => setTopics(allTopics ? [] : [...CATEGORIES])}
+            className={cn(
+              "rounded-full border px-3 py-1.5 text-xs transition-colors",
+              allTopics ? "border-transparent bg-foreground text-background" : "border-border text-muted-foreground hover:text-foreground",
+            )}
           >
-            {l}
+            All topics
           </button>
-        ))}
-        <span className="mx-1 h-5 w-px bg-border" />
-        <button
-          onClick={() => setThumbs((t) => !t)}
-          className="rounded-full border border-border px-3 py-1.5 text-xs text-muted-foreground hover:text-foreground"
-        >
-          {thumbs ? "Hide thumbnails" : "Show thumbnails"}
-        </button>
-        <button
-          onClick={() => window.print()}
-          className="flex items-center gap-2 rounded-full bg-primary px-4 py-1.5 text-xs font-medium text-primary-foreground"
-        >
-          <Printer size={13} /> Print / Save PDF
-        </button>
-        <span className="w-full text-center font-mono text-[11px] text-muted-foreground sm:w-auto">{total} shown</span>
+          {CATEGORIES.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => toggleTopic(cat)}
+              className={cn(
+                "rounded-full border px-3 py-1.5 text-xs transition-colors",
+                topics.includes(cat)
+                  ? "border-transparent bg-primary/15 text-primary"
+                  : "border-border text-muted-foreground hover:text-foreground",
+              )}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-3 border-t border-border pt-4">
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Level</span>
+            <div className="flex gap-1">
+              {LEVELS.map((l) => (
+                <button
+                  key={l}
+                  onClick={() => setLevel(l)}
+                  className={cn(
+                    "rounded-full border px-2.5 py-1 text-xs transition-colors",
+                    level === l ? "border-transparent bg-foreground text-background" : "border-border text-muted-foreground hover:text-foreground",
+                  )}
+                >
+                  {l}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Layout</span>
+            <div className="flex gap-1">
+              <button
+                onClick={() => setColumns(1)}
+                title="One column"
+                className={cn(
+                  "rounded-full border p-1.5 transition-colors",
+                  columns === 1 ? "border-transparent bg-foreground text-background" : "border-border text-muted-foreground hover:text-foreground",
+                )}
+              >
+                <Square size={13} />
+              </button>
+              <button
+                onClick={() => setColumns(2)}
+                title="Two columns"
+                className={cn(
+                  "rounded-full border p-1.5 transition-colors",
+                  columns === 2 ? "border-transparent bg-foreground text-background" : "border-border text-muted-foreground hover:text-foreground",
+                )}
+              >
+                <Columns2 size={13} />
+              </button>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Density</span>
+            <div className="flex gap-1">
+              <button
+                onClick={() => setCompact(false)}
+                title="Full cards"
+                className={cn(
+                  "rounded-full border p-1.5 transition-colors",
+                  !compact ? "border-transparent bg-foreground text-background" : "border-border text-muted-foreground hover:text-foreground",
+                )}
+              >
+                <Maximize2 size={13} />
+              </button>
+              <button
+                onClick={() => setCompact(true)}
+                title="Compact cards"
+                className={cn(
+                  "rounded-full border p-1.5 transition-colors",
+                  compact ? "border-transparent bg-foreground text-background" : "border-border text-muted-foreground hover:text-foreground",
+                )}
+              >
+                <Minimize2 size={13} />
+              </button>
+            </div>
+          </div>
+
+          <button
+            onClick={() => setThumbs((t) => !t)}
+            className="rounded-full border border-border px-3 py-1.5 text-xs text-muted-foreground hover:text-foreground"
+          >
+            {thumbs ? "Hide thumbnails" : "Show thumbnails"}
+          </button>
+
+          <button
+            onClick={() => window.print()}
+            className="ml-auto flex items-center gap-2 rounded-full bg-primary px-4 py-1.5 text-xs font-medium text-primary-foreground"
+          >
+            <Printer size={13} /> Print / Save PDF
+          </button>
+        </div>
+
+        <p className="mt-3 border-t border-border pt-3 text-center font-mono text-[11px] text-muted-foreground">
+          {total} of {CHARTS.length} charts will print
+        </p>
       </div>
 
       <div className="mt-12 space-y-12">
+        {sections.length === 0 && (
+          <p className="rounded-2xl border border-dashed border-border py-16 text-center text-muted-foreground">
+            Nothing selected — pick at least one topic above.
+          </p>
+        )}
         {sections.map(({ cat, meta, items }) => (
           <section key={cat} className="break-inside-avoid" data-reveal>
             <div className="mb-4 flex items-end gap-3 border-b border-border pb-2">
@@ -76,7 +183,7 @@ export default function CheatSheet() {
               <p className="hidden flex-1 truncate text-xs text-muted-foreground sm:block">{meta.blurb}</p>
               <span className="font-mono text-[11px] text-muted-foreground">{items.length}</span>
             </div>
-            <div className="grid gap-3 sm:grid-cols-2">
+            <div className={cn("grid gap-3", columns === 2 && "sm:grid-cols-2")}>
               {items.map((c) => (
                 <Link
                   key={c.slug}
@@ -84,7 +191,7 @@ export default function CheatSheet() {
                   className="break-inside-avoid rounded-xl border border-border bg-card p-3 transition-colors hover:border-border-strong"
                 >
                   <div className="flex items-start gap-3">
-                    {thumbs && (
+                    {thumbs && !compact && (
                       <div className="hidden w-24 shrink-0 overflow-hidden rounded-lg bg-surface-2/50 p-1 sm:block">
                         <ChartPreview kind={c.preview} height={56} seed={c.slug.length} />
                       </div>
@@ -96,12 +203,12 @@ export default function CheatSheet() {
                           {c.difficulty}
                         </span>
                       </div>
-                      <p className="mt-0.5 text-xs text-muted-foreground">{c.tagline}</p>
+                      {!compact && <p className="mt-0.5 text-xs text-muted-foreground">{c.tagline}</p>}
                       <p className="mt-1.5 text-xs">
                         <span className="font-medium text-primary">Use when </span>
                         <span className="text-muted-foreground">{c.whenToUse[0]?.toLowerCase()}</span>
                       </p>
-                      {c.whenNotToUse[0] && (
+                      {!compact && c.whenNotToUse[0] && (
                         <p className="mt-0.5 text-xs">
                           <span className="font-medium text-destructive">Avoid </span>
                           <span className="text-muted-foreground">{c.whenNotToUse[0].toLowerCase()}</span>
