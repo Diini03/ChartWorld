@@ -57,7 +57,7 @@ export default function ChartDetail() {
           <p className="mt-4 text-xl text-muted-foreground">{chart.tagline}</p>
           <p className="mt-4 text-base leading-relaxed">{chart.summary}</p>
           <div className="mt-6 flex items-center gap-3">
-            <Link to="/compare" className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-sm font-medium text-background hover:opacity-90">
+            <Link to={`/compare?a=${chart.slug}`} className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-sm font-medium text-background hover:opacity-90">
               <GitCompareArrows size={14} /> Compare
             </Link>
             <Link to="/playground" className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-sm hover:bg-surface-2">
