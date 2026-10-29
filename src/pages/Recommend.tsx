@@ -99,7 +99,6 @@ export default function Recommend() {
                 {r.tip && <p className="mt-2 text-sm text-muted-foreground"><strong>Tip:</strong> {r.tip}</p>}
                 <div className="mt-4 flex gap-4 text-xs font-medium">
                   <Link to={`/chart/${c.slug}`} className="text-primary hover:underline">Open guide →</Link>
-                  <Link to={`/create?type=${c.slug}`} className="text-primary hover:underline">Build it →</Link>
                 </div>
               </div>
             );
