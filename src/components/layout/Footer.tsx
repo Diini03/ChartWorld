@@ -19,6 +19,7 @@ export function Footer() {
           ["/categories", "Categories"],
           ["/compare", "Compare"],
           ["/chooser", "Choose a chart"],
+          ["/recommend", "AI recommender"],
         ]} />
         <FooterCol title="More" links={[
           ["/playground", "Playground"],

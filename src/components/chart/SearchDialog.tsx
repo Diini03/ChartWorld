@@ -36,6 +36,7 @@ export function SearchDialog() {
       { to: "/explore", label: "Explore charts", hint: "Browse all chart types" },
       { to: "/categories", label: "Categories", hint: "Charts grouped by purpose" },
       { to: "/chooser", label: "Chart chooser", hint: "Find the right chart" },
+      { to: "/recommend", label: "AI chart recommender", hint: "Describe your data, get chart picks" },
       { to: "/compare", label: "Compare charts", hint: "Side-by-side comparison" },
       { to: "/playground", label: "Playground", hint: "Style experiments" },
       { to: "/python", label: "Python guide", hint: "Matplotlib, Seaborn, Plotly" },

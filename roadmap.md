@@ -9,5 +9,8 @@
 - Custom collections in Saved charts (create/rename/delete, add charts via + picker)
 - Verified all three: typecheck + live preview check
 
+- AI chart recommender at /recommend (Lovable AI)
+- Print / Save PDF export for chart comparisons
+
 ## Open
 - (none)
