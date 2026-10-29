@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { CHARTS, chartBySlug } from "@/data/charts";
 import { ChartPreview } from "@/components/chart/ChartPreview";
-import { ArrowLeftRight, Check, X, Link2 } from "lucide-react";
+import { ArrowLeftRight, Check, X, Link2, Printer } from "lucide-react";
 import { toast } from "sonner";
 
 const DEFAULT_A = "bar-chart";
@@ -56,14 +56,18 @@ export default function Compare() {
   const B = chartBySlug(b)!;
 
   return (
-    <div className="container py-10">
+    <div className="container py-10 print-compare">
+      <div className="print-only mb-4">
+        <p className="font-mono text-xs uppercase tracking-widest">ChartWorld · Chart comparison</p>
+        <h1 className="font-display text-3xl">{A.name} vs {B.name}</h1>
+      </div>
       <header data-reveal className="mx-auto max-w-3xl text-center">
         <p className="mb-3 font-mono text-xs uppercase tracking-widest text-primary">Compare</p>
         <h1 className="font-display text-5xl md:text-6xl">Two charts, side by side.</h1>
         <p className="mt-4 text-muted-foreground">See where each one shines — and where it doesn't.</p>
       </header>
 
-      <div data-reveal className="mx-auto mt-10 flex max-w-2xl flex-col items-stretch gap-3 sm:flex-row sm:items-center">
+      <div data-reveal className="no-print mx-auto mt-10 flex max-w-2xl flex-col items-stretch gap-3 sm:flex-row sm:items-center">
         <ChartSelect value={a} onChange={pickA} label="First chart" />
         <button
           onClick={swap}
@@ -110,15 +114,23 @@ export default function Compare() {
         <ComparisonRow label="Business example" a={A.businessExample} b={B.businessExample} />
       </div>
 
-      <div data-reveal className="mt-8 rounded-3xl border border-border bg-card p-6">
-        <div className="mb-2 flex items-center justify-between gap-3">
+      <div data-reveal className="print-avoid-break mt-8 rounded-3xl border border-border bg-card p-6">
+        <div className="mb-2 flex flex-wrap items-center justify-between gap-3">
           <p className="font-mono text-xs uppercase tracking-widest text-primary">Decision guide</p>
-          <button
-            onClick={shareLink}
-            className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/15"
-          >
-            <Link2 size={12} /> Copy link to this comparison
-          </button>
+          <div className="no-print flex flex-wrap gap-2">
+            <button
+              onClick={() => window.print()}
+              className="inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:opacity-90"
+            >
+              <Printer size={12} /> Print / Save PDF
+            </button>
+            <button
+              onClick={shareLink}
+              className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/15"
+            >
+              <Link2 size={12} /> Copy link to this comparison
+            </button>
+          </div>
         </div>
         <p className="text-lg leading-relaxed">
           If your data is <strong>{A.category === B.category ? "similar in kind" : `${A.category.toLowerCase()} vs ${B.category.toLowerCase()}`}</strong>,
