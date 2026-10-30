@@ -12,5 +12,9 @@
 - AI chart recommender at /recommend (Lovable AI)
 - Print / Save PDF export for chart comparisons
 
+- Verified /recommend end-to-end (4 suggestions, fit labels, guide links)
+- Compare print preview (margins, font, text size, side-by-side/stacked)
+- Chart guide links from Compare decision guide
+
 ## Open
 - (none)
