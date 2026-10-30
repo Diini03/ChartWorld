@@ -42,7 +42,7 @@ export function CompareSheet({ A, B, opts }: { A: Chart; B: Chart; opts: SheetOp
           <div key={c.slug} style={{ border: "1px solid hsl(var(--border))", borderRadius: 8, padding: "0.8em", breakInside: "avoid" }}>
             <div style={{ fontSize: "1.4em", fontWeight: 700 }}>{c.name}</div>
             <div style={{ opacity: 0.7, marginBottom: "0.5em" }}>{c.tagline} · {c.difficulty}</div>
-            <ChartPreview kind={c.preview} height={side ? 150 : 180} seed={c.slug.length + i} />
+            <div style={{ height: side ? 160 : 190, overflow: "hidden" }}><ChartPreview kind={c.preview} height={side ? 150 : 180} seed={c.slug.length + i} /></div>
           </div>
         ))}
       </div>
