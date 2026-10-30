@@ -228,7 +228,6 @@
 /* Print styles (cheat sheet) */
 .print-only { display: none; }
 @media print {
-  .print-sheet-root ~ * {}
 
   .no-print { display: none !important; }
   .print-only { display: block !important; }
@@ -236,7 +235,6 @@
   header, footer, nav { display: none !important; }
   body { background: white !important; color: black !important; }
   a { text-decoration: none; color: inherit; }
-  @page { size: A4; margin: 12mm; }
   .print-compare { padding: 0 !important; max-width: none !important; }
   .print-compare [data-reveal] { opacity: 1 !important; transform: none !important; margin-top: 10px !important; }
   .print-compare .glass, .print-compare .bg-card { background: white !important; border: 1px solid #ddd !important; box-shadow: none !important; backdrop-filter: none !important; }
