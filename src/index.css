@@ -228,8 +228,11 @@
 /* Print styles (cheat sheet) */
 .print-only { display: none; }
 @media print {
+  .print-sheet-root ~ * {}
+
   .no-print { display: none !important; }
   .print-only { display: block !important; }
+  .compare-screen { display: none !important; }
   header, footer, nav { display: none !important; }
   body { background: white !important; color: black !important; }
   a { text-decoration: none; color: inherit; }

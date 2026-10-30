@@ -3,7 +3,9 @@ import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { CHARTS, chartBySlug } from "@/data/charts";
 import { ChartPreview } from "@/components/chart/ChartPreview";
-import { ArrowLeftRight, Check, X, Link2, Printer } from "lucide-react";
+import { ArrowLeftRight, Check, X, Link2, Printer, Eye, BookOpen } from "lucide-react";
+import { CompareSheet, DEFAULT_SHEET, type SheetOptions } from "@/components/chart/CompareSheet";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
 
 const DEFAULT_A = "bar-chart";
@@ -52,15 +54,16 @@ export default function Compare() {
     }
   };
 
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [sheet, setSheet] = useState<SheetOptions>(DEFAULT_SHEET);
   const A = chartBySlug(a)!;
   const B = chartBySlug(b)!;
 
   return (
     <div className="container py-10 print-compare">
-      <div className="print-only mb-4">
-        <p className="font-mono text-xs uppercase tracking-widest">ChartWorld · Chart comparison</p>
-        <h1 className="font-display text-3xl">{A.name} vs {B.name}</h1>
-      </div>
+      <style>{`@page { size: A4; margin: ${sheet.margin}mm; }`}</style>
+      {!previewOpen && <div className="print-only print-sheet-root"><CompareSheet A={A} B={B} opts={sheet} /></div>}
+      <div className="compare-screen">
       <header data-reveal className="mx-auto max-w-3xl text-center">
         <p className="mb-3 font-mono text-xs uppercase tracking-widest text-primary">Compare</p>
         <h1 className="font-display text-5xl md:text-6xl">Two charts, side by side.</h1>
@@ -119,6 +122,12 @@ export default function Compare() {
           <p className="font-mono text-xs uppercase tracking-widest text-primary">Decision guide</p>
           <div className="no-print flex flex-wrap gap-2">
             <button
+              onClick={() => setPreviewOpen(true)}
+              className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-xs font-medium hover:bg-surface-2"
+            >
+              <Eye size={12} /> Print preview
+            </button>
+            <button
               onClick={() => window.print()}
               className="inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:opacity-90"
             >
@@ -137,7 +146,65 @@ export default function Compare() {
           reach for <strong>{A.name}</strong> when you need <em>{A.whenToUse[0].toLowerCase()}</em>,
           and <strong>{B.name}</strong> when you need <em>{B.whenToUse[0].toLowerCase()}</em>.
         </p>
+        <div className="no-print mt-4 flex flex-wrap gap-2">
+          {[A, B].map((c) => (
+            <Link key={c.slug} to={`/chart/${c.slug}`} className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-xs font-medium hover:bg-surface-2">
+              <BookOpen size={12} /> {c.name} guide
+            </Link>
+          ))}
+        </div>
       </div>
+      </div>
+
+      <Dialog open={previewOpen} onOpenChange={setPreviewOpen}>
+        <DialogContent className="max-h-[92vh] max-w-5xl overflow-y-auto">
+          <DialogTitle>Print preview</DialogTitle>
+          <div className="grid gap-6 md:grid-cols-[200px_1fr]">
+            <div className="space-y-4 text-sm">
+              <Opt label={`Margins: ${sheet.margin} mm`}>
+                <input type="range" min={5} max={30} value={sheet.margin} aria-label="Margins" onChange={(e) => setSheet({ ...sheet, margin: +e.target.value })} className="w-full" />
+              </Opt>
+              <Opt label={`Text size: ${sheet.size} pt`}>
+                <input type="range" min={8} max={14} value={sheet.size} aria-label="Text size" onChange={(e) => setSheet({ ...sheet, size: +e.target.value })} className="w-full" />
+              </Opt>
+              <Opt label="Font">
+                <Seg value={sheet.font} options={[["sans", "Sans"], ["serif", "Serif"], ["mono", "Mono"]]} onChange={(v) => setSheet({ ...sheet, font: v as SheetOptions["font"] })} />
+              </Opt>
+              <Opt label="Chart layout">
+                <Seg value={sheet.layout} options={[["side", "Side by side"], ["stacked", "Stacked"]]} onChange={(v) => setSheet({ ...sheet, layout: v as SheetOptions["layout"] })} />
+              </Opt>
+              <button onClick={() => setSheet(DEFAULT_SHEET)} className="text-xs text-muted-foreground hover:text-foreground">Reset</button>
+              <button
+                onClick={() => { setPreviewOpen(false); setTimeout(() => window.print(), 300); }}
+                className="flex w-full items-center justify-center gap-1.5 rounded-full bg-primary px-3 py-2 text-xs font-medium text-primary-foreground hover:opacity-90"
+              >
+                <Printer size={12} /> Print / Save PDF
+              </button>
+            </div>
+            <div className="overflow-x-auto rounded-lg bg-surface-2 p-4">
+              {/* A4 page at 96dpi: 794px wide; margin in mm → px */}
+              <div className="mx-auto bg-background shadow-lg" style={{ width: 794, minHeight: 1123, padding: `${sheet.margin * 3.78}px` }}>
+                <CompareSheet A={A} B={B} opts={sheet} />
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}
+
+function Opt({ label, children }: { label: string; children: React.ReactNode }) {
+  return <div><div className="mb-1.5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">{label}</div>{children}</div>;
+}
+
+function Seg({ value, options, onChange }: { value: string; options: [string, string][]; onChange: (v: string) => void }) {
+  return (
+    <div className="flex flex-wrap gap-1">
+      {options.map(([v, l]) => (
+        <button key={v} onClick={() => onChange(v)} aria-pressed={value === v}
+          className={`rounded-full px-2.5 py-1 text-xs ${value === v ? "bg-primary text-primary-foreground" : "border border-border hover:bg-surface-2"}`}>{l}</button>
+      ))}
     </div>
   );
 }
