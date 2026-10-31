@@ -1,375 +1,211 @@
 import { useSeo } from "@/hooks/use-seo";
 import { Link } from "react-router-dom";
-import { useMemo, useRef, useState } from "react";
-import { CHARTS } from "@/data/charts";
+import { useMemo, useState } from "react";
+import { CHARTS, type Chart } from "@/data/charts";
 import { ChartPreview } from "@/components/chart/ChartPreview";
-import { ArrowRight, Sparkles, Search, GitCompareArrows, Code2, Quote, Github, Globe, Linkedin, ArrowUpRight, Trophy, Shuffle } from "lucide-react";
+import {
+  ArrowRight, Sparkles, Search, Trophy, Shuffle, PartyPopper, Wand2, Compass,
+  Github, Globe, Linkedin, Check, X, Gamepad2, Code2,
+} from "lucide-react";
 import { useUI } from "@/lib/store";
 import { ChartStudio } from "@/components/viz/ChartStudio";
 
-interface Floater { slug: string; kind: any; name: string; x: number; y: number; scale: number; delay: number; duration: number; }
-
-function useFloaters(n = 4): Floater[] {
-  return useMemo(() => {
-    let s = 42;
-    const rand = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
-    const picks = [...CHARTS].sort(() => rand() - 0.5).slice(0, n);
-    return picks.map((c, i) => {
-      const isLeft = i % 2 === 0;
-      // Place 2 soft floaters on each side, well clear of centered text
-      const xBase = isLeft ? 6 + (i / 2) * 5 : 78 + ((i - 1) / 2) * 5;
-      const y = 18 + (i % 2) * 44 + (rand() - 0.5) * 6;
-      return {
-        slug: c.slug, kind: c.preview, name: c.name,
-        x: xBase + (rand() - 0.5) * 2,
-        y,
-        scale: 0.55 + rand() * 0.15,
-        delay: rand() * 4,
-        duration: 10 + rand() * 8,
-      };
-    });
-  }, [n]);
+function shuffle<T>(arr: T[]): T[] {
+  return [...arr].sort(() => Math.random() - 0.5);
 }
 
-const FEATURED_SLUGS = ["bar-chart", "line-chart", "scatter-plot", "histogram", "sankey", "heatmap"];
+function newRound() {
+  const answer = CHARTS[Math.floor(Math.random() * CHARTS.length)];
+  const options = shuffle([answer, ...shuffle(CHARTS.filter((c) => c.slug !== answer.slug)).slice(0, 3)]);
+  return { answer, options };
+}
 
 export default function Home() {
-  useSeo({ title: "ChartWorld — Explore Every Chart. Learn When to Use It.", description: "Build, customize and understand data visualizations in the browser. Explore 40+ chart types, generate Python code for Matplotlib, Seaborn and Plotly, and export instantly.", path: "/" });
-  const floaters = useFloaters(4);
-  const featured = useMemo(() => {
-    const picked = FEATURED_SLUGS.map((s) => CHARTS.find((c) => c.slug === s)).filter(Boolean) as typeof CHARTS;
-    const fill = CHARTS.filter((c) => !FEATURED_SLUGS.includes(c.slug));
-    return [...picked, ...fill].slice(0, 6);
-  }, []);
+  useSeo({ title: "ChartWorld — Play, Explore & Learn Every Chart", description: "A playful world for discovering charts: take the personality quiz, guess charts, spin for a surprise, and copy runnable Python code.", path: "/" });
   const { setSearchOpen } = useUI();
-  const [hovered, setHovered] = useState<string | null>(null);
-  const ref = useRef<HTMLDivElement>(null);
-
 
   return (
-    <div className="relative -mt-24">
-      {/* Chart Universe */}
-      <section className="relative min-h-[100dvh] overflow-hidden pt-24">
-        <div className="absolute inset-0 mesh-bg" />
-        <div className="absolute inset-0 grid-bg opacity-30" />
-        <div className="pointer-events-none absolute inset-0 hidden overflow-hidden md:block" ref={ref}>
-          {floaters.map((f) => (
+    <div className="container max-w-5xl pb-12">
+      {/* Greeting bar — not a hero, a welcome mat */}
+      <div className="flex flex-wrap items-center justify-between gap-4 py-6" data-reveal>
+        <div>
+          <p className="font-mono text-xs uppercase tracking-widest text-primary">Welcome to ChartWorld 👋</p>
+          <h1 className="mt-1 font-display text-3xl md:text-5xl">What do you feel like <span className="text-gradient">playing</span> today?</h1>
+        </div>
+        <button
+          onClick={() => setSearchOpen(true)}
+          className="glass inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm text-muted-foreground hover:text-foreground"
+        >
+          <Search size={14} /> Find a chart
+          <kbd className="rounded border border-border bg-background px-1.5 py-0.5 font-mono text-[10px]">⌘K</kbd>
+        </button>
+      </div>
+
+      {/* Game board — bento of activities, newest first */}
+      <section className="grid auto-rows-[minmax(150px,auto)] gap-4 md:grid-cols-4" data-reveal>
+        <Link to="/personality" className="card-lift group relative overflow-hidden rounded-3xl border border-primary/40 bg-card p-6 shadow-card md:col-span-2 md:row-span-2">
+          <div className="absolute inset-0 mesh-bg opacity-40" />
+          <div className="relative flex h-full flex-col">
+            <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-primary px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary-foreground">
+              <Sparkles size={11} /> New
+            </span>
+            <PartyPopper className="mt-6 text-primary" size={36} />
+            <h2 className="mt-3 font-display text-3xl md:text-4xl">Which chart are you?</h2>
+            <p className="mt-2 max-w-sm text-sm text-muted-foreground">5 silly questions. One surprisingly accurate chart personality. Share it with friends.</p>
+            <div className="mt-auto pt-6">
+              <span className="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-transform group-hover:scale-[1.03]">
+                Find my chart <ArrowRight size={14} />
+              </span>
+            </div>
+          </div>
+        </Link>
+
+        <Tile to="/quiz" icon={<Trophy size={22} />} title="Chart Quiz" desc="10 questions. Beat your best." className="md:col-span-2" />
+        <Tile to="/surprise" icon={<Shuffle size={22} />} title="Surprise me" desc="Spin for a random chart." />
+        <Tile to="/recommend" icon={<Wand2 size={22} />} title="Ask the AI" desc="Describe data, get charts." />
+      </section>
+
+      {/* Inline mini-game */}
+      <GuessGame />
+
+      {/* Swipeable shelf */}
+      <section className="mt-14" data-reveal>
+        <div className="mb-4 flex items-end justify-between gap-4">
+          <h2 className="font-display text-2xl md:text-3xl">🎠 Swipe through the chart shelf</h2>
+          <Link to="/explore" className="inline-flex items-center gap-1 whitespace-nowrap text-sm font-medium text-primary hover:underline">
+            All {CHARTS.length} <ArrowRight size={14} />
+          </Link>
+        </div>
+        <div className="-mx-4 flex snap-x gap-4 overflow-x-auto px-4 pb-4">
+          {CHARTS.slice(0, 14).map((c, i) => (
             <Link
-              key={f.slug}
-              to={`/chart/${f.slug}`}
-              onMouseEnter={() => setHovered(f.slug)}
-              onMouseLeave={() => setHovered(null)}
-              className="pointer-events-auto absolute block rounded-2xl border border-border/40 bg-card/40 p-3 shadow-sm backdrop-blur-sm transition-all duration-500 hover:z-20 hover:scale-[1.15] hover:border-border/60 hover:bg-card/60 hover:shadow-md"
-              style={{
-                left: `${f.x}%`,
-                top: `${f.y}%`,
-                width: 140,
-                transform: `scale(${f.scale})`,
-                animation: `drift ${f.duration}s ease-in-out ${f.delay}s infinite`,
-                opacity: hovered ? (hovered === f.slug ? 0.7 : 0.15) : 0.22,
-              }}
+              key={c.slug}
+              to={`/chart/${c.slug}`}
+              className="card-lift w-48 shrink-0 snap-start rounded-2xl border border-border bg-card p-3 shadow-sm"
+              style={{ transform: `rotate(${i % 2 ? 1 : -1}deg)` }}
             >
-              <div className="pointer-events-none h-16 w-full overflow-hidden opacity-60">
-                <ChartPreview kind={f.kind} height={64} seed={f.slug.length * 3} />
+              <div className="overflow-hidden rounded-xl bg-surface-2 p-1">
+                <ChartPreview kind={c.preview} height={90} seed={c.slug.length * 5} />
               </div>
-              <div className="mt-1 truncate text-center text-[10px] font-medium text-muted-foreground/60">{f.name}</div>
+              <p className="mt-2 truncate font-display text-lg">{c.name}</p>
+              <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">{c.category}</p>
             </Link>
           ))}
         </div>
-
-        <div className="pointer-events-none relative z-10 mx-auto flex min-h-[80dvh] max-w-3xl flex-col items-center justify-center px-4 text-center">
-          <div className="pointer-events-auto glass mb-6 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-medium text-muted-foreground animate-in fade-in slide-in-from-bottom-2 duration-700">
-            <Sparkles size={12} className="text-primary" />
-            Explore every chart. Learn when to use it.
-          </div>
-          <h1 className="pointer-events-auto font-display text-6xl leading-[1.02] md:text-8xl animate-in fade-in slide-in-from-bottom-4 duration-1000">
-            <span className="text-gradient">Chart</span>World
-          </h1>
-          <p className="pointer-events-auto mx-auto mt-6 max-w-xl text-lg text-muted-foreground animate-in fade-in duration-1000 delay-200 fill-mode-backwards">
-            An interactive world for discovering data visualisations — hover a chart, click to enter its story.
-          </p>
-          <div className="pointer-events-auto mt-8 flex flex-wrap items-center justify-center gap-3 animate-in fade-in duration-1000 delay-300 fill-mode-backwards">
-            <Link
-              to="/explore"
-              className="group inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-transform hover:scale-[1.02]"
-            >
-              Enter ChartWorld <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" />
-            </Link>
-            <button
-              onClick={() => setSearchOpen(true)}
-              className="glass inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm text-muted-foreground hover:text-foreground"
-            >
-              <Search size={14} /> Search any chart
-              <kbd className="rounded border border-border bg-background px-1.5 py-0.5 font-mono text-[10px]">⌘K</kbd>
-            </button>
-            <Link
-              to="/surprise"
-              className="glass group inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm text-muted-foreground transition-transform hover:scale-[1.02] hover:text-foreground"
-            >
-              <Shuffle size={14} className="text-primary transition-transform group-hover:rotate-12" /> Surprise me
-            </Link>
-          </div>
-
-          <dl className="pointer-events-auto mt-12 grid w-full max-w-lg grid-cols-3 gap-px overflow-hidden rounded-2xl border border-border/60 bg-border/60 animate-in fade-in duration-1000 delay-500 fill-mode-backwards">
-            {[
-              { v: `${CHARTS.length}`, l: "Chart types" },
-              { v: "12", l: "Categories" },
-              { v: "3", l: "Python libraries" },
-            ].map((s) => (
-              <div key={s.l} className="bg-background/70 px-3 py-4 backdrop-blur-sm">
-                <dt className="font-display text-3xl leading-none">{s.v}</dt>
-                <dd className="mt-1.5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">{s.l}</dd>
-              </div>
-            ))}
-          </dl>
-
-        </div>
       </section>
 
-      {/* Interactive studio, right at the top */}
-      <section className="container -mt-16 pb-24" data-reveal>
-        <div className="mb-6 text-center">
-          <p className="mb-2 font-mono text-xs uppercase tracking-widest text-primary">Try it now — no account</p>
-          <h2 className="font-display text-4xl">Pick data. Pick a chart. Copy the Python.</h2>
+      {/* Quick wanders */}
+      <section className="mt-10 flex flex-wrap gap-2" data-reveal>
+        <span className="mr-2 self-center text-sm text-muted-foreground">Wander by mood:</span>
+        {["Comparison", "Time Series", "Distribution", "Relationship", "Composition", "Flow", "Maps", "Machine Learning"].map((c) => (
+          <Link key={c} to={`/explore?cat=${encodeURIComponent(c)}`} className="glass rounded-full px-4 py-2 text-sm transition-transform hover:-translate-y-0.5">
+            {c}
+          </Link>
+        ))}
+        <Link to="/chooser" className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-sm text-background">
+          <Compass size={14} /> Help me choose
+        </Link>
+      </section>
+
+      {/* Studio */}
+      <section className="mt-16" data-reveal>
+        <div className="mb-4 flex items-center gap-2">
+          <Code2 size={18} className="text-primary" />
+          <h2 className="font-display text-2xl md:text-3xl">Build your own — then copy the Python</h2>
         </div>
         <ChartStudio compact />
       </section>
 
-      {/* Feature Trio */}
-      <div className="container"><div className="rule-fade" /></div>
-
-      {/* Feature Trio */}
-      <section className="container py-24" data-reveal>
-        <div className="mx-auto mb-14 max-w-2xl text-center">
-          <p className="mb-3 font-mono text-xs uppercase tracking-widest text-primary">A world, not a website</p>
-          <h2 className="font-display text-5xl">Three ways to explore.</h2>
-        </div>
-        <div className="grid gap-6 md:grid-cols-3">
-          <FeatureCard
-            icon={<Sparkles size={20} />}
-            title="Discover"
-            desc="Wander through dozens of chart pages. Each has its own story, code, and cautions."
-            to="/explore"
-            preview={<ChartPreview kind="bubble" height={140} seed={11} />}
-          />
-          <FeatureCard
-            icon={<GitCompareArrows size={20} />}
-            title="Compare"
-            desc="Put two charts side by side. See where each shines and where each fails."
-            to="/compare"
-            preview={
-              <div className="grid grid-cols-2 gap-2">
-                <ChartPreview kind="bar" height={140} seed={5} />
-                <ChartPreview kind="line" height={140} seed={7} />
-              </div>
-            }
-          />
-          <FeatureCard
-            icon={<Code2 size={20} />}
-            title="Build"
-            desc="Copy Python code — Matplotlib, Seaborn, Plotly — that runs the moment you paste it."
-            to="/python"
-            preview={<ChartPreview kind="radar" height={140} seed={9} />}
-          />
-        </div>
-      </section>
-
-      {/* Featured charts */}
-      <section className="container pb-24" data-reveal>
-        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <p className="mb-3 font-mono text-xs uppercase tracking-widest text-primary">Featured charts</p>
-            <h2 className="font-display text-4xl">Start with the classics.</h2>
-          </div>
-          <Link to="/explore" className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline">
-            View all charts <ArrowRight size={14} />
-          </Link>
-        </div>
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {featured.map((c, i) => (
-            <Link
-              key={c.slug}
-              to={`/chart/${c.slug}`}
-              data-reveal
-              style={{ ["--reveal-delay" as string]: `${i * 70}ms` }}
-              className="card-lift group overflow-hidden rounded-2xl border border-border bg-card p-4 shadow-sm"
-            >
-
-              <div className="overflow-hidden rounded-xl border border-border bg-surface-2 p-2">
-                <ChartPreview kind={c.preview} height={120} seed={c.slug.length * 5} />
-              </div>
-              <div className="mt-4 flex items-start justify-between gap-3">
-                <div className="min-w-0">
-                  <h3 className="truncate font-display text-xl">{c.name}</h3>
-                  <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">{c.tagline}</p>
-                </div>
-                <ArrowUpRight size={16} className="mt-1 shrink-0 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary" />
-              </div>
-              <p className="mt-3 inline-flex rounded-full bg-surface-2 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
-                {c.category}
-              </p>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* Category strip */}
-      <section className="container pb-24" data-reveal>
-        <div className="mx-auto mb-8 max-w-2xl text-center">
-          <p className="mb-3 font-mono text-xs uppercase tracking-widest text-primary">Twelve categories</p>
-          <h2 className="font-display text-4xl">Every kind of question deserves the right chart.</h2>
-        </div>
-        <div className="flex flex-wrap justify-center gap-2">
-          {["Comparison", "Ranking", "Time Series", "Distribution", "Relationship", "Composition", "Flow", "Hierarchy", "Maps", "Machine Learning", "Business", "Statistical"].map((c, i) => (
-            <Link
-              key={c}
-              to={`/categories#${c.toLowerCase().replace(/\s+/g, "-")}`}
-              className="glass rounded-full px-4 py-2 text-sm transition-transform hover:-translate-y-0.5 hover:shadow-md"
-              style={{ animationDelay: `${i * 40}ms` }}
-            >
-              {c}
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* Surprise + Quiz CTA */}
-      <section className="container pb-24" data-reveal>
-        <div className="grid gap-6 lg:grid-cols-2">
-          {/* Surprise Me */}
-          <div className="relative overflow-hidden rounded-3xl border border-border bg-card p-8 shadow-card md:p-10">
-            <div className="absolute inset-0 mesh-bg opacity-30" />
-            <div className="relative">
-              <p className="mb-3 font-mono text-xs uppercase tracking-widest text-primary">Feeling lucky?</p>
-              <h2 className="font-display text-4xl md:text-5xl">Surprise me.</h2>
-              <p className="mt-4 max-w-sm text-sm text-muted-foreground">
-                Spin the wheel and land on a random chart from all {CHARTS.length}.
-                You might discover a visualisation you'd never have thought to look up.
-              </p>
-              <Link
-                to="/surprise"
-                className="group mt-6 inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-transform hover:scale-[1.02]"
-              >
-                <Shuffle size={16} className="transition-transform group-hover:rotate-12" /> Spin a random chart
-              </Link>
-            </div>
-          </div>
-
-          {/* Quiz */}
-          <div className="relative overflow-hidden rounded-3xl border border-border bg-card p-8 shadow-card md:p-10">
-            <div className="absolute inset-0 mesh-bg opacity-30" />
-            <div className="relative">
-              <p className="mb-3 font-mono text-xs uppercase tracking-widest text-primary">Test your knowledge</p>
-              <h2 className="font-display text-4xl md:text-5xl">Spot the right chart.</h2>
-              <p className="mt-4 max-w-sm text-sm text-muted-foreground">
-                Ten questions. Two modes — identify a chart from its visual
-                preview, or pick the right chart for a real-world scenario. Beat
-                your best score.
-              </p>
-              <Link
-                to="/quiz"
-                className="mt-6 inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-transform hover:scale-[1.02]"
-              >
-                <Trophy size={16} /> Take the quiz <ArrowRight size={14} />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Why I built this — portfolio section */}
-      <section className="container pb-24" data-reveal>
-        <div className="relative overflow-hidden rounded-3xl border border-border bg-card shadow-card">
-          <div className="absolute inset-0 mesh-bg opacity-50" />
-          <div className="relative grid gap-10 p-8 md:grid-cols-[1fr_1.1fr] md:p-14">
-            <div>
-              <p className="mb-3 font-mono text-xs uppercase tracking-widest text-primary">Why I built this</p>
-              <h2 className="font-display text-4xl leading-tight md:text-5xl">A portfolio project, built for real use.</h2>
-              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                ChartWorld is a personal project by Diini Kahiye — a data analyst who kept
-                re-searching the same chart questions. It collects dozens of chart types,
-                when to use them, and runnable Python in one place.
-              </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                <a
-                  href="https://www.diinikahiye.online/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="group inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-transform hover:scale-[1.02]"
-                >
-                  <Globe size={14} /> Visit portfolio
-                  <ArrowUpRight size={14} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </a>
-                <a
-                  href="https://github.com/Diini03"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="glass inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm text-muted-foreground hover:text-foreground"
-                >
-                  <Github size={14} /> GitHub
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/diinikahiye/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="glass inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm text-muted-foreground hover:text-foreground"
-                >
-                  <Linkedin size={14} /> LinkedIn
-                </a>
-              </div>
-            </div>
-
-            <figure className="relative flex flex-col justify-center rounded-2xl border border-border bg-background/70 p-8 backdrop-blur-sm">
-              <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                <Quote size={20} />
-              </div>
-              <blockquote className="font-display text-2xl leading-relaxed md:text-[1.75rem]">
-                "I designed this site to store the charts. I was curious about charts, so I built
-                this — to save myself, and other analysts, some time."
-              </blockquote>
-              <figcaption className="mt-6 flex items-center gap-3 text-sm">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-foreground text-xs font-semibold text-background">DK</span>
-                <span>
-                  <span className="block font-medium">Diini Kahiye</span>
-                  <span className="block text-xs text-muted-foreground">Data analyst · Creator of ChartWorld</span>
-                </span>
-              </figcaption>
-            </figure>
-          </div>
-        </div>
-      </section>
-
-
-      {/* Chooser CTA */}
-      <section className="container pb-24" data-reveal>
-        <div className="glass relative overflow-hidden rounded-3xl p-10 text-center shadow-lg md:p-16">
-          <div className="absolute inset-0 mesh-bg opacity-70" />
-          <div className="relative">
-            <p className="mb-3 font-mono text-xs uppercase tracking-widest text-primary">Not sure which chart to pick?</p>
-            <h2 className="mx-auto max-w-2xl font-display text-4xl md:text-5xl">Answer three questions. Get the perfect chart.</h2>
-            <Link
-              to="/chooser"
-              className="mt-6 inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-transform hover:scale-[1.02]"
-            >
-              Try the chart chooser <ArrowRight size={14} />
-            </Link>
-          </div>
+      {/* Creator note — small, personal */}
+      <section className="mt-16 flex flex-col items-start gap-4 rounded-3xl border border-border bg-card p-6 md:flex-row md:items-center" data-reveal>
+        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-foreground text-sm font-semibold text-background">DK</span>
+        <p className="flex-1 text-sm text-muted-foreground">
+          <span className="font-medium text-foreground">Made by Diini Kahiye</span> — a data analyst who got curious about charts and built this to save everyone some time.
+        </p>
+        <div className="flex gap-2">
+          <Social href="https://www.diinikahiye.online/" label="Portfolio"><Globe size={16} /></Social>
+          <Social href="https://github.com/Diini03" label="GitHub"><Github size={16} /></Social>
+          <Social href="https://www.linkedin.com/in/diinikahiye/" label="LinkedIn"><Linkedin size={16} /></Social>
         </div>
       </section>
     </div>
   );
 }
 
-function FeatureCard({ icon, title, desc, to, preview }: any) {
+function Tile({ to, icon, title, desc, className = "" }: { to: string; icon: React.ReactNode; title: string; desc: string; className?: string }) {
   return (
-    <Link to={to} className="card-lift group relative overflow-hidden rounded-3xl border border-border bg-card p-6 shadow-sm">
-      <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">{icon}</div>
-      <h3 className="font-display text-2xl">{title}</h3>
-      <p className="mt-2 text-sm text-muted-foreground">{desc}</p>
-      <div className="mt-6 overflow-hidden rounded-xl border border-border bg-surface-2 p-2">{preview}</div>
-      <div className="mt-4 flex items-center gap-1 text-sm font-medium text-primary">
-        Open <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" />
+    <Link to={to} className={`card-lift group flex flex-col justify-between rounded-3xl border border-border bg-card p-5 shadow-sm ${className}`}>
+      <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-transform group-hover:rotate-12">{icon}</div>
+      <div className="mt-4">
+        <h3 className="font-display text-xl">{title}</h3>
+        <p className="text-sm text-muted-foreground">{desc}</p>
       </div>
     </Link>
+  );
+}
+
+function Social({ href, label, children }: { href: string; label: string; children: React.ReactNode }) {
+  return (
+    <a href={href} target="_blank" rel="noreferrer" aria-label={label} className="glass flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground hover:text-foreground">
+      {children}
+    </a>
+  );
+}
+
+function GuessGame() {
+  const [round, setRound] = useState(newRound);
+  const [picked, setPicked] = useState<Chart | null>(null);
+  const [streak, setStreak] = useState(0);
+  const seed = useMemo(() => round.answer.slug.length * 7, [round]);
+
+  const choose = (c: Chart) => {
+    if (picked) return;
+    setPicked(c);
+    setStreak((s) => (c.slug === round.answer.slug ? s + 1 : 0));
+  };
+  const next = () => { setRound(newRound()); setPicked(null); };
+
+  return (
+    <section className="mt-14 rounded-3xl border border-border bg-card p-6 shadow-card md:p-8" data-reveal>
+      <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-2">
+          <Gamepad2 size={20} className="text-primary" />
+          <h2 className="font-display text-2xl md:text-3xl">Quick game: name this chart</h2>
+        </div>
+        <span className="rounded-full bg-surface-2 px-3 py-1 font-mono text-xs">🔥 Streak {streak}</span>
+      </div>
+      <div className="grid gap-6 md:grid-cols-[1.2fr_1fr]">
+        <div className="overflow-hidden rounded-2xl border border-border bg-surface-2 p-3">
+          <ChartPreview kind={round.answer.preview} height={200} seed={seed} />
+        </div>
+        <div className="flex flex-col gap-2">
+          {round.options.map((o) => {
+            const right = picked && o.slug === round.answer.slug;
+            const wrong = picked && picked.slug === o.slug && !right;
+            return (
+              <button
+                key={o.slug}
+                onClick={() => choose(o)}
+                className={`flex items-center justify-between rounded-2xl border px-4 py-3 text-left text-sm font-medium transition-all focus-ring ${
+                  right ? "border-primary bg-primary/10" : wrong ? "border-destructive bg-destructive/10" : "border-border bg-surface/60 hover:border-primary/40 hover:bg-surface-2"
+                }`}
+              >
+                {o.name}
+                {right && <Check size={16} className="text-primary" />}
+                {wrong && <X size={16} className="text-destructive" />}
+              </button>
+            );
+          })}
+          {picked && (
+            <div className="mt-2 flex flex-wrap items-center gap-3">
+              <button onClick={next} className="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background">
+                Next one <ArrowRight size={14} />
+              </button>
+              <Link to={`/chart/${round.answer.slug}`} className="text-sm text-primary hover:underline">Learn {round.answer.name} →</Link>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
   );
 }
