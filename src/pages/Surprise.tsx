@@ -127,6 +127,15 @@ export default function Surprise() {
       <p className="mt-10 text-center text-xs text-muted-foreground">
         Every spin is random. Find something interesting? Click through to read its full story.
       </p>
+
+      <div className="mt-6 text-center" data-reveal>
+        <Link
+          to="/personality"
+          className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground"
+        >
+          <Sparkles size={14} className="text-primary" /> Or find out which chart you are →
+        </Link>
+      </div>
     </div>
   );
 }

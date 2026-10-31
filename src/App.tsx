@@ -21,6 +21,7 @@ import Surprise from "@/pages/Surprise";
 import CheatSheet from "@/pages/CheatSheet";
 import Saved from "@/pages/Saved";
 import Recommend from "@/pages/Recommend";
+import Personality from "@/pages/Personality";
 import { NotFound } from "@/pages/NotFound";
 
 const queryClient = new QueryClient({
@@ -54,6 +55,7 @@ export default function App() {
               <Route path="cheatsheet" element={<CheatSheet />} />
               <Route path="saved" element={<Saved />} />
               <Route path="recommend" element={<Recommend />} />
+              <Route path="personality" element={<Personality />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
