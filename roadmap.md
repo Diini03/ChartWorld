@@ -15,6 +15,7 @@
 - Verified /recommend end-to-end (4 suggestions, fit labels, guide links)
 - Compare print preview (margins, font, text size, side-by-side/stacked)
 - Chart guide links from Compare decision guide
+- "Which Chart Are You?" personality quiz at /personality (5 questions, 12 personality types, shareable result, wired into search/footer/sitemap/Surprise cross-link) — verified live
 
 ## Open
 - (none)

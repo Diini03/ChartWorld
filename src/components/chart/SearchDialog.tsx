@@ -44,6 +44,7 @@ export function SearchDialog() {
       { to: "/connect", label: "Connect", hint: "GitHub, portfolio, LinkedIn" },
       { to: "/quiz", label: "Chart Quiz", hint: "Test your chart knowledge" },
       { to: "/surprise", label: "Surprise Me", hint: "Spin a random chart" },
+      { to: "/personality", label: "Which Chart Are You?", hint: "Chart personality quiz" },
       { to: "/cheatsheet", label: "Cheat Sheet", hint: "Printable one-page chart reference" },
       { to: "/saved", label: "Saved charts", hint: "Favorites and recently viewed" },
       { to: "/about", label: "About", hint: "Why ChartWorld exists" },

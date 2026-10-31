@@ -28,6 +28,7 @@ export function Footer() {
           ["/saved", "Saved charts"],
           ["/quiz", "Quiz"],
           ["/surprise", "Surprise me"],
+          ["/personality", "Which chart are you?"],
           ["/resources", "Resources"],
           ["/connect", "Connect"],
         ]} />
